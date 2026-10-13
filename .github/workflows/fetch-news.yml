@@ -1,14 +1,13 @@
-name: Fetch Bihar News
+name: Fetch Bihar News RSS with Full Articles
 
 on:
   schedule:
-    - cron: '0 * * * *'
-  workflow_dispatch:
+    - cron: '0 * * * *'    # Har ghante
+  workflow_dispatch:        # Manual run
 
 jobs:
   fetch-news:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
     permissions:
       contents: write
     steps:
@@ -18,22 +17,276 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
 
       - name: Install dependencies
-        run: npm install rss-parser cheerio
+        run: |
+          npm install rss-parser @extractus/article-extractor
 
-      - name: Run fetch script
-        run: node scripts/fetch.js
+      - name: Fetch and parse RSS + Full Articles
+        run: |
+          cat > fetch.js << 'EOF'
+          const Parser = require('rss-parser');
+          const { extract } = require('@extractus/article-extractor');
+          const fs = require('fs');
+          const path = require('path');
+
+          const FEEDS = [
+            { url: 'https://news.google.com/rss/search?q=%22Bihar%20government%22%20yojana%20OR%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%B8%E0%A4%B0%E0%A4%95%E0%A4%BE%E0%A4%B0%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20government%20scheme&hl=en-IN&gl=IN&ceid=IN:en', tag: 'scheme' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20news&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'news' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20latest%20news&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'news' },
+            { url: 'https://news.google.com/rss/search?q=Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'news' },
+            { url: 'https://news.google.com/rss/search?q=%E0%A4%AC%E0%A4%BF%E0%A4%B9%E0%A4%BE%E0%A4%B0%20%E0%A4%B8%E0%A4%AE%E0%A4%BE%E0%A4%9A%E0%A4%BE%E0%A4%B0&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'news' }
+          ];
+
+          // Full article extraction limit (top N recent articles)
+          const FULL_ARTICLE_LIMIT = 40;
+          const MAX_PARAGRAPHS = 25;
+          const MAX_PARA_LENGTH = 2000;
+
+          const parser = new Parser({
+            timeout: 15000,
+            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; BihariNews/1.0)' }
+          });
+
+          function stripHtml(s) {
+            if (!s) return '';
+            return String(s).replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
+          }
+
+          function uid(s) {
+            let h = 0;
+            for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+            return 'u' + Math.abs(h).toString(36);
+          }
+
+          function hostOf(url) {
+            try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
+          }
+
+          function categorize(item) {
+            const t = (item.title + ' ' + (item.desc || '')).toLowerCase();
+            if (/योजना|scheme|yojana|benefit|लाभ|subsidy|सब्सिडी|आवास|pension|पेंशन|राशन|ration|kisan|किसान|awas|ujjwala|उज्ज्वला|scholarship|छात्रवृत्ति/i.test(t)) return 'scheme';
+            if (/नियम|rule|regulation|अधिसूचना|advisory|order|आदेश|कानून|law|act\b|policy|नीति/i.test(t)) return 'rule';
+            if (/घोषणा|announce|declared|launch|शुरू|शुभारंभ|inaugurat/i.test(t)) return 'announce';
+            if (/सूचना|notice|notification|alert|चेतावनी|warning|deadline|अंतिम तिथि/i.test(t)) return 'notify';
+            return 'news';
+          }
+
+          function isBiharRelevant(item) {
+            const text = (item.title + ' ' + (item.desc || '') + ' ' + (item.source || '')).toLowerCase();
+            return /bihar|बिहार|patna|पटना|nitish|tejashwi|samrat|sushil|gopalganj|muzaffarpur|gaya|bhagalpur|darbhanga|purnia|chapra|saran|siwan|araria|madhubani|सरकार|योजना|government|scheme|मुख्यमंत्री/.test(text);
+          }
+
+          // Extract paragraphs from HTML content
+          function extractParagraphsFromHtml(html) {
+            if (!html) return [];
+            const paras = [];
+            // Match <p>...</p> tags
+            const matches = html.match(/<p[^>]*>([\s\S]*?)<\/p>/gi) || [];
+            matches.forEach(m => {
+              const text = stripHtml(m);
+              if (text && text.length > 30 && text.length < MAX_PARA_LENGTH) {
+                paras.push(text);
+              }
+            });
+            return paras.slice(0, MAX_PARAGRAPHS);
+          }
+
+          // Extract images from HTML content
+          function extractImagesFromHtml(html, baseUrl) {
+            if (!html) return [];
+            const imgs = [];
+            const seen = new Set();
+            const re = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+            let m;
+            while ((m = re.exec(html)) !== null) {
+              let src = m[1];
+              if (!src || src.startsWith('data:')) continue;
+              try {
+                if (!src.startsWith('http')) src = new URL(src, baseUrl).href;
+              } catch { continue; }
+              if (seen.has(src)) continue;
+              seen.add(src);
+              // Skip tiny icons/logos
+              if (/logo|icon|avatar|sprite|pixel|tracking|1x1|spacer|blank|badge/i.test(src)) continue;
+              if (/\.(svg)$/i.test(src)) continue;
+              imgs.push({ src, alt: '' });
+              if (imgs.length >= 8) break;
+            }
+            return imgs;
+          }
+
+          // Fetch full article with article-extractor
+          async function fetchFullArticle(url) {
+            try {
+              const article = await extract(url, {
+                // Some options
+                descriptionLengthThreshold: 50,
+                contentLengthThreshold: 200,
+                headers: {
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36'
+                }
+              });
+              if (!article || !article.content) return null;
+
+              const paragraphs = extractParagraphsFromHtml(article.content);
+              const images = [];
+              if (article.image) images.push({ src: article.image, alt: '' });
+              const moreImages = extractImagesFromHtml(article.content, article.url || url);
+              moreImages.forEach(im => {
+                if (!images.find(x => x.src === im.src)) images.push(im);
+              });
+
+              return {
+                paragraphs,
+                images: images.slice(0, 10),
+                author: article.author || '',
+                publishedAt: article.published || '',
+                resolvedUrl: article.url || url,
+                source: article.source || '',
+                description: stripHtml(article.description || '')
+              };
+            } catch (e) {
+              return null;
+            }
+          }
+
+          (async () => {
+            console.log('📡 Fetching ' + FEEDS.length + ' RSS feeds...');
+            const results = await Promise.allSettled(
+              FEEDS.map(async (f) => {
+                try {
+                  const feed = await parser.parseURL(f.url);
+                  return (feed.items || []).map(it => {
+                    const title = stripHtml(it.title || '');
+                    let desc = stripHtml(it.contentSnippet || it.content || it.summary || '');
+                    if (desc.startsWith(title)) desc = desc.slice(title.length).replace(/^[\s\-–—|:]+/, '').trim();
+                    if (desc.length > 300) desc = desc.slice(0, 300).trim() + '…';
+                    return {
+                      id: uid(title + (it.link || '')),
+                      title,
+                      link: it.link,
+                      desc,
+                      source: stripHtml(it.creator || '') || hostOf(it.link),
+                      ts: it.pubDate ? new Date(it.pubDate).getTime() : Date.now(),
+                      feedTag: f.tag
+                    };
+                  });
+                } catch (e) {
+                  console.error('❌ Feed failed: ' + f.url + ' → ' + e.message);
+                  return [];
+                }
+              })
+            );
+
+            let all = [];
+            results.forEach(r => { if (r.status === 'fulfilled') all.push(...r.value); });
+
+            // Dedupe
+            const seen = new Set();
+            all = all.filter(it => {
+              if (seen.has(it.id)) return false;
+              seen.add(it.id);
+              return true;
+            });
+
+            // Filter Bihar relevant
+            all = all.filter(isBiharRelevant);
+
+            // Sort newest first
+            all.sort((a, b) => b.ts - a.ts);
+            all = all.slice(0, 150);
+
+            // Categorize
+            all.forEach(it => { it.cat = categorize(it); });
+
+            // ============================================================
+            // FETCH FULL ARTICLES (only top N newest)
+            // ============================================================
+            console.log('📰 Fetching full article content for top ' + FULL_ARTICLE_LIMIT + ' articles...');
+
+            const topForFull = all.slice(0, FULL_ARTICLE_LIMIT);
+            const rest = all.slice(FULL_ARTICLE_LIMIT);
+
+            // Process in batches of 5 to avoid rate limits
+            const BATCH_SIZE = 5;
+            const enriched = [];
+
+            for (let i = 0; i < topForFull.length; i += BATCH_SIZE) {
+              const batch = topForFull.slice(i, i + BATCH_SIZE);
+              console.log('  → Batch ' + (Math.floor(i/BATCH_SIZE)+1) + '/' + Math.ceil(topForFull.length/BATCH_SIZE));
+              
+              const batchResults = await Promise.allSettled(
+                batch.map(async (item) => {
+                  const full = await fetchFullArticle(item.link);
+                  if (full && full.paragraphs && full.paragraphs.length >= 2) {
+                    item.paragraphs = full.paragraphs;
+                    item.images = full.images || [];
+                    if (full.description && (!item.desc || item.desc.length < 80)) {
+                      item.desc = full.description.slice(0, 300);
+                    }
+                    if (full.resolvedUrl && full.resolvedUrl !== item.link) {
+                      item.resolvedLink = full.resolvedUrl;
+                    }
+                    if (full.source && full.source.length < 40) {
+                      // keep original source name
+                    }
+                    item.hasFullContent = true;
+                    console.log('    ✅ ' + item.title.slice(0, 50) + '... (' + full.paragraphs.length + ' paras)');
+                  } else {
+                    item.paragraphs = [];
+                    item.images = [];
+                    item.hasFullContent = false;
+                    console.log('    ⚠️  ' + item.title.slice(0, 50) + '... (extraction failed)');
+                  }
+                  return item;
+                })
+              );
+
+              batchResults.forEach(r => {
+                if (r.status === 'fulfilled') enriched.push(r.value);
+              });
+
+              // Small delay between batches
+              if (i + BATCH_SIZE < topForFull.length) {
+                await new Promise(r => setTimeout(r, 800));
+              }
+            }
+
+            // Rest items get empty paragraphs
+            rest.forEach(it => { it.paragraphs = []; it.images = []; it.hasFullContent = false; });
+
+            const finalData = [...enriched, ...rest].sort((a, b) => b.ts - a.ts);
+
+            // Save
+            const outDir = path.join(process.cwd(), 'data');
+            if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+            fs.writeFileSync(path.join(outDir, 'news.json'), JSON.stringify(finalData, null, 2));
+
+            const withFull = finalData.filter(x => x.hasFullContent).length;
+            console.log('');
+            console.log('═══════════════════════════════════');
+            console.log('✅ DONE!');
+            console.log('   Total items: ' + finalData.length);
+            console.log('   With full content: ' + withFull);
+            console.log('   Saved to: data/news.json');
+            console.log('═══════════════════════════════════');
+          })();
+          EOF
+          node fetch.js
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p data
           git add data/news.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: update news feed [skip ci]"
+            git commit -m "chore: update news with full articles [skip ci]"
             git push
           fi

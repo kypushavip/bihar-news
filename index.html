@@ -14,10 +14,10 @@
      DESIGN TOKENS
      ============================================================ */
   :root {
-    --bg: #f6f7f9;
+    --bg: #f5f6f8;
     --bg-elev: #ffffff;
     --bg-soft: #eef0f4;
-    --bg-glass: rgba(255,255,255,.75);
+    --bg-glass: rgba(255,255,255,.78);
     --text: #0d1117;
     --text-soft: #545a66;
     --text-mute: #8b92a0;
@@ -41,14 +41,14 @@
     --tr: 220ms cubic-bezier(.4,0,.2,1);
     --tr-fast: 140ms cubic-bezier(.4,0,.2,1);
     --tr-slow: 420ms cubic-bezier(.4,0,.2,1);
-    --header-h: 68px;
+    --header-h: 66px;
     --max-w: 1280px;
   }
   [data-theme="dark"] {
     --bg: #08090c;
     --bg-elev: #12151b;
     --bg-soft: #1a1f27;
-    --bg-glass: rgba(18,21,27,.78);
+    --bg-glass: rgba(18,21,27,.80);
     --text: #f0f3f8;
     --text-soft: #b6bcc8;
     --text-mute: #6e7684;
@@ -83,40 +83,33 @@
   img { max-width: 100%; display: block; }
   ::selection { background: color-mix(in srgb, var(--accent) 35%, transparent); }
 
-  /* Scrollbar */
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 6px; border: 2px solid var(--bg); }
   ::-webkit-scrollbar-thumb:hover { background: var(--text-mute); }
 
-  /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     html { scroll-behavior: auto; }
   }
 
-  /* ============================================================
-     LAYOUT
-     ============================================================ */
+  /* LAYOUT */
   .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
   @media (max-width: 640px) { .wrap { padding: 0 14px; } }
 
-  /* ============================================================
-     HEADER
-     ============================================================ */
+  /* HEADER */
   header.topbar {
     position: sticky; top: 0; z-index: 60;
     background: var(--bg-glass);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     border-bottom: 1px solid var(--border);
-    transition: transform var(--tr), background var(--tr);
+    transition: transform var(--tr);
   }
   header.topbar.hide { transform: translateY(-100%); }
   .topbar-inner {
     display: flex; align-items: center; gap: 14px;
-    padding: 12px 0;
-    min-height: var(--header-h);
+    padding: 12px 0; min-height: var(--header-h);
   }
   .brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; user-select: none; }
   .brand-mark {
@@ -126,8 +119,7 @@
     color: #fff; font-weight: 800; font-size: 19px;
     box-shadow: 0 6px 18px rgba(217,119,6,.35), inset 0 1px 0 rgba(255,255,255,.25);
     font-family: 'Noto Sans Devanagari', sans-serif;
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
   .brand-mark::after {
     content: ''; position: absolute; inset: 0;
@@ -140,7 +132,7 @@
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  .brand-text .tag { font-size: 10.5px; color: var(--text-mute); font-weight: 600; letter-spacing: .01em; }
+  .brand-text .tag { font-size: 10.5px; color: var(--text-mute); font-weight: 600; }
 
   .search-box { flex: 1; position: relative; max-width: 560px; }
   .search-box input {
@@ -158,34 +150,23 @@
   }
   .search-box .ico {
     position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-    color: var(--text-mute); pointer-events: none;
-    display: grid; place-items: center;
+    color: var(--text-mute); pointer-events: none; display: grid; place-items: center;
   }
   .search-clear {
     position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
     width: 28px; height: 28px; border-radius: 50%;
     display: none; place-items: center;
-    color: var(--text-mute); background: transparent;
-    transition: all var(--tr-fast);
+    color: var(--text-mute); transition: all var(--tr-fast);
   }
   .search-clear:hover { background: var(--border); color: var(--text); }
   .search-box.has-value .search-clear { display: grid; }
-  .search-kbd {
-    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    font-size: 11px; padding: 2px 7px; border-radius: 6px;
-    background: var(--bg-elev); border: 1px solid var(--border);
-    color: var(--text-mute); font-weight: 600; pointer-events: none;
-  }
-  .search-box.has-value .search-kbd { display: none; }
-  @media (max-width: 900px) { .search-kbd { display: none; } }
 
   .topbar-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
   .icon-btn {
     width: 40px; height: 40px; border-radius: 12px;
     display: grid; place-items: center;
     background: var(--bg-soft); color: var(--text-soft);
-    transition: all var(--tr);
-    position: relative;
+    transition: all var(--tr); position: relative;
   }
   .icon-btn:hover { background: var(--border); color: var(--text); transform: translateY(-1px); }
   .icon-btn:active { transform: translateY(0) scale(.96); }
@@ -200,31 +181,22 @@
   }
   .icon-btn.has-badge .badge-dot { display: block; }
 
-  /* Language toggle */
   .lang-toggle {
     display: flex; align-items: center;
-    background: var(--bg-soft); border-radius: var(--pill);
-    padding: 3px; gap: 2px;
+    background: var(--bg-soft); border-radius: var(--pill); padding: 3px; gap: 2px;
   }
   .lang-toggle button {
     padding: 7px 12px; border-radius: var(--pill);
     font-size: 12px; font-weight: 700; color: var(--text-mute);
-    transition: all var(--tr-fast);
-    letter-spacing: .02em;
+    transition: all var(--tr-fast); letter-spacing: .02em;
   }
-  .lang-toggle button.active {
-    background: var(--bg-elev); color: var(--text);
-    box-shadow: var(--shadow-sm);
-  }
+  .lang-toggle button.active { background: var(--bg-elev); color: var(--text); box-shadow: var(--shadow-sm); }
 
-  /* ============================================================
-     TICKER
-     ============================================================ */
+  /* TICKER */
   .ticker {
     background: linear-gradient(90deg, var(--accent), var(--accent-3));
     color: #fff; overflow: hidden;
-    border-bottom: 1px solid var(--border);
-    position: relative;
+    border-bottom: 1px solid var(--border); position: relative;
   }
   .ticker-inner { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
   .ticker-label {
@@ -245,8 +217,7 @@
   .ticker-content {
     display: inline-flex; gap: 48px; white-space: nowrap;
     animation: scrollTicker 80s linear infinite;
-    font-size: 13px; font-weight: 600;
-    will-change: transform;
+    font-size: 13px; font-weight: 600; will-change: transform;
   }
   .ticker-content:hover { animation-play-state: paused; }
   .ticker-item { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
@@ -260,14 +231,10 @@
     to { transform: translateX(-50%); }
   }
 
-  /* ============================================================
-     STATS BAR
-     ============================================================ */
+  /* STATS */
   .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin: 18px 0 8px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px; margin: 18px 0 8px;
   }
   .stat-card {
     background: var(--bg-elev); border: 1px solid var(--border);
@@ -280,8 +247,7 @@
     font-size: 22px; font-weight: 800; letter-spacing: -.03em;
     background: linear-gradient(135deg, var(--accent), var(--accent-3));
     -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.1;
+    -webkit-text-fill-color: transparent; line-height: 1.1;
   }
   .stat-card .s-lab {
     font-size: 11px; color: var(--text-mute); font-weight: 600;
@@ -298,8 +264,7 @@
   .status-chip {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 5px 10px; border-radius: var(--pill);
-    background: var(--bg-soft); font-weight: 600;
-    font-size: 11.5px;
+    background: var(--bg-soft); font-weight: 600; font-size: 11.5px;
   }
   .status-chip.ok { color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent); }
   .status-chip.syncing { color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
@@ -308,17 +273,13 @@
   .owner-credit b {
     background: linear-gradient(135deg, var(--accent), var(--accent-3));
     -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
+    -webkit-text-fill-color: transparent; font-weight: 800;
   }
 
-  /* ============================================================
-     FILTERS / TOOLBAR
-     ============================================================ */
+  /* FILTERS */
   .filters {
     display: flex; gap: 8px; overflow-x: auto; padding: 6px 0 14px;
-    scrollbar-width: none; -ms-overflow-style: none;
-    scroll-snap-type: x proximity;
+    scrollbar-width: none; scroll-snap-type: x proximity;
   }
   .filters::-webkit-scrollbar { display: none; }
   .pill {
@@ -327,37 +288,28 @@
     font-size: 13px; font-weight: 600; color: var(--text-soft);
     white-space: nowrap; transition: all var(--tr);
     display: inline-flex; align-items: center; gap: 6px;
-    scroll-snap-align: start;
-    flex-shrink: 0;
+    scroll-snap-align: start; flex-shrink: 0;
   }
   .pill:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
-  .pill.active {
-    background: var(--text); color: var(--bg);
-    border-color: var(--text);
-  }
+  .pill.active { background: var(--text); color: var(--bg); border-color: var(--text); }
   .pill .count {
     font-size: 11px; padding: 1px 7px; border-radius: var(--pill);
-    background: color-mix(in srgb, var(--text) 10%, transparent);
-    font-weight: 700;
+    background: color-mix(in srgb, var(--text) 10%, transparent); font-weight: 700;
   }
-  .pill.active .count {
-    background: color-mix(in srgb, var(--bg) 25%, transparent);
-  }
+  .pill.active .count { background: color-mix(in srgb, var(--bg) 25%, transparent); }
 
-  /* Toolbar (source, sort, view) */
+  /* TOOLBAR */
   .toolbar {
     display: flex; align-items: center; gap: 10px;
     margin: 4px 0 8px; flex-wrap: wrap;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
   }
   .toolbar-group { display: flex; align-items: center; gap: 6px; }
   .toolbar-label { font-size: 11px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .08em; }
   .select-wrap { position: relative; }
   .select-wrap select {
     appearance: none; -webkit-appearance: none;
-    padding: 7px 30px 7px 12px;
-    border-radius: var(--pill);
+    padding: 7px 30px 7px 12px; border-radius: var(--pill);
     background: var(--bg-elev); border: 1px solid var(--border);
     color: var(--text); font-family: inherit; font-size: 12.5px; font-weight: 600;
     cursor: pointer; transition: all var(--tr);
@@ -391,9 +343,7 @@
   }
   .read-filter button.active { background: var(--text); color: var(--bg); }
 
-  /* ============================================================
-     SECTION HEADERS
-     ============================================================ */
+  /* SECTION HEAD */
   .section-head {
     display: flex; align-items: center; justify-content: space-between;
     margin: 22px 0 14px; gap: 12px;
@@ -408,13 +358,8 @@
   }
   .section-sub { font-size: 12px; color: var(--text-mute); font-weight: 500; }
 
-  /* ============================================================
-     FEATURED
-     ============================================================ */
-  .featured {
-    display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px;
-    margin-bottom: 8px;
-  }
+  /* FEATURED */
+  .featured { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; margin-bottom: 8px; }
   @media (max-width: 860px) { .featured { grid-template-columns: 1fr; } }
   .card-feature {
     position: relative; overflow: hidden;
@@ -422,10 +367,8 @@
     border-radius: var(--radius-lg);
     padding: 28px; min-height: 260px;
     color: #fff; display: flex; flex-direction: column; justify-content: flex-end;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: transform var(--tr);
+    box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+    cursor: pointer; transition: transform var(--tr);
   }
   .card-feature:hover { transform: translateY(-2px); }
   .card-feature::before {
@@ -434,10 +377,6 @@
       radial-gradient(circle at 100% 0%, rgba(217,119,6,.40), transparent 55%),
       radial-gradient(circle at 0% 100%, rgba(21,128,61,.35), transparent 55%);
     pointer-events: none;
-  }
-  .card-feature::after {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
   }
   .card-feature > * { position: relative; z-index: 1; }
   .feat-tag {
@@ -452,7 +391,6 @@
   .feat-title {
     font-size: 26px; font-weight: 800; line-height: 1.2; letter-spacing: -.025em;
     margin-bottom: 10px;
-    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
   }
   .feat-desc {
     font-size: 14px; color: rgba(255,255,255,.78); line-height: 1.55;
@@ -482,23 +420,18 @@
   .mini-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
   .mini-card:hover::before { opacity: 1; }
   .mini-card .m-tag {
-    font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--accent);
+    font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--accent);
   }
   .mini-card .m-title {
     font-size: 14px; font-weight: 700; line-height: 1.35;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
   .mini-card .m-meta { font-size: 11px; color: var(--text-mute); }
 
-  /* ============================================================
-     TRENDING STRIP
-     ============================================================ */
+  /* TRENDING */
   .trending-strip {
     display: flex; gap: 12px; overflow-x: auto; padding: 4px 0 12px;
-    scrollbar-width: none;
-    scroll-snap-type: x proximity;
+    scrollbar-width: none; scroll-snap-type: x proximity;
   }
   .trending-strip::-webkit-scrollbar { display: none; }
   .trend-card {
@@ -507,24 +440,20 @@
     border-radius: var(--radius); padding: 16px;
     display: flex; flex-direction: column; gap: 8px;
     transition: all var(--tr); cursor: pointer;
-    position: relative;
-    scroll-snap-align: start;
-    overflow: hidden;
+    position: relative; scroll-snap-align: start; overflow: hidden;
   }
   .trend-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow); }
   .trend-rank {
     position: absolute; top: 10px; right: 14px;
     font-size: 26px; font-weight: 800; color: var(--text-mute); opacity: .22;
     letter-spacing: -.05em;
-    font-family: 'Plus Jakarta Sans', sans-serif;
   }
   .trend-card .t-new {
     position: absolute; top: 12px; left: 12px;
     padding: 3px 8px; border-radius: var(--pill);
     background: linear-gradient(90deg, #dc2626, #f59e0b);
     color: #fff; font-size: 9.5px; font-weight: 800; letter-spacing: .1em;
-    animation: pulseNew 1.6s infinite;
-    z-index: 1;
+    animation: pulseNew 1.6s infinite; z-index: 1;
   }
   @keyframes pulseNew {
     0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,.5); }
@@ -537,22 +466,16 @@
   }
   .trend-card .t-meta {
     font-size: 11px; color: var(--text-mute); margin-top: auto;
-    display: flex; align-items: center; gap: 6px;
-    padding-top: 6px;
+    display: flex; align-items: center; gap: 6px; padding-top: 6px;
   }
   .trend-card .t-meta .dot-sep { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: .5; }
 
-  /* ============================================================
-     NEWS GRID / LIST
-     ============================================================ */
+  /* GRID */
   .grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px;
   }
-  .grid.view-list {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
+  .grid.view-list { grid-template-columns: 1fr; gap: 10px; }
 
   .card {
     background: var(--bg-elev); border: 1px solid var(--border);
@@ -600,15 +523,13 @@
   .card-title {
     font-size: 15.5px; font-weight: 700; line-height: 1.4; letter-spacing: -.015em;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-    overflow: hidden;
-    transition: color var(--tr);
+    overflow: hidden; transition: color var(--tr);
   }
   .card:hover .card-title { color: var(--accent-3); }
   [data-theme="dark"] .card:hover .card-title { color: var(--accent); }
   .card-desc {
     font-size: 13px; color: var(--text-soft); line-height: 1.55;
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-    overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
   mark.hl {
     background: color-mix(in srgb, var(--gold) 45%, transparent);
@@ -634,18 +555,16 @@
     position: absolute; top: 8px; right: 8px;
     width: 8px; height: 8px; border-radius: 50%;
     background: var(--danger); box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 25%, transparent);
-    animation: pulse 1.6s infinite;
-    z-index: 2;
+    animation: pulse 1.6s infinite; z-index: 2;
   }
 
-  /* List view overrides */
+  /* LIST VIEW */
   .grid.view-list .card { flex-direction: row; align-items: stretch; }
   .grid.view-list .card-top {
     flex-direction: column; align-items: flex-start;
     padding: 14px 0 14px 16px;
     width: 130px; flex-shrink: 0;
-    border-right: 1px solid var(--border);
-    gap: 6px;
+    border-right: 1px solid var(--border); gap: 6px;
   }
   .grid.view-list .card-body { padding: 14px 16px; flex: 1; }
   .grid.view-list .card-title { font-size: 16px; -webkit-line-clamp: 2; }
@@ -669,9 +588,7 @@
     }
   }
 
-  /* ============================================================
-     SKELETON
-     ============================================================ */
+  /* SKELETON */
   .skeleton {
     background: var(--bg-elev); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 16px;
@@ -681,8 +598,7 @@
   .sk-line {
     height: 12px; border-radius: 6px;
     background: linear-gradient(90deg, var(--bg-soft) 25%, var(--border) 50%, var(--bg-soft) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
+    background-size: 200% 100%; animation: shimmer 1.5s infinite;
   }
   .sk-line.short { width: 40%; }
   .sk-line.mid { width: 70%; }
@@ -692,9 +608,7 @@
     100% { background-position: -200% 0; }
   }
 
-  /* ============================================================
-     EMPTY
-     ============================================================ */
+  /* EMPTY */
   .empty {
     grid-column: 1 / -1; text-align: center; padding: 70px 20px;
     color: var(--text-mute);
@@ -703,9 +617,7 @@
   .empty h3 { font-size: 17px; font-weight: 800; color: var(--text-soft); margin-bottom: 6px; }
   .empty p { font-size: 13px; max-width: 380px; margin: 0 auto; line-height: 1.6; }
 
-  /* ============================================================
-     LOAD MORE
-     ============================================================ */
+  /* LOAD MORE */
   .load-more { display: flex; justify-content: center; margin: 26px 0 8px; }
   .load-more button {
     padding: 12px 26px; border-radius: var(--pill);
@@ -720,15 +632,12 @@
   }
   .load-more button svg { width: 14px; height: 14px; }
 
-  /* ============================================================
-     READER DRAWER
-     ============================================================ */
+  /* READER DRAWER */
   .drawer-backdrop {
     position: fixed; inset: 0; z-index: 90;
     background: rgba(0,0,0,.5);
     backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    opacity: 0; pointer-events: none;
-    transition: opacity var(--tr);
+    opacity: 0; pointer-events: none; transition: opacity var(--tr);
   }
   .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
 
@@ -752,8 +661,7 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 14px 18px; gap: 10px;
     border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-    background: var(--bg-elev);
+    flex-shrink: 0; background: var(--bg-elev);
   }
   .reader-header .rh-left { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-mute); font-weight: 600; }
   .reader-header .rh-actions { display: flex; gap: 6px; }
@@ -780,7 +688,6 @@
   .reader-title {
     font-size: 24px; font-weight: 800; line-height: 1.28;
     letter-spacing: -.025em; margin-bottom: 14px;
-    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
   }
   .reader-meta {
     display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
@@ -795,8 +702,7 @@
   }
   .reader-summary {
     font-size: 15px; line-height: 1.75; color: var(--text-soft);
-    margin-bottom: 24px;
-    white-space: pre-wrap; word-wrap: break-word;
+    margin-bottom: 24px; white-space: pre-wrap; word-wrap: break-word;
   }
   .reader-note {
     padding: 14px 16px; border-radius: var(--radius-sm);
@@ -806,9 +712,7 @@
     margin-bottom: 20px;
   }
   .reader-note svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; color: var(--accent); }
-  .reader-actions {
-    display: flex; flex-direction: column; gap: 10px;
-  }
+  .reader-actions { display: flex; flex-direction: column; gap: 10px; }
   .btn-primary {
     padding: 13px 18px; border-radius: var(--radius-sm);
     background: linear-gradient(135deg, var(--accent), var(--accent-3));
@@ -832,7 +736,7 @@
   .btn-secondary:hover { border-color: var(--accent); color: var(--accent-3); background: var(--bg-elev); }
   .btn-secondary svg { width: 15px; height: 15px; }
 
-  /* Share sheet */
+  /* SHARE SHEET */
   .share-sheet {
     position: fixed; left: 50%; bottom: 0; z-index: 100;
     transform: translate(-50%, 100%);
@@ -850,9 +754,7 @@
     font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
     color: var(--text-mute); margin-bottom: 14px; text-align: center;
   }
-  .share-grid {
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
-  }
+  .share-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
   .share-btn {
     display: flex; flex-direction: column; align-items: center; gap: 6px;
     padding: 12px 6px; border-radius: var(--radius-sm);
@@ -867,9 +769,7 @@
   }
   .share-btn svg { width: 16px; height: 16px; }
 
-  /* ============================================================
-     SCROLL TO TOP
-     ============================================================ */
+  /* SCROLL TOP */
   .scroll-top {
     position: fixed; bottom: 22px; right: 22px; z-index: 55;
     width: 46px; height: 46px; border-radius: 50%;
@@ -884,9 +784,7 @@
   .scroll-top:hover { transform: translateY(-3px) scale(1.05); }
   .scroll-top svg { width: 18px; height: 18px; }
 
-  /* ============================================================
-     FOOTER
-     ============================================================ */
+  /* FOOTER */
   footer {
     margin-top: 56px; padding: 40px 0 44px;
     border-top: 1px solid var(--border);
@@ -919,19 +817,15 @@
   .foot-bottom b {
     background: linear-gradient(135deg, var(--accent), var(--accent-3));
     -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
+    -webkit-text-fill-color: transparent; font-weight: 800;
   }
 
-  /* ============================================================
-     TOASTS
-     ============================================================ */
+  /* TOASTS */
   .toast-wrap {
     position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
     z-index: 120;
     display: flex; flex-direction: column; gap: 8px;
-    pointer-events: none;
-    align-items: center;
+    pointer-events: none; align-items: center;
     width: min(420px, calc(100% - 32px));
   }
   .toast {
@@ -942,8 +836,7 @@
     display: flex; align-items: center; gap: 10px;
     transform: translateY(24px); opacity: 0;
     transition: all 320ms cubic-bezier(.4,0,.2,1);
-    pointer-events: auto;
-    max-width: 100%;
+    pointer-events: auto; max-width: 100%;
   }
   .toast.show { transform: translateY(0); opacity: 1; }
   .toast .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -951,14 +844,9 @@
   .toast.info .dot { background: var(--accent); }
   .toast.err  .dot { background: var(--danger); }
 
-  /* ============================================================
-     HIDDEN
-     ============================================================ */
   .hidden { display: none !important; }
 
-  /* ============================================================
-     MOBILE
-     ============================================================ */
+  /* MOBILE */
   @media (max-width: 720px) {
     .topbar-inner { flex-wrap: wrap; padding: 10px 0; }
     .search-box { order: 3; flex-basis: 100%; max-width: none; margin-top: 4px; }
@@ -975,24 +863,11 @@
     .icon-btn { width: 36px; height: 36px; }
     .scroll-top { bottom: 16px; right: 16px; width: 42px; height: 42px; }
   }
-  @media (max-width: 400px) {
-    .stats-bar { grid-template-columns: repeat(2, 1fr); }
-    .stat-card { padding: 10px 12px; }
-    .stat-card .s-val { font-size: 18px; }
-  }
-
-  /* Print */
-  @media print {
-    header, .ticker, .toolbar, .filters, .scroll-top, footer, .drawer-backdrop, .reader, .share-sheet, .toast-wrap, .load-more, .status-bar { display: none !important; }
-    .card { break-inside: avoid; box-shadow: none; }
-  }
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     HEADER
-     ============================================================ -->
+<!-- HEADER -->
 <header class="topbar" id="topbar">
   <div class="wrap topbar-inner">
     <a class="brand" href="#" aria-label="Bihari News Home">
@@ -1010,7 +885,6 @@
         </svg>
       </span>
       <input id="searchInput" type="text" placeholder="खबर या योजना खोजें..." autocomplete="off" aria-label="Search" />
-      <kbd class="search-kbd">/</kbd>
       <button class="search-clear" id="searchClear" aria-label="Clear search" title="Clear">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
           <path d="M18 6 6 18M6 6l12 12"/>
@@ -1046,9 +920,7 @@
   </div>
 </header>
 
-<!-- ============================================================
-     TICKER
-     ============================================================ -->
+<!-- TICKER -->
 <div class="ticker">
   <div class="wrap ticker-inner">
     <div class="ticker-label"><span class="live-dot"></span> LIVE</div>
@@ -1060,15 +932,10 @@
   </div>
 </div>
 
-<!-- ============================================================
-     MAIN
-     ============================================================ -->
+<!-- MAIN -->
 <main class="wrap">
-
-  <!-- STATS -->
   <section class="stats-bar" id="statsBar" aria-label="Statistics"></section>
 
-  <!-- STATUS -->
   <div class="status-bar">
     <div class="status-left">
       <span class="status-chip" id="statusChip">
@@ -1081,10 +948,8 @@
     <div class="owner-credit">by <b>Tony Jamer Stark</b></div>
   </div>
 
-  <!-- CATEGORY FILTERS -->
   <div class="filters" id="filters" role="tablist" aria-label="Categories"></div>
 
-  <!-- TOOLBAR -->
   <div class="toolbar">
     <div class="toolbar-group">
       <span class="toolbar-label" data-i18n="source">स्रोत</span>
@@ -1092,7 +957,6 @@
         <select id="sourceSelect" aria-label="Filter by source"></select>
       </div>
     </div>
-
     <div class="toolbar-group">
       <span class="toolbar-label" data-i18n="sort">क्रम</span>
       <div class="select-wrap">
@@ -1104,15 +968,12 @@
         </select>
       </div>
     </div>
-
     <div class="read-filter" id="readFilter" role="group" aria-label="Read state">
       <button data-read="all" class="active" data-i18n="read_all">सभी</button>
       <button data-read="unread" data-i18n="read_unread">अपठित</button>
       <button data-read="saved" data-i18n="read_saved">सहेजे</button>
     </div>
-
     <div style="flex:1"></div>
-
     <div class="view-toggle" id="viewToggle" role="group" aria-label="View mode">
       <button data-view="grid" class="active" title="Grid view" aria-label="Grid view">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1128,10 +989,8 @@
     </div>
   </div>
 
-  <!-- FEATURED -->
   <section class="featured" id="featuredSection" aria-label="Featured"></section>
 
-  <!-- TRENDING -->
   <div class="section-head" id="trendingHead" style="display:none">
     <div class="section-title">
       <span class="bar"></span>
@@ -1141,7 +1000,6 @@
   </div>
   <div class="trending-strip" id="trendingStrip"></div>
 
-  <!-- ALL NEWS -->
   <div class="section-head">
     <div class="section-title">
       <span class="bar"></span>
@@ -1160,12 +1018,9 @@
       <span data-i18n="load_more">और खबरें लोड करें</span>
     </button>
   </div>
-
 </main>
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
+<!-- FOOTER -->
 <footer>
   <div class="wrap">
     <div class="foot-grid">
@@ -1201,9 +1056,7 @@
   </div>
 </footer>
 
-<!-- ============================================================
-     READER DRAWER
-     ============================================================ -->
+<!-- READER -->
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="reader" id="reader" aria-hidden="true" role="dialog" aria-label="Article reader">
   <div class="reader-header">
@@ -1235,55 +1088,37 @@
   <div class="reader-body" id="readerBody"></div>
 </aside>
 
-<!-- ============================================================
-     SHARE SHEET
-     ============================================================ -->
+<!-- SHARE SHEET -->
 <div class="share-sheet" id="shareSheet" role="dialog" aria-label="Share">
   <h4 data-i18n="share_via">इसके ज़रिए शेयर करें</h4>
   <div class="share-grid" id="shareGrid"></div>
 </div>
 
-<!-- ============================================================
-     SCROLL TO TOP
-     ============================================================ -->
+<!-- SCROLL TOP -->
 <button class="scroll-top" id="scrollTop" aria-label="Scroll to top" title="Top">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
     <path d="m18 15-6-6-6 6"/>
   </svg>
 </button>
 
-<!-- TOASTS -->
 <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
 
 <script>
 /* ============================================================
-   BIHARI NEWS — v2.0
-   Single-file Bihar news aggregator
+   BIHARI NEWS v3.0
+   Data source: GitHub Actions generated data/news.json
    Owner: Tony Jamer Stark
    ============================================================ */
 (() => {
 'use strict';
 
-/* ============================================================
-   CONFIG
-   ============================================================ */
+/* ---------- CONFIG ---------- */
 const CONFIG = {
-  REFRESH_MS: 8 * 60 * 1000,       // 8 min auto-refresh
+  DATA_URL: 'data/news.json',      // GitHub Actions se generate
+  REFRESH_MS: 5 * 60 * 1000,       // 5 min auto-refresh
   PAGE_SIZE: 12,
-  MAX_ITEMS: 150,
   NEW_WINDOW_MS: 90 * 60 * 1000,   // < 90 min = NEW
-  CACHE_TTL: 30 * 60 * 1000,       // cache for 30 min
-  FETCH_TIMEOUT: 9000,
-  WHITELIST_SOURCES: [
-    'pib.gov.in', 'state.bihar.gov.in', 'dipr.bihar.gov.in',
-    'mygov.in', 'bihar.gov.in', 'gov.in',
-    'thehindu.com', 'hindustantimes.com', 'indianexpress.com',
-    'timesofindia.indiatimes.com', 'ndtv.com', 'news18.com',
-    'aajtak.in', 'abplive.com', 'livehindustan.com',
-    'jagran.com', 'bhaskar.com', 'patrika.com', 'prabhatkhabar.com',
-    'navbharattimes.indiatimes.com', 'theprint.in', 'scroll.in',
-    'thewire.in', 'livemint.com', 'business-standard.com'
-  ],
+  CACHE_TTL: 15 * 60 * 1000,       // cache for 15 min
   CATEGORIES: [
     { id: 'all',      label_hi: 'सब',      label_en: 'All',      icon: '📰' },
     { id: 'scheme',   label_hi: 'योजना',   label_en: 'Schemes',  icon: '🎯' },
@@ -1291,28 +1126,10 @@ const CONFIG = {
     { id: 'news',     label_hi: 'समाचार',  label_en: 'News',     icon: '📢' },
     { id: 'announce', label_hi: 'घोषणा',   label_en: 'Announce', icon: '📣' },
     { id: 'notify',   label_hi: 'सूचना',   label_en: 'Notice',   icon: '🔔' }
-  ],
-  FEEDS: [
-    { url: 'https://news.google.com/rss/search?q=%22Bihar%20government%22%20yojana%20OR%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
-    { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%B8%E0%A4%B0%E0%A4%95%E0%A4%BE%E0%A4%B0%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
-    { url: 'https://news.google.com/rss/search?q=Bihar%20government%20scheme&hl=en-IN&gl=IN&ceid=IN:en', tag: 'scheme' },
-    { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%A8%E0%A4%BF%E0%A4%AF%E0%A4%AE%20OR%20%E0%A4%A8%E0%A5%80%E0%A4%A4%E0%A4%BF%20OR%20%E0%A4%85%E0%A4%A7%E0%A4%BF%E0%A4%B8%E0%A5%82%E0%A4%9A%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'rule' },
-    { url: 'https://news.google.com/rss/search?q=Bihar%20government%20new%20rule%20OR%20policy&hl=en-IN&gl=IN&ceid=IN:en', tag: 'rule' },
-    { url: 'https://news.google.com/rss/search?q=Bihar%20news&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'news' },
-    { url: 'https://news.google.com/rss/search?q=Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'news' },
-    { url: 'https://news.google.com/rss/search?q=PIB%20Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'announce' }
-  ],
-  PROXIES: [
-    (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
-    (u) => 'https://corsproxy.io/?' + encodeURIComponent(u),
-    (u) => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u),
-    (u) => 'https://thingproxy.freeboard.io/fetch/' + u
   ]
 };
 
-/* ============================================================
-   I18N
-   ============================================================ */
+/* ---------- I18N ---------- */
 const I18N = {
   hi: {
     tagline: 'बिहार की ताज़ा खबर',
@@ -1335,7 +1152,9 @@ const I18N = {
     no_news: 'कोई खबर नहीं मिली',
     no_news_sub: 'फ़िल्टर बदलें या रीफ़्रेश करें',
     load_fail: 'डेटा लोड नहीं हो पाया',
-    load_fail_sub: 'इंटरनेट या proxy की समस्या हो सकती है। ऊपर refresh बटन दबाएँ।',
+    load_fail_sub: 'कृपया 1-2 मिनट बाद फिर कोशिश करें, या ऊपर refresh बटन दबाएँ।',
+    no_data_yet: 'डेटा तैयार हो रहा है',
+    no_data_yet_sub: 'GitHub Actions अभी पहली बार news fetch कर रहा है। कृपया 2-3 मिनट बाद page refresh करें।',
     reading_time: 'पढ़ने का समय',
     min_read: 'मिनट',
     open_original: 'मूल खबर पढ़ें',
@@ -1354,8 +1173,7 @@ const I18N = {
     stat_total: 'कुल खबरें', stat_today: 'आज', stat_saved: 'सहेजे', stat_sources: 'स्रोत',
     ago_now: 'अभी', ago_min: 'मिनट पहले', ago_hr: 'घंटे पहले', ago_day: 'दिन पहले',
     saved_view: 'सहेजी खबरें', unread_view: 'अपठित खबरें',
-    results: 'परिणाम', search_label: 'खोज',
-    whatsapp: 'WhatsApp', telegram: 'Telegram', twitter: 'X', facebook: 'Facebook', copy: 'कॉपी'
+    results: 'परिणाम', search_label: 'खोज'
   },
   en: {
     tagline: 'Bihar Ki Taaza Khabar',
@@ -1369,7 +1187,7 @@ const I18N = {
     load_more: 'Load more news',
     reader: 'Reader',
     share_via: 'Share via',
-    foot_desc: 'Bihar government schemes, rules, and latest news — all in one place, cleanly presented. Data aggregated from official sources. No fake news.',
+    foot_desc: 'Bihar government schemes, rules, and latest news — all in one place. Data aggregated from official sources. No fake news.',
     sources: 'Sources', categories: 'Categories',
     cat_scheme: 'Schemes', cat_rule: 'Rules',
     cat_news: 'News', cat_announce: 'Announcements',
@@ -1378,7 +1196,9 @@ const I18N = {
     no_news: 'No news found',
     no_news_sub: 'Change filters or refresh',
     load_fail: 'Could not load data',
-    load_fail_sub: 'Network or proxy issue. Tap refresh above.',
+    load_fail_sub: 'Please try again in 1-2 minutes, or tap refresh above.',
+    no_data_yet: 'Data is being prepared',
+    no_data_yet_sub: 'GitHub Actions is fetching news for the first time. Please refresh in 2-3 minutes.',
     reading_time: 'Reading time',
     min_read: 'min',
     open_original: 'Read original',
@@ -1393,18 +1213,15 @@ const I18N = {
     sync_fail: 'Sync failed — retry',
     live: 'Live',
     new_articles: 'new articles!',
-    reader_note: 'RSS summary available. Read the full story at the original source.',
+    reader_note: 'RSS summary available. Read full story at original source.',
     stat_total: 'Total', stat_today: 'Today', stat_saved: 'Saved', stat_sources: 'Sources',
     ago_now: 'now', ago_min: 'm ago', ago_hr: 'h ago', ago_day: 'd ago',
     saved_view: 'Saved articles', unread_view: 'Unread articles',
-    results: 'results', search_label: 'Search',
-    whatsapp: 'WhatsApp', telegram: 'Telegram', twitter: 'X', facebook: 'Facebook', copy: 'Copy'
+    results: 'results', search_label: 'Search'
   }
 };
 
-/* ============================================================
-   STATE
-   ============================================================ */
+/* ---------- STATE ---------- */
 const state = {
   items: [],
   filtered: [],
@@ -1426,9 +1243,7 @@ const state = {
   activeReaderId: null
 };
 
-/* ============================================================
-   DOM HELPERS
-   ============================================================ */
+/* ---------- DOM ---------- */
 const $ = (id) => document.getElementById(id);
 const els = {
   topbar: $('topbar'),
@@ -1437,7 +1252,6 @@ const els = {
   searchClear: $('searchClear'),
   refreshBtn: $('refreshBtn'),
   savedBtn: $('savedBtn'),
-  savedBadge: $('savedBadge'),
   themeBtn: $('themeBtn'),
   themeIcon: $('themeIcon'),
   langToggle: $('langToggle'),
@@ -1473,13 +1287,10 @@ const els = {
   scrollTop: $('scrollTop')
 };
 
-/* ============================================================
-   UTILITIES
-   ============================================================ */
+/* ---------- UTILS ---------- */
 const safeLS = {
   get(k, fb = null) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } },
-  del(k) { try { localStorage.removeItem(k); } catch {} }
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } }
 };
 
 const stripHtml = (s) => {
@@ -1515,11 +1326,6 @@ const timeAgo = (ts) => {
   return new Date(ts).toLocaleDateString(state.lang === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short' });
 };
 
-const hostOf = (url) => {
-  try { return new URL(url).hostname.replace(/^www\./, ''); }
-  catch { return ''; }
-};
-
 const uid = (s) => {
   let h = 0;
   for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
@@ -1536,9 +1342,30 @@ const debounce = (fn, wait) => {
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
 };
 
-/* ============================================================
-   TOASTS
-   ============================================================ */
+/* ---------- CATEGORIZE ---------- */
+const categorize = (item) => {
+  const t = (item.title + ' ' + item.desc).toLowerCase();
+  if (/योजना|scheme|yojana|benefit|लाभ|subsidy|सब्सिडी|आवास|pension|पेंशन|राशन|ration|kisan|किसान|awas|ujjwala|उज्ज्वला|scholarship|छात्रवृत्ति/i.test(t)) return 'scheme';
+  if (/नियम|rule|regulation|अधिसूचना|advisory|order|आदेश|कानून|law|act\b|policy|नीति/i.test(t)) return 'rule';
+  if (/घोषणा|announce|declared|launch|शुरू|शुभारंभ|inaugurat/i.test(t)) return 'announce';
+  if (/सूचना|notice|notification|alert|चेतावनी|warning|deadline|अंतिम तिथि/i.test(t)) return 'notify';
+  return 'news';
+};
+
+/* ---------- TRENDING SCORE ---------- */
+const trendScore = (item) => {
+  const ageHrs = (Date.now() - item.ts) / 3600000;
+  const recency = 1 / (ageHrs + 1);
+  let boost = 0;
+  const t = (item.title + ' ' + item.desc).toLowerCase();
+  if (/breaking|urgent|बड़ी खबर|ताज़ा|ब्रेकिंग|exclusive|alert/.test(t)) boost += 0.6;
+  if (/cm\b|मुख्यमंत्री|nitish|tejashwi|cabinet|कैबिनेट/.test(t)) boost += 0.35;
+  if (/yojana|योजना|scheme|सब्सिडी|subsidy/.test(t)) boost += 0.25;
+  if (item.cat === 'announce' || item.cat === 'notify') boost += 0.15;
+  return recency + boost;
+};
+
+/* ---------- TOASTS ---------- */
 const toast = (msg, type = 'info', duration = 3200) => {
   const el = document.createElement('div');
   el.className = 'toast ' + type;
@@ -1551,9 +1378,7 @@ const toast = (msg, type = 'info', duration = 3200) => {
   }, duration);
 };
 
-/* ============================================================
-   THEME
-   ============================================================ */
+/* ---------- THEME ---------- */
 const applyTheme = (t) => {
   state.theme = t;
   document.documentElement.setAttribute('data-theme', t);
@@ -1568,9 +1393,7 @@ const applyTheme = (t) => {
 };
 els.themeBtn.addEventListener('click', () => applyTheme(state.theme === 'dark' ? 'light' : 'dark'));
 
-/* ============================================================
-   I18N APPLY
-   ============================================================ */
+/* ---------- LANGUAGE ---------- */
 const applyLang = (lang) => {
   state.lang = lang;
   safeLS.set('bn_lang', lang);
@@ -1583,14 +1406,12 @@ const applyLang = (lang) => {
   els.langToggle.querySelectorAll('button').forEach((b) => {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
-  // Re-render dynamic bits
   buildFilters();
+  buildSourceOptions();
   render();
 };
 
-/* ============================================================
-   PERSISTENCE
-   ============================================================ */
+/* ---------- PERSISTENCE ---------- */
 const loadBookmarks = () => {
   const arr = safeLS.get('bn_bookmarks', []);
   state.bookmarks = new Set(Array.isArray(arr) ? arr : []);
@@ -1607,7 +1428,6 @@ const markRead = (id) => {
   if (!state.readItems.has(id)) {
     state.readItems.add(id);
     saveReadItems();
-    updateSavedBadge();
   }
 };
 
@@ -1626,17 +1446,10 @@ const toggleBookmark = (id) => {
 };
 
 const updateSavedBadge = () => {
-  const count = state.bookmarks.size;
-  if (count > 0) {
-    els.savedBtn.classList.add('has-badge');
-  } else {
-    els.savedBtn.classList.remove('has-badge');
-  }
+  els.savedBtn.classList.toggle('has-badge', state.bookmarks.size > 0);
 };
 
-/* ============================================================
-   CACHE
-   ============================================================ */
+/* ---------- CACHE ---------- */
 const loadCache = () => {
   const cached = safeLS.get('bn_cache', null);
   if (cached && cached.ts && Array.isArray(cached.items) && Date.now() - cached.ts < CONFIG.CACHE_TTL) {
@@ -1645,178 +1458,79 @@ const loadCache = () => {
   return null;
 };
 const saveCache = (items) => {
-  // store minimal data
   const slim = items.slice(0, 80).map(({ id, title, link, desc, source, ts, cat }) => ({ id, title, link, desc, source, ts, cat }));
   safeLS.set('bn_cache', { ts: Date.now(), items: slim });
 };
 
 /* ============================================================
-   FETCH WITH PROXY (parallel with Promise.any)
-   ============================================================ */
-const fetchWithProxy = async (url) => {
-  const attempts = CONFIG.PROXIES.map(async (wrap) => {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), CONFIG.FETCH_TIMEOUT);
-    try {
-      const res = await fetch(wrap(url), { signal: ctrl.signal, cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const text = await res.text();
-      if (!text || text.length < 80) throw new Error('Empty');
-      return text;
-    } finally {
-      clearTimeout(timer);
-    }
-  });
-  return Promise.any(attempts);
-};
-
-/* ============================================================
-   RSS PARSER
-   ============================================================ */
-const parseRSS = (xmlText, feedTag) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(xmlText, 'text/xml');
-  if (doc.querySelector('parsererror')) return [];
-  const items = doc.querySelectorAll('item');
-  const out = [];
-
-  items.forEach((node) => {
-    const title = stripHtml(node.querySelector('title')?.textContent || '');
-    const link = (node.querySelector('link')?.textContent || '').trim();
-    const pubDate = node.querySelector('pubDate')?.textContent || '';
-    const descRaw = node.querySelector('description')?.textContent || '';
-    const source = stripHtml(node.querySelector('source')?.textContent || '');
-
-    if (!title || !link) return;
-    let desc = stripHtml(descRaw);
-    // Google News desc often repeats title; trim
-    if (desc.startsWith(title)) desc = desc.slice(title.length).replace(/^[\s\-–—|:]+/, '').trim();
-    if (desc.length > 280) desc = desc.slice(0, 280).trim() + '…';
-
-    const ts = pubDate ? Date.parse(pubDate) : Date.now();
-    const id = uid(title + link);
-
-    out.push({
-      id, title, link, desc,
-      source: source || hostOf(link),
-      ts: isNaN(ts) ? Date.now() : ts,
-      feedTag
-    });
-  });
-  return out;
-};
-
-/* ============================================================
-   CATEGORIZE
-   ============================================================ */
-const categorize = (item) => {
-  const t = (item.title + ' ' + item.desc).toLowerCase();
-  if (/योजना|scheme|yojana|benefit|लाभ|subsidy|सब्सिडी|आवास|pension|पेंशन|राशन|ration|kisan|किसान|awas|उज्ज्वला|ujjwala|scholarship|छात्रवृत्ति/i.test(t)) return 'scheme';
-  if (/नियम|rule|regulation|अधिसूचना|advisory|order|आदेश|कानून|law|act\b|policy|नीति/i.test(t)) return 'rule';
-  if (/घोषणा|announce|declared|launch|शुरू|शुभारंभ|inaugurat/i.test(t)) return 'announce';
-  if (/सूचना|notice|notification|alert|चेतावनी|warning|deadline|अंतिम तिथि/i.test(t)) return 'notify';
-  if (/समाचार|news|update|अपडेट|रिपोर्ट|report/i.test(t)) return 'news';
-  return 'news';
-};
-
-/* ============================================================
-   RELEVANCE
-   ============================================================ */
-const isBiharRelevant = (item) => {
-  const text = (item.title + ' ' + item.desc + ' ' + (item.source || '')).toLowerCase();
-  return /bihar|बिहार|patna|पटना|nitish|tejashwi|samrat|sushil|gopalganj|muzaffarpur|gaya|bhagalpur|darbhanga|purnia|chapra|saran|siwan|araria|madhubani|सरकार|योजना|government|scheme|मुख्यमंत्री/.test(text);
-};
-
-const isWhitelisted = (item) => {
-  const h = hostOf(item.link || '').toLowerCase();
-  const src = (item.source || '').toLowerCase();
-  return CONFIG.WHITELIST_SOURCES.some((w) => h.includes(w) || src.includes(w.toLowerCase()));
-};
-
-/* ============================================================
-   TRENDING SCORE
-   ============================================================ */
-const trendScore = (item) => {
-  const ageHrs = (Date.now() - item.ts) / 3600000;
-  const recency = 1 / (ageHrs + 1);
-  let boost = 0;
-  const t = (item.title + ' ' + item.desc).toLowerCase();
-  if (/breaking|urgent|बड़ी खबर|ताज़ा|ब्रेकिंग|exclusive|alert/.test(t)) boost += 0.6;
-  if (/cm\b|मुख्यमंत्री|nitish|tejashwi|cabinet|कैबिनेट/.test(t)) boost += 0.35;
-  if (/yojana|योजना|scheme|सब्सिडी|subsidy/.test(t)) boost += 0.25;
-  if (item.cat === 'announce' || item.cat === 'notify') boost += 0.15;
-  return recency + boost;
-};
-
-/* ============================================================
-   LOAD FEEDS
+   LOAD FEEDS — GitHub Actions Data
    ============================================================ */
 const loadFeeds = async (showToast = false) => {
   if (state.isLoading) return;
   state.isLoading = true;
   setStatus('syncing', I18N[state.lang].syncing);
 
-  const results = await Promise.allSettled(
-    CONFIG.FEEDS.map(async (f) => {
-      const xml = await fetchWithProxy(f.url);
-      return parseRSS(xml, f.tag);
-    })
-  );
+  try {
+    // Fetch from GitHub Actions generated JSON (with cache buster)
+    const res = await fetch(CONFIG.DATA_URL + '?v=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
 
-  let all = [];
-  let failCount = 0;
-  results.forEach((r) => {
-    if (r.status === 'fulfilled' && Array.isArray(r.value)) all.push(...r.value);
-    else failCount++;
-  });
+    let all = await res.json();
+    if (!Array.isArray(all)) throw new Error('Invalid data');
 
-  // Dedupe
-  const seen = new Set();
-  all = all.filter((it) => {
-    if (seen.has(it.id)) return false;
-    seen.add(it.id);
-    return true;
-  });
-
-  // Filter relevance
-  all = all.filter(isBiharRelevant);
-  const wl = all.filter(isWhitelisted);
-  if (wl.length >= 3) all = wl;
-
-  // Sort + cap
-  all.sort((a, b) => b.ts - a.ts);
-  all = all.slice(0, CONFIG.MAX_ITEMS);
-  all.forEach((it) => { it.cat = categorize(it); });
-
-  // Detect NEW
-  const newOnes = [];
-  if (!state.firstLoad) {
+    // Normalize + ensure category
+    all = all.filter((it) => it && it.id && it.title && it.link);
     all.forEach((it) => {
-      if (!state.seenIds.has(it.id) && (Date.now() - it.ts) < CONFIG.NEW_WINDOW_MS) newOnes.push(it);
+      if (!it.cat) it.cat = categorize(it);
+      if (!it.source) it.source = 'News';
+      if (!it.ts) it.ts = Date.now();
     });
-  }
-  all.forEach((it) => state.seenIds.add(it.id));
 
-  state.items = all;
-  state.lastSync = Date.now();
-  state.firstLoad = false;
+    // Detect NEW
+    const newOnes = [];
+    if (!state.firstLoad) {
+      all.forEach((it) => {
+        if (!state.seenIds.has(it.id) && (Date.now() - it.ts) < CONFIG.NEW_WINDOW_MS) {
+          newOnes.push(it);
+        }
+      });
+    }
+    all.forEach((it) => state.seenIds.add(it.id));
 
-  if (failCount === CONFIG.FEEDS.length && all.length === 0) {
-    setStatus('err', I18N[state.lang].sync_fail);
-  } else {
+    state.items = all;
+    state.lastSync = Date.now();
+    state.firstLoad = false;
+
     setStatus('ok', `${I18N[state.lang].live} · ${timeAgo(state.lastSync)}`);
-  }
 
-  if (newOnes.length > 0) {
-    toast(`🔥 ${newOnes.length} ${I18N[state.lang].new_articles}`, 'ok');
-  }
-  if (showToast) toast(I18N[state.lang].refreshing, 'info');
+    if (newOnes.length > 0) {
+      toast(`🔥 ${newOnes.length} ${I18N[state.lang].new_articles}`, 'ok');
+    }
+    if (showToast) toast(I18N[state.lang].refreshing, 'info');
 
-  saveCache(all);
-  buildFilters();
-  buildSourceOptions();
-  render();
-  state.isLoading = false;
+    saveCache(all);
+    buildFilters();
+    buildSourceOptions();
+    render();
+  } catch (err) {
+    console.error('Load error:', err);
+    // Show empty state message
+    if (state.items.length === 0) {
+      const t = I18N[state.lang];
+      const is404 = /404/.test(err.message);
+      els.newsGrid.innerHTML = `
+        <div class="empty">
+          <div class="emoji">${is404 ? '⏳' : '⚠️'}</div>
+          <h3>${escapeHtml(is404 ? t.no_data_yet : t.load_fail)}</h3>
+          <p>${escapeHtml(is404 ? t.no_data_yet_sub : t.load_fail_sub)}</p>
+        </div>
+      `;
+    }
+    setStatus('err', I18N[state.lang].sync_fail);
+    if (showToast) toast(I18N[state.lang].sync_fail, 'err');
+  } finally {
+    state.isLoading = false;
+  }
 };
 
 const setStatus = (kind, text) => {
@@ -1824,9 +1538,7 @@ const setStatus = (kind, text) => {
   els.statusText.textContent = text;
 };
 
-/* ============================================================
-   BUILD FILTERS
-   ============================================================ */
+/* ---------- BUILD FILTERS ---------- */
 const buildFilters = () => {
   const counts = {};
   CONFIG.CATEGORIES.forEach((c) => {
@@ -1857,27 +1569,19 @@ const buildSourceOptions = () => {
     sources.map((s) => `<option value="${escapeHtml(s)}"${s === current ? ' selected' : ''}>${escapeHtml(s)}</option>`).join('');
 };
 
-/* ============================================================
-   APPLY FILTERS + SORT
-   ============================================================ */
+/* ---------- APPLY FILTERS ---------- */
 const applyFilters = () => {
   const q = state.query.trim().toLowerCase();
   let out = state.items;
 
   if (state.category !== 'all') out = out.filter((it) => it.cat === state.category);
-
   if (state.source !== 'all') out = out.filter((it) => it.source === state.source);
 
-  if (state.readFilter === 'saved') {
-    out = out.filter((it) => state.bookmarks.has(it.id));
-  } else if (state.readFilter === 'unread') {
-    out = out.filter((it) => !state.readItems.has(it.id));
-  }
+  if (state.readFilter === 'saved') out = out.filter((it) => state.bookmarks.has(it.id));
+  else if (state.readFilter === 'unread') out = out.filter((it) => !state.readItems.has(it.id));
 
   if (q) {
-    out = out.filter((it) =>
-      (it.title + ' ' + it.desc + ' ' + it.source).toLowerCase().includes(q)
-    );
+    out = out.filter((it) => (it.title + ' ' + it.desc + ' ' + it.source).toLowerCase().includes(q));
   }
 
   switch (state.sort) {
@@ -1889,16 +1593,13 @@ const applyFilters = () => {
   return out;
 };
 
-/* ============================================================
-   RENDER
-   ============================================================ */
+/* ---------- RENDER ---------- */
 const render = () => {
   const filtered = applyFilters();
   state.filtered = filtered;
 
   els.countChip.textContent = `${filtered.length} ${state.lang === 'hi' ? 'खबरें' : 'articles'}`;
 
-  // Filter chip
   const activeChips = [];
   if (state.category !== 'all') {
     const c = CONFIG.CATEGORIES.find((x) => x.id === state.category);
@@ -1916,44 +1617,26 @@ const render = () => {
     els.filterChip.classList.add('hidden');
   }
 
-  // Stats
   renderStats();
-
-  // Ticker
   renderTicker(state.items.slice(0, 10));
-
-  // Featured
   renderFeatured(filtered.slice(0, 4));
 
-  // Trending (top 10 by trend score, only if >= 3)
   const trending = [...filtered].sort((a, b) => trendScore(b) - trendScore(a)).slice(0, 10);
   renderTrending(trending);
 
-  // Grid
   const visible = filtered.slice(0, state.page * CONFIG.PAGE_SIZE);
   renderGrid(visible);
 
-  // Load more
-  if (visible.length < filtered.length) {
-    els.loadMoreWrap.classList.remove('hidden');
-  } else {
-    els.loadMoreWrap.classList.add('hidden');
-  }
+  if (visible.length < filtered.length) els.loadMoreWrap.classList.remove('hidden');
+  else els.loadMoreWrap.classList.add('hidden');
 
-  // Section titles
   const t = I18N[state.lang];
   const cat = CONFIG.CATEGORIES.find((c) => c.id === state.category);
-  if (state.query) {
-    els.allTitle.textContent = `${t.search_label}: "${state.query}"`;
-  } else if (state.readFilter === 'saved') {
-    els.allTitle.textContent = t.saved_view;
-  } else if (state.readFilter === 'unread') {
-    els.allTitle.textContent = t.unread_view;
-  } else if (cat && cat.id !== 'all') {
-    els.allTitle.textContent = state.lang === 'hi' ? cat.label_hi : cat.label_en;
-  } else {
-    els.allTitle.textContent = t.all_news;
-  }
+  if (state.query) els.allTitle.textContent = `${t.search_label}: "${state.query}"`;
+  else if (state.readFilter === 'saved') els.allTitle.textContent = t.saved_view;
+  else if (state.readFilter === 'unread') els.allTitle.textContent = t.unread_view;
+  else if (cat && cat.id !== 'all') els.allTitle.textContent = state.lang === 'hi' ? cat.label_hi : cat.label_en;
+  else els.allTitle.textContent = t.all_news;
   els.allSub.textContent = `${filtered.length} ${t.results} · ${t.all_sub}`;
 };
 
@@ -1997,10 +1680,7 @@ const renderTicker = (items) => {
 };
 
 const renderFeatured = (items) => {
-  if (!items.length) {
-    els.featuredSection.innerHTML = '';
-    return;
-  }
+  if (!items.length) { els.featuredSection.innerHTML = ''; return; }
   const [big, ...rest] = items;
   const isNew = (Date.now() - big.ts) < CONFIG.NEW_WINDOW_MS;
   const t = I18N[state.lang];
@@ -2013,7 +1693,7 @@ const renderFeatured = (items) => {
       <div class="feat-meta">
         <span class="src">${escapeHtml(big.source)}</span>
         <span>${timeAgo(big.ts)}</span>
-        <span>· ${readTime(big.desc || big.title)} ${t.min_read} ${t.reading_time.toLowerCase()}</span>
+        <span>· ${readTime(big.desc || big.title)} ${t.min_read}</span>
       </div>
     </article>
     <div class="feature-side">
@@ -2067,7 +1747,7 @@ const renderTrending = (items) => {
 };
 
 const renderGrid = (items) => {
-  if (state.isLoading && !items.length) {
+  if (state.isLoading && !items.length && state.items.length === 0) {
     els.newsGrid.className = 'grid' + (state.viewMode === 'list' ? ' view-list' : '');
     els.newsGrid.innerHTML = Array.from({ length: 6 }).map(() => `
       <div class="skeleton">
@@ -2102,6 +1782,7 @@ const renderGrid = (items) => {
     const bookmarked = state.bookmarks.has(it.id);
     const isRead = state.readItems.has(it.id);
     const catLabel = state.lang === 'hi' ? cat.label_hi : cat.label_en;
+    const t = I18N[state.lang];
 
     return `
       <article class="card${isRead ? ' read' : ''}" data-id="${it.id}" tabindex="0" style="animation-delay:${Math.min(idx * 25, 300)}ms" role="button">
@@ -2117,18 +1798,18 @@ const renderGrid = (items) => {
         <div class="card-footer">
           <span>${timeAgo(it.ts)}</span>
           <div class="actions">
-            <button data-act="bookmark" class="${bookmarked ? 'active' : ''}" title="${bookmarked ? I18N[state.lang].saved : I18N[state.lang].save}" aria-label="Bookmark">
+            <button data-act="bookmark" class="${bookmarked ? 'active' : ''}" title="${bookmarked ? t.saved : t.save}" aria-label="Bookmark">
               <svg viewBox="0 0 24 24" fill="${bookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
               </svg>
             </button>
-            <button data-act="share" title="${I18N[state.lang].share}" aria-label="Share">
+            <button data-act="share" title="${t.share}" aria-label="Share">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
                 <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>
               </svg>
             </button>
-            <button data-act="open" title="${I18N[state.lang].open_short}" aria-label="Open">
+            <button data-act="open" title="${t.open_short}" aria-label="Open">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>
               </svg>
@@ -2158,7 +1839,7 @@ const renderGrid = (items) => {
     });
 
     card.querySelectorAll('[data-act]').forEach((btn) => {
-      btn.addEventListener('click', async (e) => {
+      btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const act = btn.dataset.act;
         if (act === 'bookmark') toggleBookmark(id);
@@ -2169,9 +1850,7 @@ const renderGrid = (items) => {
   });
 };
 
-/* ============================================================
-   READER DRAWER
-   ============================================================ */
+/* ---------- READER ---------- */
 const openReader = (id) => {
   const item = state.items.find((x) => x.id === id);
   if (!item) return;
@@ -2224,7 +1903,6 @@ const openReader = (id) => {
     </div>
   `;
 
-  // Wire inner buttons
   const saveBtn = $('readerSaveBtn');
   const shareBtn = $('readerShareBtn2');
   if (saveBtn) saveBtn.addEventListener('click', () => toggleBookmark(item.id));
@@ -2237,7 +1915,6 @@ const openReader = (id) => {
   els.drawerBackdrop.classList.add('open');
   document.body.classList.add('no-scroll');
 
-  // Focus trap
   setTimeout(() => els.readerClose.focus(), 250);
 };
 
@@ -2266,9 +1943,7 @@ els.readerShare.addEventListener('click', () => {
   if (item) openShareSheet(item);
 });
 
-/* ============================================================
-   SHARE SHEET
-   ============================================================ */
+/* ---------- SHARE ---------- */
 const SHARE_TARGETS = [
   { id: 'whatsapp', name: 'WhatsApp', color: '#25D366', icon: '<path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2z" fill="none" stroke="currentColor" stroke-width="2"/>', url: (i) => `https://wa.me/?text=${encodeURIComponent(i.title + '\n' + i.link)}` },
   { id: 'telegram', name: 'Telegram', color: '#0088cc', icon: '<path d="m21.5 3.5-19 7.3c-1.1.4-1.1 1.1-.2 1.4l4.8 1.5 1.8 5.6c.2.6.4.8 1 .8.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.3-1.5z" fill="currentColor"/>', url: (i) => `https://t.me/share/url?url=${encodeURIComponent(i.link)}&text=${encodeURIComponent(i.title)}` },
@@ -2299,10 +1974,8 @@ const openShareSheet = (item) => {
         } catch {
           toast('Copy failed', 'err');
         }
-      } else if (navigator.share && target.id !== 'copy') {
-        try {
-          await navigator.share({ title: item.title, text: item.title, url: item.link });
-        } catch {}
+      } else if (navigator.share) {
+        try { await navigator.share({ title: item.title, text: item.title, url: item.link }); } catch {}
       } else {
         window.open(target.url(item), '_blank', 'noopener');
       }
@@ -2313,13 +1986,9 @@ const openShareSheet = (item) => {
   els.shareSheet.classList.add('open');
 };
 
-const closeShareSheet = () => {
-  els.shareSheet.classList.remove('open');
-};
+const closeShareSheet = () => els.shareSheet.classList.remove('open');
 
-/* ============================================================
-   EVENT WIRING
-   ============================================================ */
+/* ---------- EVENTS ---------- */
 const onSearch = debounce((val) => {
   state.query = val;
   state.page = 1;
@@ -2399,11 +2068,9 @@ els.langToggle.querySelectorAll('button').forEach((btn) => {
   btn.addEventListener('click', () => applyLang(btn.dataset.lang));
 });
 
-/* Scroll to top */
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
   els.scrollTop.classList.toggle('show', y > 600);
-  // Hide header on scroll down, show on up
   if (y > 200) {
     const lastY = els.scrollTop._lastY || 0;
     if (y > lastY + 5) els.topbar.classList.add('hide');
@@ -2418,34 +2085,21 @@ els.scrollTop.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-/* Keyboard shortcuts */
 document.addEventListener('keydown', (e) => {
-  // Don't trigger when typing in input
   const inInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
-
   if (e.key === 'Escape') {
     if (els.shareSheet.classList.contains('open')) { closeShareSheet(); return; }
     if (els.reader.classList.contains('open')) { closeReader(); return; }
     if (inInput) { e.target.blur(); return; }
   }
-
   if (e.key === '/' && !inInput) {
     e.preventDefault();
     els.searchInput.focus();
     els.searchInput.select();
     return;
   }
-
-  if (e.key === 'r' && !inInput && !e.metaKey && !e.ctrlKey) {
-    els.refreshBtn.click();
-    return;
-  }
-
-  if (e.key === 't' && !inInput && !e.metaKey && !e.ctrlKey) {
-    els.themeBtn.click();
-    return;
-  }
-
+  if (e.key === 'r' && !inInput && !e.metaKey && !e.ctrlKey) { els.refreshBtn.click(); return; }
+  if (e.key === 't' && !inInput && !e.metaKey && !e.ctrlKey) { els.themeBtn.click(); return; }
   if (e.key === 'g' && !inInput && !e.metaKey && !e.ctrlKey) {
     state.viewMode = state.viewMode === 'grid' ? 'list' : 'grid';
     safeLS.set('bn_view', state.viewMode);
@@ -2454,7 +2108,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* Auto refresh */
 setInterval(() => {
   if (document.visibilityState === 'visible') loadFeeds();
 }, CONFIG.REFRESH_MS);
@@ -2465,33 +2118,26 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-/* ============================================================
-   INIT
-   ============================================================ */
+/* ---------- INIT ---------- */
 const init = async () => {
   els.year.textContent = new Date().getFullYear();
   loadBookmarks();
   loadReadItems();
   updateSavedBadge();
 
-  // Theme
   const savedTheme = safeLS.get('bn_theme', null) ||
     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   applyTheme(savedTheme);
 
-  // View mode
   const savedView = safeLS.get('bn_view', 'grid');
   state.viewMode = savedView;
   els.viewToggle.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b.dataset.view === savedView));
 
-  // Lang
   const savedLang = safeLS.get('bn_lang', 'hi');
   applyLang(savedLang);
 
-  // Initial skeleton
   renderGrid([]);
 
-  // Try cache first for instant paint
   const cached = loadCache();
   if (cached && cached.length) {
     state.items = cached;
@@ -2502,20 +2148,7 @@ const init = async () => {
     render();
   }
 
-  // Load fresh
   await loadFeeds();
-
-  if (!state.items.length) {
-    const t = I18N[state.lang];
-    els.newsGrid.innerHTML = `
-      <div class="empty">
-        <div class="emoji">⚠️</div>
-        <h3>${escapeHtml(t.load_fail)}</h3>
-        <p>${escapeHtml(t.load_fail_sub)}</p>
-      </div>
-    `;
-    setStatus('err', t.sync_fail);
-  }
 };
 
 init();

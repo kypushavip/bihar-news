@@ -185,7 +185,7 @@
   @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:color-mix(in srgb,var(--brand) 40%,var(--border))}
   .card.read{opacity:.68}
-  .card-thumb{height:170px;background-size:cover;background-position:center;background-color:var(--bg-soft);position:relative;display:grid;place-items:center;overflow:hidden}
+  .card-thumb{height:180px;background-size:cover;background-position:center;background-color:var(--bg-soft);position:relative;display:grid;place-items:center;overflow:hidden}
   .card-thumb .thumb-icon{font-size:56px;opacity:.35}
   .card-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.4))}
   .card-thumb .th-cat{position:absolute;top:12px;left:12px;z-index:2}
@@ -219,12 +219,12 @@
   .new-dot{position:absolute;top:12px;right:12px;width:10px;height:10px;border-radius:50%;background:var(--danger);box-shadow:0 0 0 4px color-mix(in srgb,var(--danger) 25%,transparent),0 0 12px rgba(220,38,38,.6);animation:pulse 1.6s infinite;z-index:5}
 
   .grid.view-list .card{flex-direction:row;align-items:stretch}
-  .grid.view-list .card-thumb{width:200px;height:auto;min-height:160px;flex-shrink:0}
+  .grid.view-list .card-thumb{width:220px;height:auto;min-height:170px;flex-shrink:0}
   .grid.view-list .card-body{padding:16px 20px;flex:1}
   .grid.view-list .card-title{font-size:16px;-webkit-line-clamp:2}
   .grid.view-list .card-summary{-webkit-line-clamp:2}
   .grid.view-list .card-footer{border-top:none;background:transparent;padding:0 20px 16px}
-  @media(max-width:700px){.grid.view-list .card{flex-direction:column}.grid.view-list .card-thumb{width:100%;height:170px}}
+  @media(max-width:700px){.grid.view-list .card{flex-direction:column}.grid.view-list .card-thumb{width:100%;height:180px}}
 
   .quick-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:22px}
   .qf-item{display:flex;gap:11px;align-items:flex-start;padding:12px 14px;border-radius:var(--radius-sm);background:var(--bg-soft);border:1px solid var(--border);transition:all var(--tr)}
@@ -249,8 +249,20 @@
   .reader-empty-note{padding:20px;border-radius:var(--radius-sm);background:var(--bg-soft);border:1px dashed var(--border-strong);font-size:13.5px;color:var(--text-soft);line-height:1.65;text-align:center;margin-bottom:20px}
   .reader-empty-note .re-icon{font-size:28px;opacity:.5;margin-bottom:8px}
 
+  .reader-full-article{margin-bottom:22px}
+  .reader-full-article .rfa-para{font-size:15.5px;line-height:1.8;color:var(--text);margin-bottom:16px;font-family:'Noto Sans Devanagari','Plus Jakarta Sans',sans-serif}
+  .rfa-img{width:100%;border-radius:var(--radius-sm);margin:8px 0 16px;background:var(--bg-soft);box-shadow:var(--shadow-sm);transition:opacity var(--tr)}
+  .rfa-img.loading{opacity:0}
+  .rfa-gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 20px}
+  .rfa-gallery .rfa-gal-item{aspect-ratio:4/3;background-size:cover;background-position:center;border-radius:var(--radius-sm);background-color:var(--bg-soft);cursor:pointer;transition:transform var(--tr)}
+  .rfa-gallery .rfa-gal-item:hover{transform:scale(1.02)}
+  @media(max-width:500px){.rfa-gallery{grid-template-columns:1fr}}
+
+  .reader-progress{position:absolute;top:0;left:0;right:0;height:3px;background:transparent;overflow:hidden;z-index:10}
+  .reader-progress .rp-bar{height:100%;width:0%;background:var(--brand-gradient);transition:width 200ms linear;box-shadow:0 0 8px rgba(194,65,12,.6)}
+
   .skeleton{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
-  .sk-thumb{height:170px;background:linear-gradient(90deg,var(--bg-soft) 25%,var(--border) 50%,var(--bg-soft) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+  .sk-thumb{height:180px;background:linear-gradient(90deg,var(--bg-soft) 25%,var(--border) 50%,var(--bg-soft) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
   .sk-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
   .sk-line{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--bg-soft) 25%,var(--border) 50%,var(--bg-soft) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
   .sk-line.short{width:40%}.sk-line.mid{width:70%}.sk-line.tall{height:18px}
@@ -268,7 +280,7 @@
 
   .drawer-backdrop{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity var(--tr)}
   .drawer-backdrop.open{opacity:1;pointer-events:auto}
-  .reader{position:fixed;top:0;right:0;bottom:0;z-index:95;width:min(620px,100%);background:var(--bg-elev);border-left:1px solid var(--border);box-shadow:var(--shadow-xl);transform:translateX(100%);transition:transform var(--tr-slow);display:flex;flex-direction:column;will-change:transform}
+  .reader{position:fixed;top:0;right:0;bottom:0;z-index:95;width:min(680px,100%);background:var(--bg-elev);border-left:1px solid var(--border);box-shadow:var(--shadow-xl);transform:translateX(100%);transition:transform var(--tr-slow);display:flex;flex-direction:column;will-change:transform}
   .reader.open{transform:translateX(0)}
   @media(max-width:640px){.reader{width:100%;border-left:none}}
   .reader-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;gap:10px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg-glass);backdrop-filter:blur(20px);position:relative;z-index:2}
@@ -279,15 +291,15 @@
   .reader-header .rh-actions button:hover{background:var(--border);color:var(--text)}
   .reader-header .rh-actions button.active{color:var(--brand);background:color-mix(in srgb,var(--brand) 14%,transparent)}
   .reader-header svg{width:17px;height:17px}
-  .reader-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:0 0 40px}
-  .reader-hero{height:260px;background-size:cover;background-position:center;background-color:var(--bg-soft);position:relative;display:grid;place-items:center;overflow:hidden}
+  .reader-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:0 0 40px;position:relative}
+  .reader-hero{height:280px;background-size:cover;background-position:center;background-color:var(--bg-soft);position:relative;display:grid;place-items:center;overflow:hidden}
   .reader-hero .thumb-icon{font-size:80px;opacity:.35}
   .reader-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.5))}
   .reader-hero .rh-badge{position:absolute;top:16px;left:20px;z-index:2}
   .reader-hero .rh-watermark{position:absolute;bottom:14px;right:20px;z-index:2;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);padding:5px 11px;border-radius:var(--pill);background:rgba(0,0,0,.4);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:6px}
   .reader-hero .rh-watermark::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand-3)}
   .reader-content{padding:26px 26px 0}
-  .reader-title{font-size:25px;font-weight:800;line-height:1.28;letter-spacing:-.028em;margin-bottom:16px}
+  .reader-title{font-size:26px;font-weight:800;line-height:1.28;letter-spacing:-.028em;margin-bottom:16px}
   .reader-section-title{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin:8px 0 10px;display:flex;align-items:center;gap:8px}
   .reader-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
   .reader-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}
@@ -296,10 +308,7 @@
   .rm-value{font-size:13px;font-weight:700;color:var(--text);line-height:1.35}
   .reader-note{padding:16px 18px;border-radius:var(--radius-sm);background:color-mix(in srgb,var(--brand) 6%,var(--bg-soft));border:1px solid color-mix(in srgb,var(--brand) 15%,var(--border));font-size:13px;color:var(--text-soft);line-height:1.6;display:flex;gap:12px;align-items:flex-start;margin-bottom:22px}
   .reader-note svg{width:18px;height:18px;flex-shrink:0;margin-top:2px;color:var(--brand)}
-  .reader-actions{display:flex;flex-direction:column;gap:10px}
-  .btn-primary{padding:15px 20px;border-radius:var(--radius-sm);background:var(--brand-gradient);color:#fff;font-weight:800;font-size:14.5px;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 6px 20px rgba(194,65,12,.4);transition:all var(--tr)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(194,65,12,.5)}
-  .btn-primary svg{width:17px;height:17px}
+  .reader-actions{display:flex;flex-direction:column;gap:10px;margin-top:8px}
   .btn-row{display:flex;gap:10px}
   .btn-row .btn-secondary{flex:1}
   .btn-secondary{padding:13px 18px;border-radius:var(--radius-sm);background:var(--bg-soft);border:1.5px solid var(--border);color:var(--text);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--tr)}
@@ -361,16 +370,17 @@
     .brand-mark{width:40px;height:40px;font-size:18px}
     .feat-title{font-size:19px}.card-feature .cf-content{padding:22px}
     .card-feature{min-height:340px}
-    .reader-title{font-size:21px}.reader-content{padding:20px 18px 0}
+    .reader-title{font-size:20px}.reader-content{padding:20px 18px 0}
     .stats-bar{grid-template-columns:repeat(2,1fr);gap:10px}
     .stat-card{padding:13px 14px}.stat-card .s-val{font-size:22px}
     .lang-btn .lang-name{display:none}
     .icon-btn{width:38px;height:38px}
     .scroll-top{bottom:16px;right:16px;width:44px;height:44px}
-    .card-thumb{height:180px}
+    .card-thumb{height:190px}
     .trend-card{flex:0 0 260px}
     .rs-line{font-size:13.5px;padding:12px 14px}
     .rs-line .rs-ico{font-size:15px}
+    .reader-full-article .rfa-para{font-size:14.5px}
   }
 </style>
 </head>
@@ -491,8 +501,9 @@
 
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="reader" id="reader" aria-hidden="true">
+  <div class="reader-progress" id="readerProgress"><div class="rp-bar" id="readerProgressBar"></div></div>
   <div class="reader-header">
-    <div class="rh-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span data-i18n="reader">Article</span></div>
+    <div class="rh-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span data-i18n="reader">लेख</span></div>
     <div class="rh-actions">
       <button id="readerBookmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
       <button id="readerShare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
@@ -511,8 +522,11 @@
 'use strict';
 
 const CONFIG = {
-  DATA_URL: 'data/news.json', REFRESH_MS: 5*60*1000, PAGE_SIZE: 12,
-  NEW_WINDOW_MS: 90*60*1000, CACHE_TTL: 15*60*1000,
+  DATA_URL: 'data/news.json',
+  REFRESH_MS: 5*60*1000,
+  PAGE_SIZE: 12,
+  NEW_WINDOW_MS: 90*60*1000,
+  CACHE_TTL: 15*60*1000,
   CATEGORIES: [
     { id:'all', label:{hi:'सब',en:'All',bho:'सब',mai:'सभ'}, icon:'📰' },
     { id:'scheme', label:{hi:'योजना',en:'Schemes',bho:'योजना',mai:'योजना'}, icon:'🎯' },
@@ -531,10 +545,10 @@ const LANGS = [
 ];
 
 const I18N = {
-  hi:{tagline:'बिहार की ताज़ा खबर',search_ph:'खबर या योजना खोजें...',source:'स्रोत',sort:'क्रम',sort_newest:'नवीनतम पहले',sort_oldest:'पुराने पहले',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सभी',read_unread:'अपठित',read_saved:'सहेजे',trending_now:'ट्रेंडिंग अभी',trending_sub:'सबसे चर्चित खबरें',all_news:'सभी खबरें',all_sub:'नवीनतम पहले',load_more:'और खबरें लोड करें',reader:'लेख',share_via:'इसके ज़रिए शेयर करें',foot_desc:'बिहार की हर ज़रूरी खबर — योजनाएँ, नियम, नीतियाँ और ताज़ा अपडेट।',footer_explore:'खोजें',footer_founder:'संस्थापक',owner_role:'संस्थापक एवं संपादक',owner_bio:'बिहार के हर नागरिक तक सच्ची खबर पहुँचाने के लिए समर्पित।',rights:'सभी अधिकार सुरक्षित।',made_with:'प्यार से बनाया',made_in:'बिहार में',cat_scheme:'🎯 योजनाएँ',cat_rule:'📋 नियम व नीतियाँ',cat_news:'📢 ताज़ा समाचार',cat_announce:'📣 घोषणाएँ',cat_notify:'🔔 सूचनाएँ',no_news:'कोई खबर नहीं मिली',no_news_sub:'फ़िल्टर बदलें या रीफ़्रेश करें',load_fail:'डेटा लोड नहीं हो पाया',load_fail_sub:'कृपया 1-2 मिनट बाद फिर कोशिश करें।',no_data_yet:'डेटा तैयार हो रहा है',no_data_yet_sub:'कृपया 2-3 मिनट बाद page refresh करें।',reading_time:'पढ़ने का समय',published:'प्रकाशित',min_read:'मिनट',open_original:'मूल खबर पढ़ें',open_short:'खोलें',save:'सहेजें',saved:'सहेजा गया',share:'शेयर',bookmark_added:'बुकमार्क सहेजा',bookmark_removed:'बुकमार्क हटाया',link_copied:'लिंक कॉपी हो गया',refreshing:'डेटा रीफ़्रेश हो रहा है...',syncing:'सिंक हो रहा है...',sync_fail:'सिंक फेल — फिर कोशिश करें',live:'लाइव',new_articles:'नई खबर आई!',about_article:'खबर के बारे में',quick_facts:'मुख्य तथ्य',reader_note:'पूरी खबर मूल स्रोत पर पढ़ें।',stat_total:'कुल खबरें',stat_today:'आज',stat_saved:'सहेजे',stat_updated:'अंतिम अपडेट',ago_now:'अभी',ago_min:'मिनट पहले',ago_hr:'घंटे पहले',ago_day:'दिन पहले',saved_view:'सहेजी खबरें',unread_view:'अपठित खबरें',results:'परिणाम',search_label:'खोज',articles:'खबरें',location:'स्थान',department:'विभाग',action:'कार्रवाई',people:'मुख्य व्यक्ति',key_facts:'मुख्य बातें'},
-  en:{tagline:'Bihar Ki Taaza Khabar',search_ph:'Search news or schemes...',source:'Source',sort:'Sort',sort_newest:'Newest first',sort_oldest:'Oldest first',sort_source:'Source A→Z',sort_trending:'Trending',read_all:'All',read_unread:'Unread',read_saved:'Saved',trending_now:'Trending Now',trending_sub:'Most talked about',all_news:'All News',all_sub:'Newest first',load_more:'Load more news',reader:'Article',share_via:'Share via',foot_desc:'Every important news from Bihar — schemes, rules, policies and updates.',footer_explore:'Explore',footer_founder:'Founder',owner_role:'Founder & Editor',owner_bio:'Dedicated to bringing authentic Bihar news to every citizen.',rights:'All rights reserved.',made_with:'Made with',made_in:'in Bihar',cat_scheme:'🎯 Schemes',cat_rule:'📋 Rules',cat_news:'📢 Latest News',cat_announce:'📣 Announcements',cat_notify:'🔔 Notifications',no_news:'No news found',no_news_sub:'Change filters or refresh',load_fail:'Could not load data',load_fail_sub:'Please try again in 1-2 minutes.',no_data_yet:'Data is being prepared',no_data_yet_sub:'Please refresh in 2-3 minutes.',reading_time:'Reading time',published:'Published',min_read:'min',open_original:'Read original',open_short:'Open',save:'Save',saved:'Saved',share:'Share',bookmark_added:'Bookmarked',bookmark_removed:'Bookmark removed',link_copied:'Link copied',refreshing:'Refreshing...',syncing:'Syncing...',sync_fail:'Sync failed — retry',live:'Live',new_articles:'new articles!',about_article:'About this story',quick_facts:'Quick Facts',reader_note:'Read the full story at the original source.',stat_total:'Total',stat_today:'Today',stat_saved:'Saved',stat_updated:'Last update',ago_now:'now',ago_min:'m ago',ago_hr:'h ago',ago_day:'d ago',saved_view:'Saved',unread_view:'Unread',results:'results',search_label:'Search',articles:'articles',location:'Location',department:'Department',action:'Action',people:'Key People',key_facts:'Key Facts'},
-  bho:{tagline:'बिहार के ताज़ा खबर',search_ph:'खबर या योजना खोजीं...',source:'स्रोत',sort:'क्रम',sort_newest:'नया पहिले',sort_oldest:'पुरान पहिले',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सब',read_unread:'नइ पढ़ल',read_saved:'सहेजल',trending_now:'ट्रेंडिंग अभी',trending_sub:'सबसे चर्चित खबर',all_news:'सब खबर',all_sub:'नया पहिले',load_more:'आउर खबर लोड करीं',reader:'लेख',share_via:'एकरा से शेयर करीं',foot_desc:'बिहार के हर जरूरी खबर — योजना, नियम, नीति आ ताज़ा अपडेट।',footer_explore:'खोजीं',footer_founder:'संस्थापक',owner_role:'संस्थापक आ संपादक',owner_bio:'बिहार के हर नागरिक तक सच्ची खबर पहुँचावे खातिर समर्पित।',rights:'सब अधिकार सुरक्षित।',made_with:'प्यार से बनल',made_in:'बिहार में',cat_scheme:'🎯 योजना',cat_rule:'📋 नियम',cat_news:'📢 समाचार',cat_announce:'📣 घोषणा',cat_notify:'🔔 सूचना',no_news:'कोई खबर नइ मिलल',no_news_sub:'फ़िल्टर बदलीं या रीफ़्रेश करीं',load_fail:'डेटा लोड नइ भइल',load_fail_sub:'1-2 मिनट बाद फेर कोशिश करीं।',no_data_yet:'डेटा तैयार होखत बा',no_data_yet_sub:'2-3 मिनट बाद refresh करीं।',reading_time:'पढ़े के समय',published:'छपल',min_read:'मिनट',open_original:'मूल खबर पढ़ीं',open_short:'खोलीं',save:'सहेजीं',saved:'सहेजल',share:'शेयर',bookmark_added:'बुकमार्क सहेजल',bookmark_removed:'बुकमार्क हटावल',link_copied:'लिंक कॉपी हो गइल',refreshing:'रीफ़्रेश होखत बा...',syncing:'सिंक होखत बा...',sync_fail:'सिंक फेल',live:'लाइव',new_articles:'नयका खबर आइल!',about_article:'खबर के बारे में',quick_facts:'मुख्य तथ्य',reader_note:'पूरा खबर मूल स्रोत पर पढ़ीं।',stat_total:'कुल खबर',stat_today:'आज',stat_saved:'सहेजल',stat_updated:'अंतिम अपडेट',ago_now:'अभी',ago_min:'मिनट पहिले',ago_hr:'घंटा पहिले',ago_day:'दिन पहिले',saved_view:'सहेजल खबर',unread_view:'नइ पढ़ल खबर',results:'परिणाम',search_label:'खोज',articles:'खबर',location:'जगह',department:'विभाग',action:'कार्रवाई',people:'मुख्य लोग',key_facts:'मुख्य बातें'},
-  mai:{tagline:'बिहारक ताज़ा खबर',search_ph:'खबर वा योजना खोजू...',source:'स्रोत',sort:'क्रम',sort_newest:'नवीनतम पहिने',sort_oldest:'पुरान पहिने',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सभ',read_unread:'अपठित',read_saved:'सहेजल',trending_now:'ट्रेंडिंग आब',trending_sub:'सभसँ चर्चित खबर',all_news:'सभ खबर',all_sub:'नवीनतम पहिने',load_more:'आरो खबर लोड करू',reader:'लेख',share_via:'एहि सँ शेयर करू',foot_desc:'बिहारक हर जरूरी खबर — योजना, नियम, नीति आ ताज़ा अपडेट।',footer_explore:'खोजू',footer_founder:'संस्थापक',owner_role:'संस्थापक आ सम्पादक',owner_bio:'बिहारक हर नागरिक धरि सच्चा खबर पहुँचबाक लेल समर्पित।',rights:'सभ अधिकार सुरक्षित।',made_with:'प्रेम सँ बनल',made_in:'बिहार मे',cat_scheme:'🎯 योजना',cat_rule:'📋 नियम',cat_news:'📢 समाचार',cat_announce:'📣 घोषणा',cat_notify:'🔔 सूचना',no_news:'कोनो खबर नहि भेटल',no_news_sub:'फ़िल्टर बदलू वा रीफ़्रेश करू',load_fail:'डेटा लोड नहि भेल',load_fail_sub:'1-2 मिनट बाद फेर प्रयास करू।',no_data_yet:'डेटा तैयार भऽ रहल अछि',no_data_yet_sub:'2-3 मिनट बाद refresh करू।',reading_time:'पढ़बाक समय',published:'प्रकाशित',min_read:'मिनट',open_original:'मूल खबर पढ़ू',open_short:'खोलू',save:'सहेजू',saved:'सहेजल',share:'शेयर',bookmark_added:'बुकमार्क सहेजल',bookmark_removed:'बुकमार्क हटाओल',link_copied:'लिंक कॉपी भेल',refreshing:'रीफ़्रेश भऽ रहल अछि...',syncing:'सिंक भऽ रहल अछि...',sync_fail:'सिंक फेल',live:'लाइव',new_articles:'नव खबर आयल!',about_article:'खबरक बारे मे',quick_facts:'मुख्य तथ्य',reader_note:'पूरा खबर मूल स्रोत पर पढ़ू।',stat_total:'कुल खबर',stat_today:'आइ',stat_saved:'सहेजल',stat_updated:'अंतिम अपडेट',ago_now:'आब',ago_min:'मिनट पहिने',ago_hr:'घंटा पहिने',ago_day:'दिन पहिने',saved_view:'सहेजल खबर',unread_view:'अपठित खबर',results:'परिणाम',search_label:'खोज',articles:'खबर',location:'स्थान',department:'विभाग',action:'कार्रवाई',people:'मुख्य व्यक्ति',key_facts:'मुख्य बातें'}
+  hi:{tagline:'बिहार की ताज़ा खबर',search_ph:'खबर या योजना खोजें...',source:'स्रोत',sort:'क्रम',sort_newest:'नवीनतम पहले',sort_oldest:'पुराने पहले',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सभी',read_unread:'अपठित',read_saved:'सहेजे',trending_now:'ट्रेंडिंग अभी',trending_sub:'सबसे चर्चित खबरें',all_news:'सभी खबरें',all_sub:'नवीनतम पहले',load_more:'और खबरें लोड करें',reader:'लेख',share_via:'इसके ज़रिए शेयर करें',foot_desc:'बिहार की हर ज़रूरी खबर — योजनाएँ, नियम, नीतियाँ और ताज़ा अपडेट।',footer_explore:'खोजें',footer_founder:'संस्थापक',owner_role:'संस्थापक एवं संपादक',owner_bio:'बिहार के हर नागरिक तक सच्ची खबर पहुँचाने के लिए समर्पित।',rights:'सभी अधिकार सुरक्षित।',made_with:'प्यार से बनाया',made_in:'बिहार में',cat_scheme:'🎯 योजनाएँ',cat_rule:'📋 नियम व नीतियाँ',cat_news:'📢 ताज़ा समाचार',cat_announce:'📣 घोषणाएँ',cat_notify:'🔔 सूचनाएँ',no_news:'कोई खबर नहीं मिली',no_news_sub:'फ़िल्टर बदलें या रीफ़्रेश करें',load_fail:'डेटा लोड नहीं हो पाया',load_fail_sub:'कृपया 1-2 मिनट बाद फिर कोशिश करें।',no_data_yet:'डेटा तैयार हो रहा है',no_data_yet_sub:'कृपया 2-3 मिनट बाद page refresh करें।',reading_time:'पढ़ने का समय',published:'प्रकाशित',min_read:'मिनट',save:'सहेजें',saved:'सहेजा गया',share:'शेयर',bookmark_added:'बुकमार्क सहेजा',bookmark_removed:'बुकमार्क हटाया',link_copied:'लिंक कॉपी हो गया',refreshing:'डेटा रीफ़्रेश हो रहा है...',syncing:'सिंक हो रहा है...',sync_fail:'सिंक फेल — फिर कोशिश करें',live:'लाइव',new_articles:'नई खबर आई!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबरें',stat_today:'आज',stat_saved:'सहेजे',stat_updated:'अंतिम अपडेट',ago_now:'अभी',ago_min:'मिनट पहले',ago_hr:'घंटे पहले',ago_day:'दिन पहले',saved_view:'सहेजी खबरें',unread_view:'अपठित खबरें',results:'परिणाम',search_label:'खोज',articles:'खबरें',location:'स्थान',department:'विभाग',action:'कार्रवाई',people:'मुख्य व्यक्ति',key_facts:'मुख्य बातें',full_article:'पूरी खबर',article_empty:'इस खबर का विस्तृत पाठ अभी उपलब्ध नहीं है।',reader_note:'यह खबर Bihari News द्वारा संकलित की गई है।',via:'via'},
+  en:{tagline:'Bihar Ki Taaza Khabar',search_ph:'Search news or schemes...',source:'Source',sort:'Sort',sort_newest:'Newest first',sort_oldest:'Oldest first',sort_source:'Source A→Z',sort_trending:'Trending',read_all:'All',read_unread:'Unread',read_saved:'Saved',trending_now:'Trending Now',trending_sub:'Most talked about',all_news:'All News',all_sub:'Newest first',load_more:'Load more news',reader:'Article',share_via:'Share via',foot_desc:'Every important news from Bihar — schemes, rules, policies and updates.',footer_explore:'Explore',footer_founder:'Founder',owner_role:'Founder & Editor',owner_bio:'Dedicated to bringing authentic Bihar news to every citizen.',rights:'All rights reserved.',made_with:'Made with',made_in:'in Bihar',cat_scheme:'🎯 Schemes',cat_rule:'📋 Rules',cat_news:'📢 Latest News',cat_announce:'📣 Announcements',cat_notify:'🔔 Notifications',no_news:'No news found',no_news_sub:'Change filters or refresh',load_fail:'Could not load data',load_fail_sub:'Please try again in 1-2 minutes.',no_data_yet:'Data is being prepared',no_data_yet_sub:'Please refresh in 2-3 minutes.',reading_time:'Reading time',published:'Published',min_read:'min',save:'Save',saved:'Saved',share:'Share',bookmark_added:'Bookmarked',bookmark_removed:'Bookmark removed',link_copied:'Link copied',refreshing:'Refreshing...',syncing:'Syncing...',sync_fail:'Sync failed — retry',live:'Live',new_articles:'new articles!',quick_facts:'Quick Facts',stat_total:'Total',stat_today:'Today',stat_saved:'Saved',stat_updated:'Last update',ago_now:'now',ago_min:'m ago',ago_hr:'h ago',ago_day:'d ago',saved_view:'Saved',unread_view:'Unread',results:'results',search_label:'Search',articles:'articles',location:'Location',department:'Department',action:'Action',people:'Key People',key_facts:'Key Facts',full_article:'Full Article',article_empty:'Detailed text for this story is not yet available.',reader_note:'This story is compiled by Bihari News.',via:'via'},
+  bho:{tagline:'बिहार के ताज़ा खबर',search_ph:'खबर या योजना खोजीं...',source:'स्रोत',sort:'क्रम',sort_newest:'नया पहिले',sort_oldest:'पुरान पहिले',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सब',read_unread:'नइ पढ़ल',read_saved:'सहेजल',trending_now:'ट्रेंडिंग अभी',trending_sub:'सबसे चर्चित खबर',all_news:'सब खबर',all_sub:'नया पहिले',load_more:'आउर खबर लोड करीं',reader:'लेख',share_via:'एकरा से शेयर करीं',foot_desc:'बिहार के हर जरूरी खबर — योजना, नियम, नीति आ ताज़ा अपडेट।',footer_explore:'खोजीं',footer_founder:'संस्थापक',owner_role:'संस्थापक आ संपादक',owner_bio:'बिहार के हर नागरिक तक सच्ची खबर पहुँचावे खातिर समर्पित।',rights:'सब अधिकार सुरक्षित।',made_with:'प्यार से बनल',made_in:'बिहार में',cat_scheme:'🎯 योजना',cat_rule:'📋 नियम',cat_news:'📢 समाचार',cat_announce:'📣 घोषणा',cat_notify:'🔔 सूचना',no_news:'कोई खबर नइ मिलल',no_news_sub:'फ़िल्टर बदलीं या रीफ़्रेश करीं',load_fail:'डेटा लोड नइ भइल',load_fail_sub:'1-2 मिनट बाद फेर कोशिश करीं।',no_data_yet:'डेटा तैयार होखत बा',no_data_yet_sub:'2-3 मिनट बाद refresh करीं।',reading_time:'पढ़े के समय',published:'छपल',min_read:'मिनट',save:'सहेजीं',saved:'सहेजल',share:'शेयर',bookmark_added:'बुकमार्क सहेजल',bookmark_removed:'बुकमार्क हटावल',link_copied:'लिंक कॉपी हो गइल',refreshing:'रीफ़्रेश होखत बा...',syncing:'सिंक होखत बा...',sync_fail:'सिंक फेल',live:'लाइव',new_articles:'नयका खबर आइल!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबर',stat_today:'आज',stat_saved:'सहेजल',stat_updated:'अंतिम अपडेट',ago_now:'अभी',ago_min:'मिनट पहिले',ago_hr:'घंटा पहिले',ago_day:'दिन पहिले',saved_view:'सहेजल खबर',unread_view:'नइ पढ़ल खबर',results:'परिणाम',search_label:'खोज',articles:'खबर',location:'जगह',department:'विभाग',action:'कार्रवाई',people:'मुख्य लोग',key_facts:'मुख्य बातें',full_article:'पूरा खबर',article_empty:'एह खबर के विस्तृत पाठ अभी नइ उपलब्ध बा।',reader_note:'ई खबर Bihari News द्वारा संकलित कइल गइल बा।',via:'via'},
+  mai:{tagline:'बिहारक ताज़ा खबर',search_ph:'खबर वा योजना खोजू...',source:'स्रोत',sort:'क्रम',sort_newest:'नवीनतम पहिने',sort_oldest:'पुरान पहिने',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सभ',read_unread:'अपठित',read_saved:'सहेजल',trending_now:'ट्रेंडिंग आब',trending_sub:'सभसँ चर्चित खबर',all_news:'सभ खबर',all_sub:'नवीनतम पहिने',load_more:'आरो खबर लोड करू',reader:'लेख',share_via:'एहि सँ शेयर करू',foot_desc:'बिहारक हर जरूरी खबर — योजना, नियम, नीति आ ताज़ा अपडेट।',footer_explore:'खोजू',footer_founder:'संस्थापक',owner_role:'संस्थापक आ सम्पादक',owner_bio:'बिहारक हर नागरिक धरि सच्चा खबर पहुँचबाक लेल समर्पित।',rights:'सभ अधिकार सुरक्षित।',made_with:'प्रेम सँ बनल',made_in:'बिहार मे',cat_scheme:'🎯 योजना',cat_rule:'📋 नियम',cat_news:'📢 समाचार',cat_announce:'📣 घोषणा',cat_notify:'🔔 सूचना',no_news:'कोनो खबर नहि भेटल',no_news_sub:'फ़िल्टर बदलू वा रीफ़्रेश करू',load_fail:'डेटा लोड नहि भेल',load_fail_sub:'1-2 मिनट बाद फेर प्रयास करू।',no_data_yet:'डेटा तैयार भऽ रहल अछि',no_data_yet_sub:'2-3 मिनट बाद refresh करू।',reading_time:'पढ़बाक समय',published:'प्रकाशित',min_read:'मिनट',save:'सहेजू',saved:'सहेजल',share:'शेयर',bookmark_added:'बुकमार्क सहेजल',bookmark_removed:'बुकमार्क हटाओल',link_copied:'लिंक कॉपी भेल',refreshing:'रीफ़्रेश भऽ रहल अछि...',syncing:'सिंक भऽ रहल अछि...',sync_fail:'सिंक फेल',live:'लाइव',new_articles:'नव खबर आयल!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबर',stat_today:'आइ',stat_saved:'सहेजल',stat_updated:'अंतिम अपडेट',ago_now:'आब',ago_min:'मिनट पहिने',ago_hr:'घंटा पहिने',ago_day:'दिन पहिने',saved_view:'सहेजल खबर',unread_view:'अपठित खबर',results:'परिणाम',search_label:'खोज',articles:'खबर',location:'स्थान',department:'विभाग',action:'कार्रवाई',people:'मुख्य व्यक्ति',key_facts:'मुख्य बातें',full_article:'पूरा खबर',article_empty:'एह खबरक विस्तृत पाठ आब नहि उपलब्ध अछि।',reader_note:'ई खबर Bihari News द्वारा संकलित कएल गेल अछि।',via:'via'}
 };
 
 const state = { items:[], filtered:[], category:'all', query:'', source:'all', sort:'newest', readFilter:'all', viewMode:'grid', page:1, bookmarks:new Set(), readItems:new Set(), seenIds:new Set(), firstLoad:true, isLoading:false, lastSync:null, theme:'light', lang:'hi', activeReaderId:null };
@@ -553,6 +567,7 @@ const els = {
   toastWrap:$('toastWrap'),year:$('year'),drawerBackdrop:$('drawerBackdrop'),
   reader:$('reader'),readerBody:$('readerBody'),readerBookmark:$('readerBookmark'),
   readerShare:$('readerShare'),readerClose:$('readerClose'),
+  readerProgress:$('readerProgress'),readerProgressBar:$('readerProgressBar'),
   shareSheet:$('shareSheet'),shareGrid:$('shareGrid'),scrollTop:$('scrollTop'),ownerCard:$('ownerCard')
 };
 
@@ -590,10 +605,8 @@ const uid = s => { let h=0; for(let i=0;i<s.length;i++){ h=((h<<5)-h+s.charCodeA
 const readTime = text => { const words=(text||'').split(/\s+/).length; return {min:Math.max(1,Math.round(words/220)),words}; };
 const debounce = (fn,wait) => { let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),wait); }; };
 
-/* ============ SMART ENTITY EXTRACTION ============ */
-const BIHAR_DISTRICTS = {
-  'patna':'पटना','gaya':'गया','bhagalpur':'भागलपुर','muzaffarpur':'मुजफ्फरपुर','darbhanga':'दरभंगा','purnia':'पूर्णिया','begusarai':'बेगूसराय','samastipur':'समस्तीपुर','saran':'सारण','chapra':'छपरा','siwan':'सिवान','gopalganj':'गोपालगंज','madhubani':'मधुबनी','saharsa':'सहरसा','sitamarhi':'सीतामढ़ी','vaishali':'वैशाली','nalanda':'नालंदा','bhojpur':'भोजपुर','rohtas':'रोहतास','kaimur':'कैमूर','buxar':'बक्सर','aurangabad':'औरंगाबाद','nawada':'नवादा','jamui':'जमुई','lakhisarai':'लखीसराय','sheikhpura':'शेखपुरा','araria':'अररिया','kishanganj':'किशनगंज','katihar':'कटिहार','madhepura':'मधेपुरा','supaul':'सुपौल','banka':'बांका','khagaria':'खगड़िया','sheohar':'शिवहर','arwal':'अरवल','jehanabad':'जहानाबाद','पटना':'पटना','गया':'गया','भागलपुर':'भागलपुर','मुजफ्फरपुर':'मुजफ्फरपुर','दरभंगा':'दरभंगा','पूर्णिया':'पूर्णिया','बेगूसराय':'बेगूसराय','समस्तीपुर':'समस्तीपुर','सारण':'सारण','छपरा':'छपरा','सिवान':'सिवान','गोपालगंज':'गोपालगंज','मधुबनी':'मधुबनी','सहरसा':'सहरसा','सीतामढ़ी':'सीतामढ़ी','वैशाली':'वैशाली','नालंदा':'नालंदा','भोजपुर':'भोजपुर','रोहतास':'रोहतास','कैमूर':'कैमूर','बक्सर':'बक्सर','औरंगाबाद':'औरंगाबाद','नवादा':'नवादा','जमुई':'जमुई','लखीसराय':'लखीसराय','शेखपुरा':'शेखपुरा','अररिया':'अररिया','किशनगंज':'किशनगंज','कटिहार':'कटिहार','मधेपुरा':'मधेपुरा','सुपौल':'सुपौल','बांका':'बांका','खगड़िया':'खगड़िया','शिवहर':'शिवहर','अरवल':'अरवल','जहानाबाद':'जहानाबाद'
-};
+/* ============ DISTRICTS & PATTERNS ============ */
+const BIHAR_DISTRICTS = {'patna':'पटना','gaya':'गया','bhagalpur':'भागलपुर','muzaffarpur':'मुजफ्फरपुर','darbhanga':'दरभंगा','purnia':'पूर्णिया','begusarai':'बेगूसराय','samastipur':'समस्तीपुर','saran':'सारण','chapra':'छपरा','siwan':'सिवान','gopalganj':'गोपालगंज','madhubani':'मधुबनी','saharsa':'सहरसा','sitamarhi':'सीतामढ़ी','vaishali':'वैशाली','nalanda':'नालंदा','bhojpur':'भोजपुर','rohtas':'रोहतास','kaimur':'कैमूर','buxar':'बक्सर','aurangabad':'औरंगाबाद','nawada':'नवादा','jamui':'जमुई','lakhisarai':'लखीसराय','sheikhpura':'शेखपुरा','araria':'अररिया','kishanganj':'किशनगंज','katihar':'कटिहार','madhepura':'मधेपुरा','supaul':'सुपौल','banka':'बांका','khagaria':'खगड़िया','sheohar':'शिवहर','arwal':'अरवल','jehanabad':'जहानाबाद','पटना':'पटना','गया':'गया','भागलपुर':'भागलपुर','मुजफ्फरपुर':'मुजफ्फरपुर','दरभंगा':'दरभंगा','पूर्णिया':'पूर्णिया','बेगूसराय':'बेगूसराय','समस्तीपुर':'समस्तीपुर','सारण':'सारण','छपरा':'छपरा','सिवान':'सिवान','गोपालगंज':'गोपालगंज','मधुबनी':'मधुबनी','सहरसा':'सहरसा','सीतामढ़ी':'सीतामढ़ी','वैशाली':'वैशाली','नालंदा':'नालंदा','भोजपुर':'भोजपुर','रोहतास':'रोहतास','कैमूर':'कैमूर','बक्सर':'बक्सर','औरंगाबाद':'औरंगाबाद','नवादा':'नवादा','जमुई':'जमुई','लखीसराय':'लखीसराय','शेखपुरा':'शेखपुरा','अररिया':'अररिया','किशनगंज':'किशनगंज','कटिहार':'कटिहार','मधेपुरा':'मधेपुरा','सुपौल':'सुपौल','बांका':'बांका','खगड़िया':'खगड़िया','शिवहर':'शिवहर','अरवल':'अरवल','जहानाबाद':'जहानाबाद'};
 
 const DEPT_PATTERNS = [
   {re:/शिक्षा|शिक्षक|बीईओ|BEO|DEO|विद्यालय|स्कूल|school|education|teacher|प्रधानाध्यापक/i, hi:'शिक्षा विभाग', icon:'🎓', tone:'green'},
@@ -639,8 +652,7 @@ const KEY_PEOPLE = [
   {re:/कृषि मंत्री/i, hi:'कृषि मंत्री'}
 ];
 
-/* Extract names: "X यादव", "Y सिंह" pattern */
-const NAME_SURNAMES = ['यादव','कुमार','सिंह','झा','मिश्रा','पांडेय','गुप्ता','प्रसाद','वर्मा','ठाकुर','चौधरी','राय','साह','मंडल','महतो','दुबे','तिवारी','शुक्ला','त्रिवेदी','पांडे','पटेल','शर्मा','मेहता','जोशी','अग्रवाल','बरनवाल','देवी','भारती','कुमारी','रंजन','राज','सिन्हा','विश्वास','गिरि','नाथ','चंद्र','लाल','दत्त','दास','घोष','बनर्जी','चक्रवर्ती','नायडू','देसाई','शाह','राव','रेड्डी','अंसारी','खान','अहमद','अली','हुसैन'];
+const NAME_SURNAMES = ['यादव','कुमार','सिंह','झा','मिश्रा','पांडेय','गुप्ता','प्रसाद','वर्मा','ठाकुर','चौधरी','राय','साह','मंडल','महतो','दुबे','तिवारी','शुक्ला','त्रिवेदी','पांडे','पटेल','शर्मा','मेहता','जोशी','अग्रवाल','बरनवाल','देवी','भारती','कुमारी','रंजन','राज','सिन्हा','विश्वास','गिरि','नाथ','चंद्र','लाल','दत्त','दास','घोष','बनर्जी','चक्रवर्ती'];
 
 const extractNames = text => {
   const names = new Set();
@@ -657,7 +669,6 @@ const extractNames = text => {
   return [...names].slice(0, 5);
 };
 
-/* Extract numbers with units */
 const extractNumbers = text => {
   const nums = [];
   const re = /(\d+(?:[.,]\d+)?)\s*(हजार|हज़ार|लाख|करोड़|रुपये|रुपए|स्कूल|विद्यालय|शिक्षक|लोग|बच्चों|छात्रों|पुलिसकर्मी|दिन|साल|महीने|घंटे|मिनट|किमी|मीटर|पुलिस|गाड़ी|वाहन|जिले|प्रखंड|पंचायत)/g;
@@ -667,7 +678,7 @@ const extractNumbers = text => {
 };
 
 const extractFacts = item => {
-  const text = ((item.title||'') + ' ' + (item.desc||'')).toLowerCase();
+  const text = ((item.title||'') + ' ' + (item.desc||'') + ' ' + ((item.paragraphs||[]).slice(0,3).join(' '))).toLowerCase();
   const facts = { locations:[], departments:[], actions:[], people:[], names:[], numbers:[] };
   const seenLoc = new Set();
   Object.entries(BIHAR_DISTRICTS).forEach(([k,v]) => {
@@ -681,7 +692,6 @@ const extractFacts = item => {
   return facts;
 };
 
-/* Clean description — removes title repeat and source suffix */
 const cleanDesc = (title, desc, source) => {
   if(!desc) return '';
   let d = desc.trim();
@@ -696,62 +706,35 @@ const cleanDesc = (title, desc, source) => {
   return d;
 };
 
-/* ============ BUILD DETAILED SUMMARY (array of bullets) ============ */
 const buildDetailedSummary = (item) => {
   const bullets = [];
   const facts = extractFacts(item);
   const cleaned = cleanDesc(item.title, item.desc||'', item.source);
-
-  /* 1. Context — dept + location */
-  const ctxParts = [];
-  if(facts.departments.length) ctxParts.push(facts.departments[0].hi);
-  if(facts.locations.length) ctxParts.push(facts.locations.slice(0,2).join(', ') + ' जिले');
-  if(ctxParts.length === 2){
+  if(facts.departments.length && facts.locations.length){
     bullets.push({ ico:'📌', html:`<strong>${escapeHtml(facts.departments[0].hi)}</strong> से जुड़ी खबर, मामला <strong>${escapeHtml(facts.locations.slice(0,2).join(', '))}</strong> का।` });
   } else if(facts.departments.length){
     bullets.push({ ico:'📌', html:`यह <strong>${escapeHtml(facts.departments[0].hi)}</strong> से जुड़ी महत्वपूर्ण खबर है।` });
   } else if(facts.locations.length){
     bullets.push({ ico:'📌', html:`यह खबर <strong>${escapeHtml(facts.locations.slice(0,2).join(', '))}</strong> से आ रही है।` });
   }
-
-  /* 2. What happened — from description */
   if(cleaned && cleaned.length > 40){
     const sentences = cleaned.split(/[।.!?]+/).map(s => s.trim()).filter(s => s.length > 15);
-    sentences.slice(0, 3).forEach(s => {
-      bullets.push({ ico:'📝', html: escapeHtml(s) + '।' });
-    });
+    sentences.slice(0, 3).forEach(s => bullets.push({ ico:'📝', html: escapeHtml(s) + '।' }));
   }
-
-  /* 3. Actions detected */
   if(facts.actions.length){
     const acts = facts.actions.slice(0,4).map(a => `<strong>${a.hi}</strong>`).join(', ');
     bullets.push({ ico:'⚡', html:`मुख्य कार्रवाई: ${acts}` });
   }
-
-  /* 4. People involved */
-  if(facts.names.length){
-    bullets.push({ ico:'👥', html:`जुड़े नाम: <strong>${facts.names.slice(0,4).map(escapeHtml).join(', ')}</strong>` });
-  }
-  if(facts.people.length){
-    bullets.push({ ico:'👤', html:`प्रमुख व्यक्ति: <strong>${facts.people.map(p=>escapeHtml(p.hi)).join(', ')}</strong>` });
-  }
-
-  /* 5. Numbers/stats */
-  if(facts.numbers.length){
-    bullets.push({ ico:'📊', html:`आँकड़े: <strong>${facts.numbers.slice(0,5).map(escapeHtml).join(', ')}</strong>` });
-  }
-
-  /* Fallback */
-  if(!bullets.length){
-    if(item.desc && item.desc.length > 40){
-      const sentences = item.desc.split(/[।.!?]+/).map(s=>s.trim()).filter(s=>s.length>20);
-      sentences.slice(0,3).forEach(s => bullets.push({ ico:'📝', html: escapeHtml(s) + '।' }));
-    }
+  if(facts.names.length) bullets.push({ ico:'👥', html:`जुड़े नाम: <strong>${facts.names.slice(0,4).map(escapeHtml).join(', ')}</strong>` });
+  if(facts.people.length) bullets.push({ ico:'👤', html:`प्रमुख व्यक्ति: <strong>${facts.people.map(p=>escapeHtml(p.hi)).join(', ')}</strong>` });
+  if(facts.numbers.length) bullets.push({ ico:'📊', html:`आँकड़े: <strong>${facts.numbers.slice(0,5).map(escapeHtml).join(', ')}</strong>` });
+  if(!bullets.length && item.desc && item.desc.length > 40){
+    const sentences = item.desc.split(/[.!?।]+/).map(s=>s.trim()).filter(s=>s.length>20);
+    sentences.slice(0,3).forEach(s => bullets.push({ ico:'📝', html: escapeHtml(s) + '।' }));
   }
   return bullets;
 };
 
-/* Card summary — returns plain HTML string (2 bullets max) */
 const getCardSummaryHtml = (item) => {
   const bullets = buildDetailedSummary(item);
   if(!bullets.length) return '';
@@ -763,20 +746,19 @@ const getCardSummaryHtml = (item) => {
   `).join('');
 };
 
-/* Image URL */
+/* image helper — JSON se baked-in image use karo */
 const getImageUrl = item => {
   if(item.image) return item.image;
-  const m = (item.desc||'').match(/https?:\/\/[^\s"']+\.(?:jpg|jpeg|png|webp|gif)(?:\?[^\s"']*)?/i);
-  if(m) return m[0];
+  if(item.images && item.images.length && item.images[0].src) return item.images[0].src;
   return null;
 };
+
 const hashHue = str => { let h=0; for(let i=0;i<str.length;i++) h=(h*31+str.charCodeAt(i))|0; return Math.abs(h)%360; };
 const getPlaceholderStyle = item => {
   const hue = hashHue(item.id||item.title), hue2 = (hue+40)%360;
   return `background:linear-gradient(135deg,hsl(${hue},62%,42%),hsl(${hue2},68%,52%))`;
 };
 
-/* Toast */
 const toast = (msg,type='info',duration=3200) => {
   const el = document.createElement('div');
   el.className = 'toast '+type;
@@ -786,7 +768,6 @@ const toast = (msg,type='info',duration=3200) => {
   setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),400); },duration);
 };
 
-/* Theme */
 const applyTheme = t => {
   state.theme = t;
   document.documentElement.setAttribute('data-theme',t);
@@ -798,7 +779,6 @@ const applyTheme = t => {
 };
 els.themeBtn.addEventListener('click',()=>applyTheme(state.theme==='dark'?'light':'dark'));
 
-/* Language */
 const renderLangMenu = () => {
   els.langMenu.innerHTML = LANGS.map(l=>`
     <button data-lang="${l.code}" class="${state.lang===l.code?'active':''}">
@@ -827,7 +807,6 @@ const applyLang = lang => {
 els.langBtn.addEventListener('click',e=>{ e.stopPropagation(); els.langPicker.classList.toggle('open'); });
 document.addEventListener('click',e=>{ if(!els.langPicker.contains(e.target)) els.langPicker.classList.remove('open'); });
 
-/* Storage */
 const loadBookmarks = () => { const a = safeLS.get('bn_bookmarks',[]); state.bookmarks = new Set(Array.isArray(a)?a:[]); };
 const saveBookmarks = () => safeLS.set('bn_bookmarks',[...state.bookmarks]);
 const loadReadItems = () => { const a = safeLS.get('bn_read',[]); state.readItems = new Set(Array.isArray(a)?a:[]); };
@@ -842,7 +821,11 @@ const toggleBookmark = id => {
 const updateSavedBadge = () => els.savedBtn.classList.toggle('has-badge',state.bookmarks.size>0);
 
 const loadCache = () => { const c = safeLS.get('bn_cache',null); if(c && c.ts && Array.isArray(c.items) && Date.now()-c.ts < CONFIG.CACHE_TTL) return c.items; return null; };
-const saveCache = items => { const slim = items.slice(0,80).map(({id,title,link,desc,source,ts,cat,image})=>({id,title,link,desc,source,ts,cat,image})); safeLS.set('bn_cache',{ts:Date.now(),items:slim}); };
+const saveCache = items => {
+  // slim cache — only metadata, drop paragraphs (they're heavy)
+  const slim = items.slice(0,80).map(({id,title,link,desc,source,ts,cat,image})=>({id,title,link,desc,source,ts,cat,image}));
+  safeLS.set('bn_cache',{ts:Date.now(),items:slim});
+};
 
 const categorize = item => {
   const t = (item.title+' '+(item.desc||'')).toLowerCase();
@@ -865,7 +848,6 @@ const trendScore = item => {
   return recency+boost;
 };
 
-/* LOAD */
 const loadFeeds = async (showToast=false) => {
   if(state.isLoading) return;
   state.isLoading = true;
@@ -875,17 +857,17 @@ const loadFeeds = async (showToast=false) => {
     if(!res.ok) throw new Error('HTTP '+res.status);
     let all = await res.json();
     if(!Array.isArray(all)) throw new Error('Invalid');
-    all = all.filter(it=>it && it.id && it.title && it.link);
+    all = all.filter(it=>it && it.id && it.title);
     all.forEach(it=>{
       if(!it.cat) it.cat = categorize(it);
-      if(!it.source) it.source = 'News';
+      if(!it.source) it.source = 'Bihari News';
       if(!it.ts) it.ts = Date.now();
+      if(!it.paragraphs) it.paragraphs = [];
+      if(!it.images) it.images = [];
     });
     const newOnes = [];
     if(!state.firstLoad){
-      all.forEach(it=>{
-        if(!state.seenIds.has(it.id) && (Date.now()-it.ts) < CONFIG.NEW_WINDOW_MS) newOnes.push(it);
-      });
+      all.forEach(it=>{ if(!state.seenIds.has(it.id) && (Date.now()-it.ts) < CONFIG.NEW_WINDOW_MS) newOnes.push(it); });
     }
     all.forEach(it=>state.seenIds.add(it.id));
     state.items = all;
@@ -908,7 +890,6 @@ const loadFeeds = async (showToast=false) => {
 };
 const setStatus = (kind,text) => { els.statusChip.className = 'status-chip '+kind; els.statusText.textContent = text; };
 
-/* BUILD FILTERS */
 const buildFilters = () => {
   const counts = {};
   CONFIG.CATEGORIES.forEach(c=>{ counts[c.id] = c.id==='all'?state.items.length:state.items.filter(it=>it.cat===c.id).length; });
@@ -945,7 +926,6 @@ const applyFilters = () => {
   return out;
 };
 
-/* RENDER */
 const render = () => {
   const filtered = applyFilters();
   state.filtered = filtered;
@@ -992,7 +972,7 @@ const renderStats = () => {
 const renderTicker = items => {
   if(!items.length) return;
   const html = items.map(it=>`
-    <span class="ticker-item" data-link="${escapeHtml(it.link)}" title="${escapeHtml(it.title)}">
+    <span class="ticker-item" data-id="${it.id}" title="${escapeHtml(it.title)}">
       <span class="ti-source">${escapeHtml(it.source)}</span>
       <span class="ti-text">${escapeHtml(it.title)}</span>
       <span class="ti-time">${timeAgo(it.ts)}</span>
@@ -1000,7 +980,7 @@ const renderTicker = items => {
   `).join('');
   els.tickerContent.innerHTML = html+html;
   els.tickerContent.querySelectorAll('.ticker-item').forEach(el=>{
-    el.addEventListener('click',()=>window.open(el.dataset.link,'_blank','noopener'));
+    el.addEventListener('click',()=>openReader(el.dataset.id));
   });
 };
 
@@ -1013,8 +993,7 @@ const renderFeatured = items => {
   const catLabel = bigCat.label[state.lang]||bigCat.label.hi;
   const imgUrl = getImageUrl(big);
   const bgStyle = imgUrl?`background-image:url('${imgUrl.replace(/'/g,"%27")}')`:getPlaceholderStyle(big);
-  const rt = readTime(big.desc||big.title);
-
+  const rt = readTime((big.paragraphs||[]).join(' ')||big.desc||big.title);
   const bullets = buildDetailedSummary(big);
   const summaryLines = bullets.slice(0,3).map(b=>`
     <div class="fs-line">
@@ -1035,7 +1014,6 @@ const renderFeatured = items => {
         <h2 class="feat-title">${highlight(big.title,state.query)}</h2>
         ${summaryLines?`<div class="feat-summary-box">${summaryLines}</div>`:''}
         <div class="feat-meta">
-          <span class="src">${escapeHtml(big.source)}</span>
           <span>${timeAgo(big.ts)}</span>
           <span class="sep"></span>
           <span>${rt.min} ${t.min_read} ${t.reading_time.toLowerCase()}</span>
@@ -1052,7 +1030,7 @@ const renderFeatured = items => {
           <article class="mini-card" data-id="${it.id}" tabindex="0">
             <div class="mini-thumb" style="${thumbStyle}">${thumbIcon}</div>
             <div class="mini-body">
-              <div class="m-tag">${escapeHtml(it.source)}</div>
+              <div class="m-tag">${c.icon} ${c.label[state.lang]||c.label.hi}</div>
               <div class="m-title">${highlight(it.title,state.query)}</div>
               <div class="m-meta">${timeAgo(it.ts)}</div>
             </div>
@@ -1111,7 +1089,6 @@ const renderGrid = items => {
     return;
   }
   els.newsGrid.className = 'grid'+(state.viewMode==='list'?' view-list':'');
-  const t = I18N[state.lang];
 
   els.newsGrid.innerHTML = items.map((it,idx)=>{
     const cat = CONFIG.CATEGORIES.find(c=>c.id===it.cat)||CONFIG.CATEGORIES[3];
@@ -1133,16 +1110,16 @@ const renderGrid = items => {
           <span class="th-wm">BN</span>
         </div>
         <div class="card-body">
-          <div class="card-src">${escapeHtml(it.source)}</div>
+          <div class="card-src">${escapeHtml(catLabel)}</div>
           <h3 class="card-title">${highlight(it.title,state.query)}</h3>
           ${summaryHtml?`<div class="card-summary">${summaryHtml}</div>`:''}
         </div>
         <div class="card-footer">
           <span class="card-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>${timeAgo(it.ts)}</span>
           <div class="actions">
-            <button data-act="bookmark" class="${bookmarked?'active':''}" title="${bookmarked?t.saved:t.save}"><svg viewBox="0 0 24 24" fill="${bookmarked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-            <button data-act="share" title="${t.share}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
-            <button data-act="open" title="${t.open_short}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg></button>
+            <button data-act="bookmark" class="${bookmarked?'active':''}" title="${bookmarked?I18N[state.lang].saved:I18N[state.lang].save}"><svg viewBox="0 0 24 24" fill="${bookmarked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+            <button data-act="share" title="${I18N[state.lang].share}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+            <button data-act="open" title="खोलें"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
           </div>
         </div>
       </article>
@@ -1163,27 +1140,19 @@ const renderGrid = items => {
         e.stopPropagation();
         const act = btn.dataset.act;
         if(act==='bookmark') toggleBookmark(id);
-        else if(act==='open'){ markRead(id); window.open(item.link,'_blank','noopener'); }
+        else if(act==='open') openReader(id);
         else if(act==='share') openShareSheet(item);
       });
     });
   });
 };
 
-/* READER */
+/* ================================================================
+   READER — uses pre-scraped paragraphs + images from JSON
+   ================================================================ */
 let readerPushed = false;
 
-const openReader = id => {
-  const item = state.items.find(x=>x.id===id);
-  if(!item) return;
-  state.activeReaderId = id;
-  markRead(id);
-
-  if(!readerPushed){
-    try{ history.pushState({__reader:id},'','#article-'+id); }catch{}
-    readerPushed = true;
-  }
-
+const renderReaderShell = (item) => {
   const cat = CONFIG.CATEGORIES.find(c=>c.id===item.cat)||CONFIG.CATEGORIES[3];
   const catLabel = cat.label[state.lang]||cat.label.hi;
   const t = I18N[state.lang];
@@ -1191,45 +1160,73 @@ const openReader = id => {
   const img = getImageUrl(item);
   const heroStyle = img?`background-image:url('${img.replace(/'/g,"%27")}')`:getPlaceholderStyle(item);
   const heroIcon = img?'':`<span class="thumb-icon">${cat.icon}</span>`;
-  const rt = readTime(item.desc||item.title);
+
+  const paras = item.paragraphs || [];
+  const images = item.images || [];
+  const rt = readTime(paras.join(' ')||item.desc||item.title);
 
   const facts = extractFacts(item);
   const bullets = buildDetailedSummary(item);
 
-  /* Quick facts */
   const qfBlocks = [];
-  if(facts.locations.length){
-    qfBlocks.push(`<div class="qf-item"><div class="qf-icon brand">📍</div><div class="qf-body"><div class="qf-label">${t.location}</div><div class="qf-value brand-color">${facts.locations.slice(0,3).map(escapeHtml).join(', ')}</div></div></div>`);
-  }
-  if(facts.departments.length){
-    const d = facts.departments[0];
-    qfBlocks.push(`<div class="qf-item"><div class="qf-icon ${d.tone}">${d.icon}</div><div class="qf-body"><div class="qf-label">${t.department}</div><div class="qf-value">${escapeHtml(d.hi)}</div></div></div>`);
-  }
-  if(facts.actions.length){
-    const a = facts.actions[0];
-    qfBlocks.push(`<div class="qf-item"><div class="qf-icon ${a.tone}">${a.icon}</div><div class="qf-body"><div class="qf-label">${t.action}</div><div class="qf-value">${escapeHtml(a.hi)}</div></div></div>`);
-  }
-  if(facts.people.length){
-    qfBlocks.push(`<div class="qf-item"><div class="qf-icon purple">👤</div><div class="qf-body"><div class="qf-label">${t.people}</div><div class="qf-value">${facts.people.slice(0,2).map(p=>escapeHtml(p.hi)).join(', ')}</div></div></div>`);
-  }
+  if(facts.locations.length) qfBlocks.push(`<div class="qf-item"><div class="qf-icon brand">📍</div><div class="qf-body"><div class="qf-label">${t.location}</div><div class="qf-value brand-color">${facts.locations.slice(0,3).map(escapeHtml).join(', ')}</div></div></div>`);
+  if(facts.departments.length){ const d = facts.departments[0]; qfBlocks.push(`<div class="qf-item"><div class="qf-icon ${d.tone}">${d.icon}</div><div class="qf-body"><div class="qf-label">${t.department}</div><div class="qf-value">${escapeHtml(d.hi)}</div></div></div>`); }
+  if(facts.actions.length){ const a = facts.actions[0]; qfBlocks.push(`<div class="qf-item"><div class="qf-icon ${a.tone}">${a.icon}</div><div class="qf-body"><div class="qf-label">${t.action}</div><div class="qf-value">${escapeHtml(a.hi)}</div></div></div>`); }
+  if(facts.people.length) qfBlocks.push(`<div class="qf-item"><div class="qf-icon purple">👤</div><div class="qf-body"><div class="qf-label">${t.people}</div><div class="qf-value">${facts.people.slice(0,2).map(p=>escapeHtml(p.hi)).join(', ')}</div></div></div>`);
 
-  /* Detailed summary list */
   const summaryListHtml = bullets.length ? `
     <div class="reader-section-title">${t.key_facts}</div>
     <div class="reader-summary-list">
-      ${bullets.map(b=>`
-        <div class="rs-line">
-          <span class="rs-ico">${b.ico}</span>
-          <span class="rs-text">${b.html}</span>
-        </div>
-      `).join('')}
+      ${bullets.map(b=>`<div class="rs-line"><span class="rs-ico">${b.ico}</span><span class="rs-text">${b.html}</span></div>`).join('')}
     </div>
-  ` : `
-    <div class="reader-empty-note">
-      <div class="re-icon">📰</div>
-      <div>${state.lang==='en'?'Detailed information is available at the original source.':'पूरी जानकारी मूल स्रोत पर उपलब्ध है। नीचे दिए बटन से पूरी खबर पढ़ें।'}</div>
-    </div>
-  `;
+  ` : '';
+
+  /* FULL ARTICLE */
+  let fullArticleHtml = '';
+  if(paras.length >= 1){
+    const parasHtml = paras.map((p,i)=>{
+      let block = `<p class="rfa-para">${escapeHtml(p)}</p>`;
+      // inject images after 2nd and 5th paragraph
+      if(i === 1 && images[0] && images[0].src){
+        const alt = images[0].alt ? escapeHtml(images[0].alt) : '';
+        block += `<img class="rfa-img loading" loading="lazy" src="${escapeHtml(images[0].src)}" alt="${alt}" onload="this.classList.remove('loading')" onerror="this.style.display='none'">`;
+      }
+      if(i === 4 && images[1] && images[1].src){
+        const alt = images[1].alt ? escapeHtml(images[1].alt) : '';
+        block += `<img class="rfa-img loading" loading="lazy" src="${escapeHtml(images[1].src)}" alt="${alt}" onload="this.classList.remove('loading')" onerror="this.style.display='none'">`;
+      }
+      return block;
+    }).join('');
+
+    const extraImages = images.slice(2, 8).filter(x=>x.src);
+    const galleryHtml = extraImages.length >= 2 ? `
+      <div class="rfa-gallery">
+        ${extraImages.map(im=>`<div class="rfa-gal-item" style="background-image:url('${im.src.replace(/'/g,"%27")}')" data-open="${escapeHtml(im.src)}"></div>`).join('')}
+      </div>
+    ` : '';
+
+    fullArticleHtml = `
+      <div class="reader-section-title">${t.full_article}</div>
+      <div class="reader-full-article">${parasHtml}</div>
+      ${galleryHtml}
+    `;
+  } else if(item.desc && item.desc.length > 60){
+    // fallback: show desc as single paragraph
+    fullArticleHtml = `
+      <div class="reader-section-title">${t.full_article}</div>
+      <div class="reader-full-article">
+        <p class="rfa-para">${escapeHtml(item.desc)}</p>
+      </div>
+    `;
+  } else {
+    fullArticleHtml = `
+      <div class="reader-section-title">${t.full_article}</div>
+      <div class="reader-empty-note">
+        <div class="re-icon">📰</div>
+        <div>${escapeHtml(t.article_empty)}</div>
+      </div>
+    `;
+  }
 
   els.readerBody.innerHTML = `
     <div class="reader-hero" style="${heroStyle}">
@@ -1241,8 +1238,8 @@ const openReader = id => {
       <h1 class="reader-title">${escapeHtml(item.title)}</h1>
 
       ${qfBlocks.length?`<div class="reader-section-title">${t.quick_facts}</div><div class="quick-facts">${qfBlocks.join('')}</div>`:''}
-
       ${summaryListHtml}
+      ${fullArticleHtml}
 
       <div class="reader-meta">
         <div class="rm-item"><div class="rm-label">${t.published}</div><div class="rm-value">${fullDateTime(item.ts)}</div></div>
@@ -1255,10 +1252,6 @@ const openReader = id => {
       </div>
 
       <div class="reader-actions">
-        <a class="btn-primary" href="${escapeHtml(item.link)}" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg>
-          <span>${escapeHtml(t.open_original)}</span>
-        </a>
         <div class="btn-row">
           <button class="btn-secondary ${bookmarked?'active':''}" id="readerSaveBtn">
             <svg viewBox="0 0 24 24" fill="${bookmarked?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
@@ -1278,12 +1271,30 @@ const openReader = id => {
   if(saveBtn) saveBtn.addEventListener('click',()=>toggleBookmark(item.id));
   if(shareBtn) shareBtn.addEventListener('click',()=>openShareSheet(item));
 
+  els.readerBody.querySelectorAll('.rfa-gal-item').forEach(el=>{
+    el.addEventListener('click',()=>window.open(el.dataset.open,'_blank','noopener'));
+  });
+};
+
+const openReader = id => {
+  const item = state.items.find(x=>x.id===id);
+  if(!item) return;
+  state.activeReaderId = id;
+  markRead(id);
+
+  if(!readerPushed){
+    try{ history.pushState({__reader:id},'','#article-'+id); }catch{}
+    readerPushed = true;
+  }
+
+  renderReaderShell(item);
   updateReaderBookmarkBtn();
   els.reader.classList.add('open');
   els.reader.setAttribute('aria-hidden','false');
   els.drawerBackdrop.classList.add('open');
   document.body.classList.add('no-scroll');
   els.readerBody.scrollTop = 0;
+  els.readerProgressBar.style.width = '0%';
   setTimeout(()=>els.readerClose.focus(),250);
 };
 
@@ -1325,6 +1336,13 @@ els.readerShare.addEventListener('click',()=>{
   if(item) openShareSheet(item);
 });
 
+els.readerBody.addEventListener('scroll',()=>{
+  const el = els.readerBody;
+  const max = el.scrollHeight - el.clientHeight;
+  const pct = max > 0 ? (el.scrollTop / max) * 100 : 0;
+  els.readerProgressBar.style.width = pct + '%';
+},{passive:true});
+
 /* SHARE */
 const SHARE_TARGETS = [
   {id:'whatsapp',name:'WhatsApp',color:'#25D366',icon:'<path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2z" fill="none" stroke="currentColor" stroke-width="2"/>',url:i=>`https://wa.me/?text=${encodeURIComponent(i.title+'\n\n'+i.link)}`},
@@ -1336,6 +1354,7 @@ const SHARE_TARGETS = [
 
 const openShareSheet = item => {
   const t = I18N[state.lang];
+  const shareUrl = item.resolvedLink || item.link || '';
   els.shareGrid.innerHTML = SHARE_TARGETS.map(s=>`
     <button class="share-btn" data-share="${s.id}">
       <span class="sh-ico" style="background:${s.color}"><svg viewBox="0 0 24 24">${s.icon}</svg></span>
@@ -1346,13 +1365,14 @@ const openShareSheet = item => {
     btn.addEventListener('click',async ()=>{
       const target = SHARE_TARGETS.find(x=>x.id===btn.dataset.share);
       if(!target) return;
+      const shareItem = { ...item, link: shareUrl };
       if(target.id==='copy'){
-        try{ await navigator.clipboard.writeText(item.link); toast(t.link_copied,'ok'); }
+        try{ await navigator.clipboard.writeText(shareUrl); toast(t.link_copied,'ok'); }
         catch{ toast('Copy failed','err'); }
       } else if(navigator.share){
-        try{ await navigator.share({title:item.title,text:item.title,url:item.link}); }catch{}
+        try{ await navigator.share({title:item.title,text:item.title,url:shareUrl}); }catch{}
       } else {
-        window.open(target.url(item),'_blank','noopener');
+        window.open(target.url(shareItem),'_blank','noopener');
       }
       closeShareSheet();
     });
@@ -1391,10 +1411,7 @@ const updateReadFilterUI = () => {
   els.readFilter.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.read===state.readFilter));
 };
 els.readFilter.querySelectorAll('button').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    state.readFilter = btn.dataset.read;
-    updateReadFilterUI(); state.page = 1; render();
-  });
+  btn.addEventListener('click',()=>{ state.readFilter = btn.dataset.read; updateReadFilterUI(); state.page = 1; render(); });
 });
 els.viewToggle.querySelectorAll('button').forEach(btn=>{
   btn.addEventListener('click',()=>{
@@ -1446,7 +1463,6 @@ document.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='visible' && state.lastSync && Date.now()-state.lastSync > CONFIG.REFRESH_MS) loadFeeds();
 });
 
-/* INIT */
 const init = async () => {
   els.year.textContent = new Date().getFullYear();
   loadBookmarks(); loadReadItems(); updateSavedBadge();
@@ -1466,7 +1482,11 @@ const init = async () => {
   const cached = loadCache();
   if(cached && cached.length){
     state.items = cached;
-    state.items.forEach(it=>{ if(!it.cat) it.cat = categorize(it); });
+    state.items.forEach(it=>{
+      if(!it.cat) it.cat = categorize(it);
+      if(!it.paragraphs) it.paragraphs = [];
+      if(!it.images) it.images = [];
+    });
     state.firstLoad = false;
     buildFilters(); buildSourceOptions(); render();
   }

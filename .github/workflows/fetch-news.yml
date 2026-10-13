@@ -1,13 +1,17 @@
-name: Fetch Bihar News RSS
+name: Fetch Bihar News (RSS + Full Article Scrape)
 
 on:
   schedule:
     - cron: '0 * * * *'
   workflow_dispatch:
+  push:
+    paths-ignore:
+      - 'data/**'
 
 jobs:
   fetch-news:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
     steps:
@@ -19,43 +23,118 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install rss-parser
-        run: npm install rss-parser
+      - name: Install dependencies
+        run: npm install rss-parser cheerio
 
-      - name: Fetch and parse RSS feeds
+      - name: Fetch RSS + scrape full articles
         run: |
           cat > fetch.js << 'EOF'
           const Parser = require('rss-parser');
+          const cheerio = require('cheerio');
           const fs = require('fs');
           const path = require('path');
+
+          /* ================= CONFIG ================= */
+          const CONFIG = {
+            MAX_ITEMS: 130,
+            SCRAPE_CONCURRENCY: 6,
+            REQUEST_TIMEOUT: 20000,
+            MAX_PARAGRAPHS: 40,
+            MIN_PARA_LENGTH: 40,
+            MAX_IMAGES: 10,
+            RETRY_ATTEMPTS: 2,
+            RETRY_DELAY: 1200,
+            MAX_AGE_HOURS: 72,        // skip items older than 3 days
+            REUSE_WINDOW_HOURS: 48,   // reuse existing scrape if newer than this
+            USER_AGENT: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          };
 
           const FEEDS = [
             { url: 'https://news.google.com/rss/search?q=%22Bihar%20government%22%20yojana%20OR%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
             { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%B8%E0%A4%B0%E0%A4%95%E0%A4%BE%E0%A4%B0%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
             { url: 'https://news.google.com/rss/search?q=Bihar%20government%20scheme&hl=en-IN&gl=IN&ceid=IN:en', tag: 'scheme' },
-            { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%A8%E0%A4%BF%E0%A4%AF%E0%A4%AE%20OR%20%E0%A4%A8%E0%A5%80%E0%A4%A4%E0%A4%BF&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'rule' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%A8%E0%A4%BF%E0%A4%AF%E0%A4%AE%20OR%20%E0%A4%A8%E0%A5%80%E0%A4%A4%E0%A4%BF%20OR%20%E0%A4%85%E0%A4%A7%E0%A4%BF%E0%A4%B8%E0%A5%82%E0%A4%9A%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'rule' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20government%20policy&hl=en-IN&gl=IN&ceid=IN:en', tag: 'rule' },
             { url: 'https://news.google.com/rss/search?q=Bihar%20news&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'news' },
-            { url: 'https://news.google.com/rss/search?q=Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'news' }
+            { url: 'https://news.google.com/rss/search?q=Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'news' },
+            { url: 'https://news.google.com/rss/search?q=PIB%20Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'announce' },
+            { url: 'https://news.google.com/rss/search?q=%E0%A4%AA%E0%A4%9F%E0%A4%A8%E0%A4%BE%20%E0%A4%B8%E0%A4%B0%E0%A4%95%E0%A4%BE%E0%A4%B0&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'news' }
           ];
 
+          /* ================= HELPERS ================= */
           const parser = new Parser({
-            timeout: 15000,
-            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; BihariNews/1.0)' }
+            timeout: CONFIG.REQUEST_TIMEOUT,
+            headers: { 'User-Agent': CONFIG.USER_AGENT }
           });
 
-          function stripHtml(s) {
+          const stripHtml = (s) => {
             if (!s) return '';
-            return s.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim();
-          }
+            return s
+              .replace(/<[^>]*>/g, '')
+              .replace(/&nbsp;/g, ' ')
+              .replace(/&amp;/g, '&')
+              .replace(/&quot;/g, '"')
+              .replace(/&#39;/g, "'")
+              .replace(/&lt;/g, '<')
+              .replace(/&gt;/g, '>')
+              .replace(/\s+/g, ' ')
+              .trim();
+          };
 
-          function uid(s) {
+          const uid = (s) => {
             let h = 0;
             for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
             return 'u' + Math.abs(h).toString(36);
+          };
+
+          const hostOf = (url) => {
+            try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
+          };
+
+          const absolutize = (href, base) => {
+            if (!href) return '';
+            if (href.startsWith('data:')) return '';
+            try { return new URL(href, base).href; } catch { return ''; }
+          };
+
+          const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+          async function fetchWithTimeout(url, opts = {}, timeoutMs = CONFIG.REQUEST_TIMEOUT) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+              const res = await fetch(url, {
+                ...opts,
+                signal: controller.signal,
+                headers: {
+                  'User-Agent': CONFIG.USER_AGENT,
+                  'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                  'Accept-Language': 'hi-IN,hi;q=0.9,en;q=0.8',
+                  ...(opts.headers || {})
+                },
+                redirect: 'follow'
+              });
+              clearTimeout(timer);
+              return res;
+            } catch (e) {
+              clearTimeout(timer);
+              throw e;
+            }
           }
 
-          function hostOf(url) {
-            try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
+          async function fetchWithRetry(url, opts = {}, attempts = CONFIG.RETRY_ATTEMPTS) {
+            let lastErr;
+            for (let i = 0; i < attempts; i++) {
+              try {
+                const res = await fetchWithTimeout(url, opts);
+                if (res.ok) return res;
+                lastErr = new Error('HTTP ' + res.status);
+              } catch (e) {
+                lastErr = e;
+              }
+              if (i < attempts - 1) await sleep(CONFIG.RETRY_DELAY * (i + 1));
+            }
+            throw lastErr || new Error('Fetch failed');
           }
 
           function categorize(item) {
@@ -69,20 +148,246 @@ jobs:
 
           function isBiharRelevant(item) {
             const text = (item.title + ' ' + item.desc + ' ' + (item.source || '')).toLowerCase();
-            return /bihar|बिहार|patna|पटना|nitish|tejashwi|samrat|sushil|gopalganj|muzaffarpur|gaya|bhagalpur|darbhanga|purnia|chapra|saran|siwan|araria|madhubani|सरकार|योजना|government|scheme|मुख्यमंत्री/.test(text);
+            return /bihar|बिहार|patna|पटना|nitish|tejashwi|samrat|sushil|gopalganj|muzaffarpur|gaya|भागलपुर|darbhanga|purnia|chapra|saran|siwan|araria|madhubani|सरकार|योजना|government|scheme|मुख्यमंत्री/.test(text);
           }
 
+          /* ================= GOOGLE NEWS URL RESOLVER ================= */
+          async function resolveGoogleNewsUrl(url) {
+            if (!url.includes('news.google.com')) return url;
+            try {
+              const res = await fetchWithTimeout(url, {}, 12000);
+              // if redirected away from google news, we won
+              if (res.url && !res.url.includes('news.google.com')) return res.url;
+              // otherwise parse HTML for meta-refresh / hidden link
+              const html = await res.text();
+              const $ = cheerio.load(html);
+              const metaRefresh = $('meta[http-equiv="refresh"]').attr('content');
+              if (metaRefresh) {
+                const m = metaRefresh.match(/url=(.+)$/i);
+                if (m && m[1]) return m[1].trim();
+              }
+              // fallback: look for the first external link
+              const a = $('a[href^="http"]').toArray().find(el => {
+                const href = $(el).attr('href') || '';
+                return href && !href.includes('google.com') && !href.includes('gstatic');
+              });
+              if (a) {
+                const href = $(a).attr('href');
+                if (href) return href;
+              }
+            } catch {}
+            return url;
+          }
+
+          /* ================= ARTICLE SCRAPER ================= */
+          const JUNK_SELECTORS = [
+            'script, style, noscript, iframe, svg, form, button, input, textarea',
+            'nav, header, footer, aside, [role="navigation"], [role="banner"], [role="complementary"]',
+            '[aria-hidden="true"]',
+            '.ad, .ads, .advert, .advertisement, .sponsored, .promo, .ad-slot, .ad-container',
+            '.social, .share, .sharing, .share-buttons, .social-share',
+            '.comments, .comment, .comment-section, .disqus',
+            '.sidebar, .side-bar, .menu, .navigation, .breadcrumb, .breadcrumbs',
+            '.related, .related-posts, .related-articles, .recommended, .read-more',
+            '.newsletter, .subscribe, .subscription, .signup',
+            '[class*="advert"]', '[class*="sponsor"]',
+            '[class*="social"]', '[class*="share-"]', '[class*="sharing"]',
+            '[class*="comment"]', '[class*="related"]', '[class*="recommend"]',
+            '[class*="newsletter"]', '[class*="subscribe"]', '[class*="promo"]',
+            '[id*="advert"]', '[id*="comment"]', '[id*="sidebar"]'
+          ];
+
+          const BODY_SELECTORS = [
+            '[itemprop="articleBody"]',
+            '[itemprop="articlebody"]',
+            '.article-body',
+            '.articleBody',
+            '.article-content',
+            '.article__body',
+            '.article__content',
+            '.story-body',
+            '.story-content',
+            '.story__content',
+            '.story-detail',
+            '.storyDetail',
+            '.post-content',
+            '.post-body',
+            '.post__content',
+            '.entry-content',
+            '.content-body',
+            '.content__body',
+            '.news-content',
+            '.news-detail',
+            '.detail-content',
+            '.td-post-content',
+            '.story-article',
+            '.article-text',
+            '.article-detail',
+            'article',
+            'main'
+          ];
+
+          function parseArticleHtml(html, sourceUrl) {
+            const $ = cheerio.load(html);
+
+            // strip junk
+            JUNK_SELECTORS.forEach(sel => {
+              try { $(sel).remove(); } catch {}
+            });
+
+            // og:image
+            let ogImage =
+              $('meta[property="og:image:secure_url"]').attr('content') ||
+              $('meta[property="og:image"]').attr('content') ||
+              $('meta[name="twitter:image"]').attr('content') ||
+              $('meta[name="twitter:image:src"]').attr('content') ||
+              $('link[rel="image_src"]').attr('href') ||
+              '';
+            ogImage = absolutize(ogImage, sourceUrl);
+
+            // title
+            const title =
+              $('meta[property="og:title"]').attr('content') ||
+              $('meta[name="twitter:title"]').attr('content') ||
+              $('h1').first().text().trim() ||
+              $('title').text().trim() ||
+              '';
+
+            // author
+            const author =
+              $('meta[name="author"]').attr('content') ||
+              $('[rel="author"]').first().text().trim() ||
+              $('[itemprop="author"]').first().text().trim() ||
+              '';
+
+            // published
+            const publishedAt =
+              $('meta[property="article:published_time"]').attr('content') ||
+              $('meta[name="pubdate"]').attr('content') ||
+              $('time[datetime]').first().attr('datetime') ||
+              '';
+
+            // find body container
+            let container = null;
+            for (const sel of BODY_SELECTORS) {
+              const el = $(sel).first();
+              if (el.length && el.find('p').length >= 3) {
+                container = el;
+                break;
+              }
+            }
+            if (!container || !container.length) container = $('body');
+
+            // paragraphs
+            const paragraphs = [];
+            const seen = new Set();
+            container.find('p').each((_, el) => {
+              if (paragraphs.length >= CONFIG.MAX_PARAGRAPHS) return;
+              const txt = $(el).text().replace(/\s+/g, ' ').trim();
+              if (txt.length < CONFIG.MIN_PARA_LENGTH) return;
+              if (/^(share|subscribe|follow us|read more|advertisement|copyright|©|photo:|image:|credit:|tags?:)/i.test(txt)) return;
+              const key = txt.slice(0, 60).toLowerCase();
+              if (seen.has(key)) return;
+              seen.add(key);
+              paragraphs.push(txt);
+            });
+
+            // images inside body
+            const images = [];
+            const imgSeen = new Set();
+            if (ogImage) imgSeen.add(ogImage.split('?')[0]);
+
+            container.find('img').each((_, el) => {
+              if (images.length >= CONFIG.MAX_IMAGES) return;
+              const src =
+                $(el).attr('data-src') ||
+                $(el).attr('data-lazy-src') ||
+                $(el).attr('data-original') ||
+                $(el).attr('data-srcset')?.split(',')[0]?.trim().split(' ')[0] ||
+                $(el).attr('src') ||
+                '';
+              const abs = absolutize(src, sourceUrl);
+              if (!abs) return;
+              if (/logo|icon|avatar|pixel|tracker|spacer|blank|1x1|\.svg$/i.test(abs)) return;
+              const w = parseInt($(el).attr('width') || '0', 10);
+              const h = parseInt($(el).attr('height') || '0', 10);
+              if ((w && w < 200) || (h && h < 150)) return;
+              const base = abs.split('?')[0];
+              if (imgSeen.has(base)) return;
+              imgSeen.add(base);
+              images.push({
+                src: abs,
+                alt: ($(el).attr('alt') || '').trim()
+              });
+            });
+
+            return { ogImage, title, author, publishedAt, paragraphs, images };
+          }
+
+          async function scrapeArticle(url) {
+            try {
+              const res = await fetchWithRetry(url);
+              const finalUrl = res.url || url;
+              const html = await res.text();
+              if (!html || html.length < 500) return null;
+              const parsed = parseArticleHtml(html, finalUrl);
+              if (!parsed.paragraphs || parsed.paragraphs.length < 2) {
+                return { ...parsed, resolvedLink: finalUrl, partial: true };
+              }
+              return { ...parsed, resolvedLink: finalUrl, partial: false };
+            } catch (e) {
+              return null;
+            }
+          }
+
+          /* ================= CONCURRENCY POOL ================= */
+          async function runPool(items, worker, concurrency) {
+            const results = new Array(items.length);
+            let index = 0;
+            const workers = Array.from({ length: concurrency }, async () => {
+              while (true) {
+                const i = index++;
+                if (i >= items.length) break;
+                try {
+                  results[i] = await worker(items[i], i);
+                } catch (e) {
+                  results[i] = null;
+                }
+              }
+            });
+            await Promise.all(workers);
+            return results;
+          }
+
+          /* ================= MAIN ================= */
           (async () => {
-            console.log('Fetching ' + FEEDS.length + ' feeds...');
-            const results = await Promise.allSettled(
+            const outDir = path.join(process.cwd(), 'data');
+            const outPath = path.join(outDir, 'news.json');
+            if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+
+            // load existing
+            let existing = [];
+            try {
+              if (fs.existsSync(outPath)) {
+                existing = JSON.parse(fs.readFileSync(outPath, 'utf8'));
+                if (!Array.isArray(existing)) existing = [];
+              }
+            } catch { existing = []; }
+            const existingMap = new Map(existing.map((it) => [it.id, it]));
+            console.log(`Existing items: ${existing.length}`);
+
+            /* ---- STEP 1: RSS fetch ---- */
+            console.log(`\n[1/3] Fetching ${FEEDS.length} RSS feeds...`);
+            const rssResults = await Promise.allSettled(
               FEEDS.map(async (f) => {
                 try {
                   const feed = await parser.parseURL(f.url);
-                  return feed.items.map(it => {
+                  console.log(`  ✓ ${f.tag}: ${feed.items.length} items`);
+                  return feed.items.map((it) => {
                     const title = stripHtml(it.title || '');
                     let desc = stripHtml(it.contentSnippet || it.content || it.summary || '');
                     if (desc.startsWith(title)) desc = desc.slice(title.length).replace(/^[\s\-–—|:]+/, '').trim();
-                    if (desc.length > 280) desc = desc.slice(0, 280).trim() + '…';
+                    if (desc.length > 320) desc = desc.slice(0, 320).trim() + '…';
                     return {
                       id: uid(title + it.link),
                       title,
@@ -94,28 +399,133 @@ jobs:
                     };
                   });
                 } catch (e) {
-                  console.error('Failed: ' + f.url, e.message);
+                  console.log(`  ✗ ${f.tag}: ${e.message}`);
                   return [];
                 }
               })
             );
 
             let all = [];
-            results.forEach(r => { if (r.status === 'fulfilled') all.push(...r.value); });
+            rssResults.forEach((r) => { if (r.status === 'fulfilled') all.push(...r.value); });
 
+            /* ---- STEP 2: dedupe, filter, sort ---- */
             const seen = new Set();
-            all = all.filter(it => { if (seen.has(it.id)) return false; seen.add(it.id); return true; });
+            all = all.filter((it) => {
+              if (!it.title || !it.link) return false;
+              if (seen.has(it.id)) return false;
+              seen.add(it.id);
+              return true;
+            });
+
             all = all.filter(isBiharRelevant);
+
+            // drop items older than MAX_AGE_HOURS
+            const cutoff = Date.now() - CONFIG.MAX_AGE_HOURS * 3600 * 1000;
+            all = all.filter((it) => it.ts >= cutoff);
+
             all.sort((a, b) => b.ts - a.ts);
-            all = all.slice(0, 150);
-            all.forEach(it => { it.cat = categorize(it); });
+            all = all.slice(0, CONFIG.MAX_ITEMS);
+            all.forEach((it) => { it.cat = categorize(it); });
 
-            const outDir = path.join(process.cwd(), 'data');
-            if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-            fs.writeFileSync(path.join(outDir, 'news.json'), JSON.stringify(all, null, 2));
+            console.log(`\n[2/3] After filter: ${all.length} items to enrich`);
 
-            console.log('✅ Saved ' + all.length + ' items to data/news.json');
-          })();
+            /* ---- STEP 3: scrape article bodies (with reuse) ---- */
+            let scrapedCount = 0;
+            let reusedCount = 0;
+            let failedCount = 0;
+
+            const enriched = await runPool(
+              all,
+              async (item) => {
+                const old = existingMap.get(item.id);
+                const canReuse =
+                  old &&
+                  Array.isArray(old.paragraphs) &&
+                  old.paragraphs.length >= 2 &&
+                  old.scrapedAt &&
+                  Date.now() - old.scrapedAt < CONFIG.REUSE_WINDOW_HOURS * 3600 * 1000;
+
+                if (canReuse) {
+                  reusedCount++;
+                  return {
+                    ...item,
+                    image: old.image || null,
+                    images: old.images || [],
+                    paragraphs: old.paragraphs,
+                    author: old.author || '',
+                    publishedAt: old.publishedAt || '',
+                    resolvedLink: old.resolvedLink || item.link,
+                    scrapedAt: old.scrapedAt,
+                    partial: old.partial || false
+                  };
+                }
+
+                // resolve google news url
+                let realUrl = item.link;
+                if (realUrl.includes('news.google.com')) {
+                  realUrl = await resolveGoogleNewsUrl(realUrl);
+                }
+
+                const scraped = await scrapeArticle(realUrl);
+
+                if (scraped && scraped.paragraphs && scraped.paragraphs.length >= 2) {
+                  scrapedCount++;
+                  return {
+                    ...item,
+                    image: scraped.ogImage || null,
+                    images: scraped.images || [],
+                    paragraphs: scraped.paragraphs,
+                    author: scraped.author || '',
+                    publishedAt: scraped.publishedAt || '',
+                    resolvedLink: scraped.resolvedLink || realUrl,
+                    scrapedAt: Date.now(),
+                    partial: false
+                  };
+                }
+
+                if (scraped && scraped.ogImage) {
+                  failedCount++;
+                  return {
+                    ...item,
+                    image: scraped.ogImage,
+                    images: scraped.images || [],
+                    paragraphs: [],
+                    resolvedLink: scraped.resolvedLink || realUrl,
+                    scrapedAt: Date.now(),
+                    partial: true
+                  };
+                }
+
+                failedCount++;
+                return {
+                  ...item,
+                  image: old?.image || null,
+                  images: old?.images || [],
+                  paragraphs: old?.paragraphs || [],
+                  resolvedLink: realUrl,
+                  scrapedAt: Date.now(),
+                  partial: true
+                };
+              },
+              CONFIG.SCRAPE_CONCURRENCY
+            );
+
+            const finalItems = enriched.filter(Boolean);
+
+            console.log(`\n[3/3] Results:`);
+            console.log(`  Scraped fresh : ${scrapedCount}`);
+            console.log(`  Reused cache  : ${reusedCount}`);
+            console.log(`  Failed/partial: ${failedCount}`);
+            console.log(`  Total         : ${finalItems.length}`);
+
+            /* ---- write ---- */
+            fs.writeFileSync(outPath, JSON.stringify(finalItems, null, 2));
+            const sizeKB = (fs.statSync(outPath).size / 1024).toFixed(1);
+            console.log(`\n✅ Saved ${finalItems.length} items → data/news.json (${sizeKB} KB)`);
+          })().catch((e) => {
+            console.error('FATAL:', e);
+            process.exit(1);
+          });
           EOF
           node fetch.js
 

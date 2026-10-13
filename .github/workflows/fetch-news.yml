@@ -1,0 +1,132 @@
+name: Fetch Bihar News RSS
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-news:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install rss-parser
+        run: npm install rss-parser
+
+      - name: Fetch and parse RSS feeds
+        run: |
+          cat > fetch.js << 'EOF'
+          const Parser = require('rss-parser');
+          const fs = require('fs');
+          const path = require('path');
+
+          const FEEDS = [
+            { url: 'https://news.google.com/rss/search?q=%22Bihar%20government%22%20yojana%20OR%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%B8%E0%A4%B0%E0%A4%95%E0%A4%BE%E0%A4%B0%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20government%20scheme&hl=en-IN&gl=IN&ceid=IN:en', tag: 'scheme' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%A8%E0%A4%BF%E0%A4%AF%E0%A4%AE%20OR%20%E0%A4%A8%E0%A5%80%E0%A4%A4%E0%A4%BF&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'rule' },
+            { url: 'https://news.google.com/rss/search?q=Bihar%20news&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'news' },
+            { url: 'https://news.google.com/rss/search?q=Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'news' }
+          ];
+
+          const parser = new Parser({
+            timeout: 15000,
+            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; BihariNews/1.0)' }
+          });
+
+          function stripHtml(s) {
+            if (!s) return '';
+            return s.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, ' ').trim();
+          }
+
+          function uid(s) {
+            let h = 0;
+            for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+            return 'u' + Math.abs(h).toString(36);
+          }
+
+          function hostOf(url) {
+            try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
+          }
+
+          function categorize(item) {
+            const t = (item.title + ' ' + item.desc).toLowerCase();
+            if (/योजना|scheme|yojana|benefit|लाभ|subsidy|सब्सिडी|आवास|pension|पेंशन|राशन|ration|kisan|किसान|awas|ujjwala|उज्ज्वला|scholarship|छात्रवृत्ति/i.test(t)) return 'scheme';
+            if (/नियम|rule|regulation|अधिसूचना|advisory|order|आदेश|कानून|law|act\b|policy|नीति/i.test(t)) return 'rule';
+            if (/घोषणा|announce|declared|launch|शुरू|शुभारंभ|inaugurat/i.test(t)) return 'announce';
+            if (/सूचना|notice|notification|alert|चेतावनी|warning|deadline|अंतिम तिथि/i.test(t)) return 'notify';
+            return 'news';
+          }
+
+          function isBiharRelevant(item) {
+            const text = (item.title + ' ' + item.desc + ' ' + (item.source || '')).toLowerCase();
+            return /bihar|बिहार|patna|पटना|nitish|tejashwi|samrat|sushil|gopalganj|muzaffarpur|gaya|bhagalpur|darbhanga|purnia|chapra|saran|siwan|araria|madhubani|सरकार|योजना|government|scheme|मुख्यमंत्री/.test(text);
+          }
+
+          (async () => {
+            console.log('Fetching ' + FEEDS.length + ' feeds...');
+            const results = await Promise.allSettled(
+              FEEDS.map(async (f) => {
+                try {
+                  const feed = await parser.parseURL(f.url);
+                  return feed.items.map(it => {
+                    const title = stripHtml(it.title || '');
+                    let desc = stripHtml(it.contentSnippet || it.content || it.summary || '');
+                    if (desc.startsWith(title)) desc = desc.slice(title.length).replace(/^[\s\-–—|:]+/, '').trim();
+                    if (desc.length > 280) desc = desc.slice(0, 280).trim() + '…';
+                    return {
+                      id: uid(title + it.link),
+                      title,
+                      link: it.link,
+                      desc,
+                      source: stripHtml(it.creator || '') || hostOf(it.link),
+                      ts: it.pubDate ? new Date(it.pubDate).getTime() : Date.now(),
+                      feedTag: f.tag
+                    };
+                  });
+                } catch (e) {
+                  console.error('Failed: ' + f.url, e.message);
+                  return [];
+                }
+              })
+            );
+
+            let all = [];
+            results.forEach(r => { if (r.status === 'fulfilled') all.push(...r.value); });
+
+            const seen = new Set();
+            all = all.filter(it => { if (seen.has(it.id)) return false; seen.add(it.id); return true; });
+            all = all.filter(isBiharRelevant);
+            all.sort((a, b) => b.ts - a.ts);
+            all = all.slice(0, 150);
+            all.forEach(it => { it.cat = categorize(it); });
+
+            const outDir = path.join(process.cwd(), 'data');
+            if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+            fs.writeFileSync(path.join(outDir, 'news.json'), JSON.stringify(all, null, 2));
+
+            console.log('✅ Saved ' + all.length + ' items to data/news.json');
+          })();
+          EOF
+          node fetch.js
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/news.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update news feed [skip ci]"
+            git push
+          fi

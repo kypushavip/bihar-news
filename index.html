@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
-  :root{--bg:#f4f5f7;--bg-elev:#fff;--bg-soft:#eaecf0;--bg-glass:rgba(255,255,255,.82);--text:#0a0d12;--text-soft:#4a5060;--text-mute:#8a91a1;--border:#e1e4ea;--border-strong:#cdd2dc;--brand:#c2410c;--brand-2:#ea580c;--brand-3:#f97316;--green:#15803d;--green-2:#16a34a;--gold:#eab308;--danger:#dc2626;--info:#2563eb;--purple:#9333ea;--shadow-sm:0 1px 2px rgba(10,13,18,.05),0 1px 3px rgba(10,13,18,.04);--shadow:0 2px 4px rgba(10,13,18,.04),0 8px 20px rgba(10,13,18,.06);--shadow-md:0 4px 8px rgba(10,13,18,.06),0 12px 32px rgba(10,13,18,.1);--shadow-lg:0 8px 16px rgba(10,13,18,.08),0 24px 56px rgba(10,13,18,.14);--shadow-xl:0 32px 80px rgba(10,13,18,.22);--radius-sm:10px;--radius:16px;--radius-lg:22px;--radius-xl:28px;--pill:999px;--tr:240ms cubic-bezier(.4,0,.2,1);--tr-fast:150ms cubic-bezier(.4,0,.2,1);--tr-slow:420ms cubic-bezier(.16,1,.3,1);--header-h:68px;--max-w:1320px;--brand-gradient:linear-gradient(135deg,var(--brand),var(--brand-3));--premium-gradient:linear-gradient(135deg,#1a1d24,#0a0c10)}
+  :root{--bg:#f4f5f7;--bg-elev:#fff;--bg-soft:#eaecf0;--bg-glass:rgba(255,255,255,.82);--text:#0a0d12;--text-soft:#4a5060;--text-mute:#8a91a1;--border:#e1e4ea;--border-strong:#cdd2dc;--brand:#c2410c;--brand-2:#ea580c;--brand-3:#f97316;--green:#15803d;--green-2:#16a34a;--gold:#eab308;--danger:#dc2626;--info:#2563eb;--purple:#9333ea;--shadow-sm:0 1px 2px rgba(10,13,18,.05),0 1px 3px rgba(10,13,18,.04);--shadow:0 2px 4px rgba(10,13,18,.04),0 8px 20px rgba(10,13,18,.06);--shadow-md:0 4px 8px rgba(10,13,18,.06),0 12px 32px rgba(10,13,18,.1);--shadow-lg:0 8px 16px rgba(10,13,18,.08),0 24px 56px rgba(10,13,18,.14);--shadow-xl:0 32px 80px rgba(10,13,18,.22);--radius-sm:10px;--radius:16px;--radius-lg:22px;--radius-xl:28px;--pill:999px;--tr:240ms cubic-bezier(.4,0,.2,1);--tr-fast:150ms cubic-bezier(.4,0,.2,1);--tr-slow:420ms cubic-bezier(.16,1,.3,1);--header-h:68px;--max-w:1320px;--brand-gradient:linear-gradient(135deg,var(--brand),var(--brand-3));--premium-gradient:linear-gradient(135deg,#1a1d24,#0a0c10);--reader-font:16px;--reader-lh:1.8;--reader-density:1}
   [data-theme="dark"]{--bg:#06070a;--bg-elev:#10131a;--bg-soft:#171b24;--bg-glass:rgba(16,19,26,.82);--text:#f5f7fb;--text-soft:#b8bfcc;--text-mute:#6b7383;--border:#21262f;--border-strong:#2c323d;--brand:#fb923c;--brand-2:#f97316;--brand-3:#fdba74;--green:#22c55e;--green-2:#4ade80;--shadow-sm:0 1px 2px rgba(0,0,0,.5);--shadow:0 2px 4px rgba(0,0,0,.5),0 8px 20px rgba(0,0,0,.4);--shadow-md:0 4px 8px rgba(0,0,0,.5),0 12px 32px rgba(0,0,0,.5);--shadow-lg:0 8px 16px rgba(0,0,0,.6),0 24px 56px rgba(0,0,0,.6);--shadow-xl:0 32px 80px rgba(0,0,0,.75);--premium-gradient:linear-gradient(135deg,#14171e,#07080c)}
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -25,6 +25,11 @@
   @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
   .wrap{max-width:var(--max-w);margin:0 auto;padding:0 22px}
   @media(max-width:640px){.wrap{padding:0 14px}}
+  .kbd{display:inline-block;padding:2px 6px;border-radius:5px;background:var(--bg-soft);border:1px solid var(--border);font-size:11px;font-family:monospace;font-weight:700;color:var(--text-soft);box-shadow:0 1px 0 var(--border)}
+
+  /* ============ SCROLL PROGRESS (main page) ============ */
+  .scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;background:transparent;z-index:100;pointer-events:none}
+  .scroll-progress .sp-bar{height:100%;width:0%;background:var(--brand-gradient);transition:width 100ms linear;box-shadow:0 0 8px rgba(194,65,12,.5)}
 
   header.topbar{position:sticky;top:0;z-index:60;background:var(--bg-glass);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border-bottom:1px solid var(--border);transition:transform var(--tr)}
   header.topbar.hide{transform:translateY(-100%)}
@@ -52,6 +57,8 @@
   @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
   .icon-btn .badge-dot{position:absolute;top:8px;right:8px;width:9px;height:9px;border-radius:50%;background:var(--danger);border:2px solid var(--bg);display:none}
   .icon-btn.has-badge .badge-dot{display:block}
+  .icon-btn.tts-active{color:var(--brand);background:color-mix(in srgb,var(--brand) 15%,transparent);animation:ttsPulse 1.5s infinite}
+  @keyframes ttsPulse{0%,100%{box-shadow:0 0 0 0 rgba(194,65,12,.4)}50%{box-shadow:0 0 0 6px rgba(194,65,12,0)}}
   .lang-picker{position:relative}
   .lang-btn{display:flex;align-items:center;gap:6px;padding:9px 13px;border-radius:var(--pill);background:var(--bg-soft);color:var(--text-soft);font-size:12.5px;font-weight:700;transition:all var(--tr);border:1.5px solid transparent}
   .lang-btn:hover{background:var(--border);color:var(--text)}
@@ -81,7 +88,9 @@
   @keyframes scrollTicker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
   .stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:22px 0 12px}
-  .stat-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;flex-direction:column;gap:4px;transition:all var(--tr);position:relative;overflow:hidden}
+  .stat-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;flex-direction:column;gap:4px;transition:all var(--tr);position:relative;overflow:hidden;cursor:default}
+  .stat-card.clickable{cursor:pointer}
+  .stat-card.clickable:hover{border-color:var(--brand)}
   .stat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand-gradient);opacity:0;transition:opacity var(--tr)}
   .stat-card:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow)}
   .stat-card:hover::before{opacity:1}
@@ -145,9 +154,7 @@
   .feat-summary-box .fs-line{font-size:13.5px;color:rgba(255,255,255,.95);line-height:1.55;display:flex;gap:8px;align-items:flex-start}
   .feat-summary-box .fs-line .fs-ico{flex-shrink:0;font-size:14px;line-height:1.5}
   .feat-summary-box .fs-line strong{color:#fff;font-weight:800}
-  .feat-summary-box .fs-line .fs-text{flex:1}
   .feat-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,.72);padding-top:6px}
-  .feat-meta .src{padding:4px 10px;border-radius:var(--pill);background:rgba(255,255,255,.14);font-weight:700;border:1px solid rgba(255,255,255,.12);font-size:11px}
   .feat-meta .sep{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.4)}
   .watermark{position:absolute;top:18px;right:18px;z-index:3;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75);padding:5px 10px;border-radius:var(--pill);background:rgba(0,0,0,.3);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:6px}
   .watermark::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand-3)}
@@ -163,9 +170,9 @@
   .mini-card .m-title{font-size:13.5px;font-weight:700;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .mini-card .m-meta{font-size:11px;color:var(--text-mute);margin-top:auto}
 
-  .trending-strip{display:flex;gap:14px;overflow-x:auto;padding:4px 0 14px;scrollbar-width:none}
+  .trending-strip{display:flex;gap:14px;overflow-x:auto;padding:4px 0 14px;scrollbar-width:none;scroll-snap-type:x proximity}
   .trending-strip::-webkit-scrollbar{display:none}
-  .trend-card{flex:0 0 300px;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;transition:all var(--tr);cursor:pointer;position:relative;overflow:hidden}
+  .trend-card{flex:0 0 300px;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;transition:all var(--tr);cursor:pointer;position:relative;overflow:hidden;scroll-snap-align:start}
   .trend-card:hover{border-color:var(--brand);transform:translateY(-3px);box-shadow:var(--shadow-md)}
   .trend-thumb{height:130px;background-size:cover;background-position:center;background-color:var(--bg-soft);position:relative;display:grid;place-items:center}
   .trend-thumb .thumb-icon{font-size:48px;opacity:.4}
@@ -181,6 +188,10 @@
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px}
   .grid.view-list{grid-template-columns:1fr;gap:12px}
+  .grid.view-compact{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .grid.view-compact .card-thumb{height:120px}
+  .grid.view-compact .card-title{font-size:14px;-webkit-line-clamp:2}
+  .grid.view-compact .card-summary{display:none}
   .card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:all var(--tr);cursor:pointer;position:relative;animation:fadeInUp 380ms cubic-bezier(.16,1,.3,1) backwards}
   @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:color-mix(in srgb,var(--brand) 40%,var(--border))}
@@ -190,6 +201,10 @@
   .card-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.4))}
   .card-thumb .th-cat{position:absolute;top:12px;left:12px;z-index:2}
   .card-thumb .th-wm{position:absolute;bottom:10px;right:12px;z-index:2;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);padding:3px 7px;border-radius:var(--pill);background:rgba(0,0,0,.32);backdrop-filter:blur(4px)}
+  .card-thumb .th-tts{position:absolute;bottom:10px;left:12px;z-index:3;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);color:#fff;display:grid;place-items:center;border:1px solid rgba(255,255,255,.2);transition:all var(--tr);opacity:0}
+  .card:hover .card-thumb .th-tts{opacity:1}
+  .card-thumb .th-tts:hover{background:var(--brand);transform:scale(1.08)}
+  .card-thumb .th-tts svg{width:14px;height:14px}
   .cat-badge{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:var(--pill);white-space:nowrap;flex-shrink:0;backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:5px}
   .cat-badge.scheme{background:color-mix(in srgb,var(--green) 20%,transparent);color:var(--green)}
   .cat-badge.rule{background:color-mix(in srgb,var(--brand) 20%,transparent);color:var(--brand)}
@@ -241,7 +256,7 @@
   .qf-value.brand-color{color:var(--brand)}
 
   .reader-summary-list{padding:4px 0;border-radius:var(--radius-sm);background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 5%,var(--bg-soft)),var(--bg-soft));border:1px solid color-mix(in srgb,var(--brand) 14%,var(--border));margin-bottom:22px;overflow:hidden}
-  .rs-line{padding:13px 16px;font-size:14.5px;line-height:1.7;color:var(--text);display:flex;gap:11px;align-items:flex-start;border-bottom:1px solid color-mix(in srgb,var(--border) 60%,transparent)}
+  .rs-line{padding:13px 16px;font-size:calc(var(--reader-font) * .92);line-height:var(--reader-lh);color:var(--text);display:flex;gap:11px;align-items:flex-start;border-bottom:1px solid color-mix(in srgb,var(--border) 60%,transparent)}
   .rs-line:last-child{border-bottom:none}
   .rs-line .rs-ico{flex-shrink:0;font-size:17px;line-height:1.6;width:22px;text-align:center}
   .rs-line .rs-text{flex:1;word-wrap:break-word}
@@ -250,7 +265,8 @@
   .reader-empty-note .re-icon{font-size:28px;opacity:.5;margin-bottom:8px}
 
   .reader-full-article{margin-bottom:22px}
-  .reader-full-article .rfa-para{font-size:15.5px;line-height:1.8;color:var(--text);margin-bottom:16px;font-family:'Noto Sans Devanagari','Plus Jakarta Sans',sans-serif}
+  .reader-full-article .rfa-para{font-size:var(--reader-font);line-height:var(--reader-lh);color:var(--text);margin-bottom:16px;font-family:'Noto Sans Devanagari','Plus Jakarta Sans',sans-serif}
+  .reader-full-article .rfa-para:first-letter{font-size:1.15em;font-weight:800;color:var(--brand)}
   .rfa-img{width:100%;border-radius:var(--radius-sm);margin:8px 0 16px;background:var(--bg-soft);box-shadow:var(--shadow-sm);transition:opacity var(--tr)}
   .rfa-img.loading{opacity:0}
   .rfa-gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 20px}
@@ -258,8 +274,89 @@
   .rfa-gallery .rfa-gal-item:hover{transform:scale(1.02)}
   @media(max-width:500px){.rfa-gallery{grid-template-columns:1fr}}
 
-  .reader-progress{position:absolute;top:0;left:0;right:0;height:3px;background:transparent;overflow:hidden;z-index:10}
-  .reader-progress .rp-bar{height:100%;width:0%;background:var(--brand-gradient);transition:width 200ms linear;box-shadow:0 0 8px rgba(194,65,12,.6)}
+  /* ============ READER TOOLBAR (new) ============ */
+  .reader-floating-bar{position:absolute;top:52px;right:16px;z-index:15;display:flex;flex-direction:column;gap:6px;opacity:0;transform:translateX(8px);transition:all var(--tr);pointer-events:none}
+  .reader-floating-bar.show{opacity:1;transform:translateX(0);pointer-events:auto}
+  .rfb-btn{width:40px;height:40px;border-radius:12px;background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border);color:var(--text-soft);display:grid;place-items:center;transition:all var(--tr);box-shadow:var(--shadow);cursor:pointer;position:relative}
+  .rfb-btn:hover{background:var(--bg-elev);color:var(--brand);border-color:var(--brand);transform:translateY(-1px)}
+  .rfb-btn.active{background:var(--brand);color:#fff;border-color:transparent}
+  .rfb-btn svg{width:17px;height:17px}
+  .rfb-tooltip{position:absolute;right:calc(100% + 8px);top:50%;transform:translateY(-50%);background:var(--text);color:var(--bg);font-size:10.5px;font-weight:700;padding:5px 9px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity var(--tr)}
+  .rfb-btn:hover .rfb-tooltip{opacity:1}
+
+  /* ============ READER TOP NAV (prev/next) ============ */
+  .reader-nav{position:absolute;top:0;left:0;right:0;height:3px;background:transparent;overflow:hidden;z-index:10}
+  .reader-nav .rn-bar{height:100%;width:0%;background:var(--brand-gradient);transition:width 200ms linear;box-shadow:0 0 8px rgba(194,65,12,.6)}
+
+  /* ============ RELATED ARTICLES ============ */
+  .related-section{margin-top:32px;padding-top:20px;border-top:2px solid var(--border)}
+  .related-title{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .related-grid{display:flex;flex-direction:column;gap:10px}
+  .rel-card{display:flex;gap:12px;padding:12px;border-radius:var(--radius-sm);background:var(--bg-soft);border:1px solid var(--border);cursor:pointer;transition:all var(--tr)}
+  .rel-card:hover{border-color:var(--brand);background:var(--bg-elev);transform:translateX(3px)}
+  .rel-thumb{width:64px;height:64px;border-radius:10px;flex-shrink:0;background-size:cover;background-position:center;background-color:var(--bg-elev);display:grid;place-items:center;overflow:hidden}
+  .rel-thumb .rt-ico{font-size:24px;opacity:.5}
+  .rel-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+  .rel-title{font-size:13.5px;font-weight:700;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .rel-meta{font-size:11px;color:var(--text-mute);display:flex;align-items:center;gap:6px;margin-top:auto}
+
+  /* ============ SHORTCUTS MODAL ============ */
+  .shortcuts-modal{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity var(--tr);display:grid;place-items:center;padding:20px}
+  .shortcuts-modal.open{opacity:1;pointer-events:auto}
+  .shortcuts-panel{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow-xl);transform:scale(.95);transition:transform var(--tr)}
+  .shortcuts-modal.open .shortcuts-panel{transform:scale(1)}
+  .shortcuts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .shortcuts-header h3{font-size:18px;font-weight:800;display:flex;align-items:center;gap:9px}
+  .shortcuts-header h3 svg{width:20px;height:20px;color:var(--brand)}
+  .shortcuts-close{width:36px;height:36px;border-radius:10px;background:var(--bg-soft);color:var(--text-soft);display:grid;place-items:center;transition:all var(--tr)}
+  .shortcuts-close:hover{background:var(--border);color:var(--text)}
+  .shortcuts-group{margin-bottom:20px}
+  .shortcuts-group-title{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px}
+  .shortcuts-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13.5px;color:var(--text-soft);border-bottom:1px solid var(--border)}
+  .shortcuts-row:last-child{border-bottom:none}
+  .shortcuts-row kbd{display:inline-block;padding:3px 8px;border-radius:6px;background:var(--bg-soft);border:1px solid var(--border);font-family:monospace;font-size:11px;font-weight:700;color:var(--text);box-shadow:0 1px 0 var(--border-strong)}
+
+  /* ============ SWIPE INDICATOR ============ */
+  .swipe-hint{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:4px;height:60px;border-radius:2px;background:var(--brand-gradient);opacity:0;transition:opacity var(--tr);z-index:20}
+  .reader.swiping .swipe-hint{opacity:1}
+
+  /* ============ NOTIFICATION PROMPT ============ */
+  .notif-prompt{position:fixed;bottom:24px;left:24px;z-index:80;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-xl);max-width:340px;display:flex;gap:14px;align-items:flex-start;transform:translateY(120px);opacity:0;transition:all var(--tr)}
+  .notif-prompt.show{transform:translateY(0);opacity:1}
+  .notif-prompt .np-icon{width:40px;height:40px;border-radius:12px;background:var(--brand-gradient);color:#fff;display:grid;place-items:center;flex-shrink:0}
+  .notif-prompt .np-icon svg{width:20px;height:20px}
+  .notif-prompt .np-body{flex:1}
+  .notif-prompt .np-title{font-size:14px;font-weight:800;margin-bottom:4px}
+  .notif-prompt .np-desc{font-size:12px;color:var(--text-soft);line-height:1.5;margin-bottom:10px}
+  .notif-prompt .np-actions{display:flex;gap:8px}
+  .notif-prompt .np-actions button{padding:7px 14px;border-radius:var(--pill);font-size:12px;font-weight:800;transition:all var(--tr)}
+  .notif-prompt .np-yes{background:var(--brand);color:#fff}
+  .notif-prompt .np-yes:hover{background:var(--brand-2)}
+  .notif-prompt .np-no{background:var(--bg-soft);color:var(--text-soft)}
+  .notif-prompt .np-close{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:var(--bg-soft);color:var(--text-mute);display:grid;place-items:center;transition:all var(--tr)}
+  .notif-prompt .np-close:hover{background:var(--border);color:var(--text)}
+  .notif-prompt .np-close svg{width:14px;height:14px}
+
+  /* ============ SEARCH SUGGESTIONS ============ */
+  .search-suggest{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:6px;z-index:75;opacity:0;visibility:hidden;transform:translateY(-6px);transition:all var(--tr)}
+  .search-box.suggesting .search-suggest{opacity:1;visibility:visible;transform:translateY(0)}
+  .sug-item{padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:9px;transition:all var(--tr-fast)}
+  .sug-item:hover{background:var(--bg-soft)}
+  .sug-item .si-icon{width:24px;height:24px;border-radius:6px;background:var(--bg-soft);display:grid;place-items:center;font-size:12px;flex-shrink:0}
+  .sug-item .si-text{flex:1;font-weight:600;color:var(--text-soft)}
+  .sug-item:hover .si-text{color:var(--text)}
+
+  /* ============ READER HEADER MINIMIZE ============ */
+  .reader.minimized .reader-hero{height:60px}
+  .reader.minimized .reader-hero .thumb-icon{font-size:24px}
+  .reader.minimized .reader-hero::after{background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.7))}
+
+  /* ============ DENSITY ============ */
+  body.density-compact .card-body{padding:12px 14px 10px}
+  body.density-compact .card-title{font-size:14.5px;-webkit-line-clamp:2}
+  body.density-compact .card-summary{display:none}
+  body.density-compact .card-thumb{height:150px}
+  body.density-compact .grid{gap:12px}
 
   .skeleton{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
   .sk-thumb{height:180px;background:linear-gradient(90deg,var(--bg-soft) 25%,var(--border) 50%,var(--bg-soft) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
@@ -272,6 +369,8 @@
   .empty .emoji{font-size:56px;margin-bottom:16px;opacity:.5}
   .empty h3{font-size:18px;font-weight:800;color:var(--text-soft);margin-bottom:8px}
   .empty p{font-size:13.5px;max-width:400px;margin:0 auto;line-height:1.6}
+  .empty .empty-action{margin-top:18px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:var(--pill);background:var(--brand);color:#fff;font-weight:800;font-size:13px;transition:all var(--tr)}
+  .empty .empty-action:hover{background:var(--brand-2);transform:translateY(-2px)}
 
   .load-more{display:flex;justify-content:center;margin:32px 0 12px}
   .load-more button{padding:13px 28px;border-radius:var(--pill);background:var(--bg-elev);border:1.5px solid var(--border);font-size:13px;font-weight:800;color:var(--text);transition:all var(--tr);display:inline-flex;align-items:center;gap:9px}
@@ -280,26 +379,27 @@
 
   .drawer-backdrop{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity var(--tr)}
   .drawer-backdrop.open{opacity:1;pointer-events:auto}
-  .reader{position:fixed;top:0;right:0;bottom:0;z-index:95;width:min(680px,100%);background:var(--bg-elev);border-left:1px solid var(--border);box-shadow:var(--shadow-xl);transform:translateX(100%);transition:transform var(--tr-slow);display:flex;flex-direction:column;will-change:transform}
+  .reader{position:fixed;top:0;right:0;bottom:0;z-index:95;width:min(680px,100%);background:var(--bg-elev);border-left:1px solid var(--border);box-shadow:var(--shadow-xl);transform:translateX(100%);transition:transform var(--tr-slow);display:flex;flex-direction:column;will-change:transform;touch-action:pan-y}
   .reader.open{transform:translateX(0)}
+  .reader.dragging{transition:none}
   @media(max-width:640px){.reader{width:100%;border-left:none}}
   .reader-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;gap:10px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg-glass);backdrop-filter:blur(20px);position:relative;z-index:2}
   .reader-header .rh-left{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-mute);font-weight:700}
   .reader-header .rh-left svg{width:14px;height:14px}
   .reader-header .rh-actions{display:flex;gap:6px}
-  .reader-header .rh-actions button{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--bg-soft);color:var(--text-soft);transition:all var(--tr-fast)}
+  .reader-header .rh-actions button{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--bg-soft);color:var(--text-soft);transition:all var(--tr-fast);position:relative}
   .reader-header .rh-actions button:hover{background:var(--border);color:var(--text)}
   .reader-header .rh-actions button.active{color:var(--brand);background:color-mix(in srgb,var(--brand) 14%,transparent)}
   .reader-header svg{width:17px;height:17px}
   .reader-body{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:0 0 40px;position:relative}
-  .reader-hero{height:280px;background-size:cover;background-position:center;background-color:var(--bg-soft);position:relative;display:grid;place-items:center;overflow:hidden}
-  .reader-hero .thumb-icon{font-size:80px;opacity:.35}
+  .reader-hero{height:280px;background-size:cover;background-position:center;background-color:var(--bg-soft);position:relative;display:grid;place-items:center;overflow:hidden;transition:height var(--tr-slow)}
+  .reader-hero .thumb-icon{font-size:80px;opacity:.35;transition:font-size var(--tr-slow)}
   .reader-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.5))}
   .reader-hero .rh-badge{position:absolute;top:16px;left:20px;z-index:2}
   .reader-hero .rh-watermark{position:absolute;bottom:14px;right:20px;z-index:2;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);padding:5px 11px;border-radius:var(--pill);background:rgba(0,0,0,.4);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;gap:6px}
   .reader-hero .rh-watermark::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand-3)}
   .reader-content{padding:26px 26px 0}
-  .reader-title{font-size:26px;font-weight:800;line-height:1.28;letter-spacing:-.028em;margin-bottom:16px}
+  .reader-title{font-size:calc(var(--reader-font) * 1.6);font-weight:800;line-height:1.28;letter-spacing:-.028em;margin-bottom:16px}
   .reader-section-title{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin:8px 0 10px;display:flex;align-items:center;gap:8px}
   .reader-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
   .reader-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}
@@ -309,8 +409,8 @@
   .reader-note{padding:16px 18px;border-radius:var(--radius-sm);background:color-mix(in srgb,var(--brand) 6%,var(--bg-soft));border:1px solid color-mix(in srgb,var(--brand) 15%,var(--border));font-size:13px;color:var(--text-soft);line-height:1.6;display:flex;gap:12px;align-items:flex-start;margin-bottom:22px}
   .reader-note svg{width:18px;height:18px;flex-shrink:0;margin-top:2px;color:var(--brand)}
   .reader-actions{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-  .btn-row{display:flex;gap:10px}
-  .btn-row .btn-secondary{flex:1}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn-row .btn-secondary{flex:1;min-width:120px}
   .btn-secondary{padding:13px 18px;border-radius:var(--radius-sm);background:var(--bg-soft);border:1.5px solid var(--border);color:var(--text);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all var(--tr)}
   .btn-secondary:hover{border-color:var(--brand);color:var(--brand);background:var(--bg-elev)}
   .btn-secondary.active{color:var(--brand);background:color-mix(in srgb,var(--brand) 10%,transparent);border-color:var(--brand)}
@@ -363,6 +463,9 @@
   .toast.ok .dot{background:var(--green)}.toast.info .dot{background:var(--brand)}.toast.err .dot{background:var(--danger)}
   .hidden{display:none!important}
 
+  /* Keyboard focus indicator */
+  :focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 60%,transparent);outline-offset:2px;border-radius:8px}
+
   @media(max-width:720px){
     .topbar-inner{flex-wrap:wrap;padding:10px 0}
     .search-box{order:3;flex-basis:100%;max-width:none;margin-top:4px}
@@ -370,7 +473,7 @@
     .brand-mark{width:40px;height:40px;font-size:18px}
     .feat-title{font-size:19px}.card-feature .cf-content{padding:22px}
     .card-feature{min-height:340px}
-    .reader-title{font-size:20px}.reader-content{padding:20px 18px 0}
+    .reader-title{font-size:22px}.reader-content{padding:20px 18px 0}
     .stats-bar{grid-template-columns:repeat(2,1fr);gap:10px}
     .stat-card{padding:13px 14px}.stat-card .s-val{font-size:22px}
     .lang-btn .lang-name{display:none}
@@ -378,13 +481,25 @@
     .scroll-top{bottom:16px;right:16px;width:44px;height:44px}
     .card-thumb{height:190px}
     .trend-card{flex:0 0 260px}
-    .rs-line{font-size:13.5px;padding:12px 14px}
+    .rs-line{font-size:14px;padding:12px 14px}
     .rs-line .rs-ico{font-size:15px}
-    .reader-full-article .rfa-para{font-size:14.5px}
+    .reader-floating-bar{top:60px;right:12px}
+    .rfb-btn{width:36px;height:36px}
+    .notif-prompt{left:14px;right:14px;bottom:14px;max-width:none}
+  }
+
+  @media print {
+    header, .ticker, .toolbar, .filters, .scroll-top, footer, .drawer-backdrop, .reader-floating-bar, .share-sheet, .toast-wrap, .load-more, .status-bar, .stats-bar, .trending-strip, .featured, .section-head { display: none !important; }
+    .reader { position: static; transform: none; box-shadow: none; border: none; width: 100%; }
+    .reader-body { overflow: visible; }
+    .reader-hero { height: 200px; }
+    .grid { display: none !important; }
   }
 </style>
 </head>
 <body>
+
+<div class="scroll-progress"><div class="sp-bar" id="mainProgressBar"></div></div>
 
 <header class="topbar" id="topbar">
   <div class="wrap topbar-inner">
@@ -399,6 +514,7 @@
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
       <input id="searchInput" type="text" placeholder="खबर या योजना खोजें..." autocomplete="off" />
       <button class="search-clear" id="searchClear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div class="search-suggest" id="searchSuggest"></div>
     </div>
     <div class="topbar-actions">
       <div class="lang-picker" id="langPicker">
@@ -408,9 +524,19 @@
         </button>
         <div class="lang-menu" id="langMenu"></div>
       </div>
-      <button class="icon-btn" id="refreshBtn" title="Refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></button>
-      <button class="icon-btn" id="savedBtn" title="Saved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span class="badge-dot"></span></button>
-      <button class="icon-btn" id="themeBtn" title="Theme"><svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <button class="icon-btn" id="shortcutsBtn" title="Keyboard shortcuts (?)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg>
+      </button>
+      <button class="icon-btn" id="refreshBtn" title="Refresh (R)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+      </button>
+      <button class="icon-btn" id="savedBtn" title="Saved articles">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span class="badge-dot"></span>
+      </button>
+      <button class="icon-btn" id="themeBtn" title="Theme (T)">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -437,8 +563,9 @@
     <div class="read-filter" id="readFilter"><button data-read="all" class="active" data-i18n="read_all">सभी</button><button data-read="unread" data-i18n="read_unread">अपठित</button><button data-read="saved" data-i18n="read_saved">सहेजे</button></div>
     <div style="flex:1"></div>
     <div class="view-toggle" id="viewToggle">
-      <button data-view="grid" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
-      <button data-view="list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <button data-view="grid" class="active" title="Grid view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+      <button data-view="compact" title="Compact view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="5" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="3" y="10" width="7" height="5" rx="1"/><rect x="14" y="10" width="7" height="5" rx="1"/><rect x="3" y="17" width="7" height="5" rx="1"/><rect x="14" y="17" width="7" height="5" rx="1"/></svg></button>
+      <button data-view="list" title="List view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
     </div>
   </div>
   <section class="featured" id="featuredSection"></section>
@@ -501,19 +628,72 @@
 
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 <aside class="reader" id="reader" aria-hidden="true">
-  <div class="reader-progress" id="readerProgress"><div class="rp-bar" id="readerProgressBar"></div></div>
+  <div class="reader-nav"><div class="rn-bar" id="readerProgressBar"></div></div>
   <div class="reader-header">
     <div class="rh-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span data-i18n="reader">लेख</span></div>
     <div class="rh-actions">
-      <button id="readerBookmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-      <button id="readerShare"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
-      <button id="readerClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <button id="readerPrev" title="Previous article (←)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+      <button id="readerNext" title="Next article (→)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
+      <button id="readerBookmark" title="Save (S)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+      <button id="readerShare" title="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+      <button id="readerClose" title="Close (Esc)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
+  </div>
+  <div class="reader-floating-bar" id="readerFloatingBar">
+    <button class="rfb-btn" id="rfbTTS" title="Listen (L)"><span class="rfb-tooltip">Listen</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg></button>
+    <button class="rfb-btn" id="rfbCopy" title="Copy"><span class="rfb-tooltip">Copy</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+    <button class="rfb-btn" id="rfbPrint" title="Print"><span class="rfb-tooltip">Print</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
+    <button class="rfb-btn" id="rfbFontDec" title="Smaller (A-)"><span class="rfb-tooltip">A-</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20 10 4l6 16M6 14h8M17 12h5"/></svg></button>
+    <button class="rfb-btn" id="rfbFontInc" title="Larger (A+)"><span class="rfb-tooltip">A+</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20 10 4l6 16M6 14h8M17 12h6M20 9v6"/></svg></button>
+    <button class="rfb-btn" id="rfbDensity" title="Reading density"><span class="rfb-tooltip">Density</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 10h14M3 14h18M3 18h14"/></svg></button>
   </div>
   <div class="reader-body" id="readerBody"></div>
 </aside>
 
 <div class="share-sheet" id="shareSheet"><h4 data-i18n="share_via">इसके ज़रिए शेयर करें</h4><div class="share-grid" id="shareGrid"></div></div>
+
+<div class="shortcuts-modal" id="shortcutsModal">
+  <div class="shortcuts-panel">
+    <div class="shortcuts-header">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg> Keyboard Shortcuts</h3>
+      <button class="shortcuts-close" id="shortcutsClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div class="shortcuts-group">
+      <div class="shortcuts-group-title">Navigation</div>
+      <div class="shortcuts-row"><span>Search</span><kbd>/</kbd></div>
+      <div class="shortcuts-row"><span>Next / Previous article</span><kbd>← / →</kbd></div>
+      <div class="shortcuts-row"><span>Scroll down / up</span><kbd>J / K</kbd></div>
+      <div class="shortcuts-row"><span>Go to top</span><kbd>G G</kbd></div>
+    </div>
+    <div class="shortcuts-group">
+      <div class="shortcuts-group-title">Actions</div>
+      <div class="shortcuts-row"><span>Refresh</span><kbd>R</kbd></div>
+      <div class="shortcuts-row"><span>Toggle theme</span><kbd>T</kbd></div>
+      <div class="shortcuts-row"><span>Save article</span><kbd>S</kbd></div>
+      <div class="shortcuts-row"><span>Listen (TTS)</span><kbd>L</kbd></div>
+      <div class="shortcuts-row"><span>Close reader</span><kbd>Esc</kbd></div>
+    </div>
+    <div class="shortcuts-group">
+      <div class="shortcuts-group-title">Views</div>
+      <div class="shortcuts-row"><span>Cycle views (grid/compact/list)</span><kbd>V</kbd></div>
+      <div class="shortcuts-row"><span>Show shortcuts</span><kbd>?</kbd></div>
+    </div>
+  </div>
+</div>
+
+<div class="notif-prompt" id="notifPrompt">
+  <button class="np-close" id="notifClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <div class="np-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+  <div class="np-body">
+    <div class="np-title">🔔 नई खबर के नोटिफिकेशन</div>
+    <div class="np-desc">जब भी बिहार की बड़ी खबर आएगी, हम आपको बताएँगे।</div>
+    <div class="np-actions">
+      <button class="np-yes" id="notifYes">हाँ, चालू करें</button>
+      <button class="np-no" id="notifNo">बाद में</button>
+    </div>
+  </div>
+</div>
+
 <button class="scroll-top" id="scrollTop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg></button>
 <div class="toast-wrap" id="toastWrap"></div>
 
@@ -521,12 +701,20 @@
 (() => {
 'use strict';
 
+/* ============================================================
+   BIHARI NEWS v6.0 — Ultimate Edition
+   Owner: Tony Jamer Stark
+   ============================================================ */
+
 const CONFIG = {
   DATA_URL: 'data/news.json',
   REFRESH_MS: 5*60*1000,
   PAGE_SIZE: 12,
   NEW_WINDOW_MS: 90*60*1000,
   CACHE_TTL: 15*60*1000,
+  READER_FONT_MIN: 14,
+  READER_FONT_MAX: 22,
+  READER_FONT_DEFAULT: 16,
   CATEGORIES: [
     { id:'all', label:{hi:'सब',en:'All',bho:'सब',mai:'सभ'}, icon:'📰' },
     { id:'scheme', label:{hi:'योजना',en:'Schemes',bho:'योजना',mai:'योजना'}, icon:'🎯' },
@@ -538,25 +726,36 @@ const CONFIG = {
 };
 
 const LANGS = [
-  { code:'hi', name:'हिंदी', sub:'Hindi', flag:'🇮🇳' },
-  { code:'en', name:'English', sub:'English', flag:'🇬🇧' },
-  { code:'bho', name:'भोजपुरी', sub:'Bhojpuri', flag:'🪔' },
-  { code:'mai', name:'मैथिली', sub:'Maithili', flag:'🎋' }
+  { code:'hi', name:'हिंदी', sub:'Hindi', flag:'🇮🇳', tts:'hi-IN' },
+  { code:'en', name:'English', sub:'English', flag:'🇬🇧', tts:'en-IN' },
+  { code:'bho', name:'भोजपुरी', sub:'Bhojpuri', flag:'🪔', tts:'hi-IN' },
+  { code:'mai', name:'मैथिली', sub:'Maithili', flag:'🎋', tts:'hi-IN' }
 ];
 
 const I18N = {
-  hi:{tagline:'बिहार की ताज़ा खबर',search_ph:'खबर या योजना खोजें...',source:'स्रोत',sort:'क्रम',sort_newest:'नवीनतम पहले',sort_oldest:'पुराने पहले',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सभी',read_unread:'अपठित',read_saved:'सहेजे',trending_now:'ट्रेंडिंग अभी',trending_sub:'सबसे चर्चित खबरें',all_news:'सभी खबरें',all_sub:'नवीनतम पहले',load_more:'और खबरें लोड करें',reader:'लेख',share_via:'इसके ज़रिए शेयर करें',foot_desc:'बिहार की हर ज़रूरी खबर — योजनाएँ, नियम, नीतियाँ और ताज़ा अपडेट।',footer_explore:'खोजें',footer_founder:'संस्थापक',owner_role:'संस्थापक एवं संपादक',owner_bio:'बिहार के हर नागरिक तक सच्ची खबर पहुँचाने के लिए समर्पित।',rights:'सभी अधिकार सुरक्षित।',made_with:'प्यार से बनाया',made_in:'बिहार में',cat_scheme:'🎯 योजनाएँ',cat_rule:'📋 नियम व नीतियाँ',cat_news:'📢 ताज़ा समाचार',cat_announce:'📣 घोषणाएँ',cat_notify:'🔔 सूचनाएँ',no_news:'कोई खबर नहीं मिली',no_news_sub:'फ़िल्टर बदलें या रीफ़्रेश करें',load_fail:'डेटा लोड नहीं हो पाया',load_fail_sub:'कृपया 1-2 मिनट बाद फिर कोशिश करें।',no_data_yet:'डेटा तैयार हो रहा है',no_data_yet_sub:'कृपया 2-3 मिनट बाद page refresh करें।',reading_time:'पढ़ने का समय',published:'प्रकाशित',min_read:'मिनट',save:'सहेजें',saved:'सहेजा गया',share:'शेयर',bookmark_added:'बुकमार्क सहेजा',bookmark_removed:'बुकमार्क हटाया',link_copied:'लिंक कॉपी हो गया',refreshing:'डेटा रीफ़्रेश हो रहा है...',syncing:'सिंक हो रहा है...',sync_fail:'सिंक फेल — फिर कोशिश करें',live:'लाइव',new_articles:'नई खबर आई!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबरें',stat_today:'आज',stat_saved:'सहेजे',stat_updated:'अंतिम अपडेट',ago_now:'अभी',ago_min:'मिनट पहले',ago_hr:'घंटे पहले',ago_day:'दिन पहले',saved_view:'सहेजी खबरें',unread_view:'अपठित खबरें',results:'परिणाम',search_label:'खोज',articles:'खबरें',location:'स्थान',department:'विभाग',action:'कार्रवाई',people:'मुख्य व्यक्ति',key_facts:'मुख्य बातें',full_article:'पूरी खबर',article_empty:'इस खबर का विस्तृत पाठ अभी उपलब्ध नहीं है।',reader_note:'यह खबर Bihari News द्वारा संकलित की गई है।',via:'via'},
-  en:{tagline:'Bihar Ki Taaza Khabar',search_ph:'Search news or schemes...',source:'Source',sort:'Sort',sort_newest:'Newest first',sort_oldest:'Oldest first',sort_source:'Source A→Z',sort_trending:'Trending',read_all:'All',read_unread:'Unread',read_saved:'Saved',trending_now:'Trending Now',trending_sub:'Most talked about',all_news:'All News',all_sub:'Newest first',load_more:'Load more news',reader:'Article',share_via:'Share via',foot_desc:'Every important news from Bihar — schemes, rules, policies and updates.',footer_explore:'Explore',footer_founder:'Founder',owner_role:'Founder & Editor',owner_bio:'Dedicated to bringing authentic Bihar news to every citizen.',rights:'All rights reserved.',made_with:'Made with',made_in:'in Bihar',cat_scheme:'🎯 Schemes',cat_rule:'📋 Rules',cat_news:'📢 Latest News',cat_announce:'📣 Announcements',cat_notify:'🔔 Notifications',no_news:'No news found',no_news_sub:'Change filters or refresh',load_fail:'Could not load data',load_fail_sub:'Please try again in 1-2 minutes.',no_data_yet:'Data is being prepared',no_data_yet_sub:'Please refresh in 2-3 minutes.',reading_time:'Reading time',published:'Published',min_read:'min',save:'Save',saved:'Saved',share:'Share',bookmark_added:'Bookmarked',bookmark_removed:'Bookmark removed',link_copied:'Link copied',refreshing:'Refreshing...',syncing:'Syncing...',sync_fail:'Sync failed — retry',live:'Live',new_articles:'new articles!',quick_facts:'Quick Facts',stat_total:'Total',stat_today:'Today',stat_saved:'Saved',stat_updated:'Last update',ago_now:'now',ago_min:'m ago',ago_hr:'h ago',ago_day:'d ago',saved_view:'Saved',unread_view:'Unread',results:'results',search_label:'Search',articles:'articles',location:'Location',department:'Department',action:'Action',people:'Key People',key_facts:'Key Facts',full_article:'Full Article',article_empty:'Detailed text for this story is not yet available.',reader_note:'This story is compiled by Bihari News.',via:'via'},
-  bho:{tagline:'बिहार के ताज़ा खबर',search_ph:'खबर या योजना खोजीं...',source:'स्रोत',sort:'क्रम',sort_newest:'नया पहिले',sort_oldest:'पुरान पहिले',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सब',read_unread:'नइ पढ़ल',read_saved:'सहेजल',trending_now:'ट्रेंडिंग अभी',trending_sub:'सबसे चर्चित खबर',all_news:'सब खबर',all_sub:'नया पहिले',load_more:'आउर खबर लोड करीं',reader:'लेख',share_via:'एकरा से शेयर करीं',foot_desc:'बिहार के हर जरूरी खबर — योजना, नियम, नीति आ ताज़ा अपडेट।',footer_explore:'खोजीं',footer_founder:'संस्थापक',owner_role:'संस्थापक आ संपादक',owner_bio:'बिहार के हर नागरिक तक सच्ची खबर पहुँचावे खातिर समर्पित।',rights:'सब अधिकार सुरक्षित।',made_with:'प्यार से बनल',made_in:'बिहार में',cat_scheme:'🎯 योजना',cat_rule:'📋 नियम',cat_news:'📢 समाचार',cat_announce:'📣 घोषणा',cat_notify:'🔔 सूचना',no_news:'कोई खबर नइ मिलल',no_news_sub:'फ़िल्टर बदलीं या रीफ़्रेश करीं',load_fail:'डेटा लोड नइ भइल',load_fail_sub:'1-2 मिनट बाद फेर कोशिश करीं।',no_data_yet:'डेटा तैयार होखत बा',no_data_yet_sub:'2-3 मिनट बाद refresh करीं।',reading_time:'पढ़े के समय',published:'छपल',min_read:'मिनट',save:'सहेजीं',saved:'सहेजल',share:'शेयर',bookmark_added:'बुकमार्क सहेजल',bookmark_removed:'बुकमार्क हटावल',link_copied:'लिंक कॉपी हो गइल',refreshing:'रीफ़्रेश होखत बा...',syncing:'सिंक होखत बा...',sync_fail:'सिंक फेल',live:'लाइव',new_articles:'नयका खबर आइल!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबर',stat_today:'आज',stat_saved:'सहेजल',stat_updated:'अंतिम अपडेट',ago_now:'अभी',ago_min:'मिनट पहिले',ago_hr:'घंटा पहिले',ago_day:'दिन पहिले',saved_view:'सहेजल खबर',unread_view:'नइ पढ़ल खबर',results:'परिणाम',search_label:'खोज',articles:'खबर',location:'जगह',department:'विभाग',action:'कार्रवाई',people:'मुख्य लोग',key_facts:'मुख्य बातें',full_article:'पूरा खबर',article_empty:'एह खबर के विस्तृत पाठ अभी नइ उपलब्ध बा।',reader_note:'ई खबर Bihari News द्वारा संकलित कइल गइल बा।',via:'via'},
-  mai:{tagline:'बिहारक ताज़ा खबर',search_ph:'खबर वा योजना खोजू...',source:'स्रोत',sort:'क्रम',sort_newest:'नवीनतम पहिने',sort_oldest:'पुरान पहिने',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सभ',read_unread:'अपठित',read_saved:'सहेजल',trending_now:'ट्रेंडिंग आब',trending_sub:'सभसँ चर्चित खबर',all_news:'सभ खबर',all_sub:'नवीनतम पहिने',load_more:'आरो खबर लोड करू',reader:'लेख',share_via:'एहि सँ शेयर करू',foot_desc:'बिहारक हर जरूरी खबर — योजना, नियम, नीति आ ताज़ा अपडेट।',footer_explore:'खोजू',footer_founder:'संस्थापक',owner_role:'संस्थापक आ सम्पादक',owner_bio:'बिहारक हर नागरिक धरि सच्चा खबर पहुँचबाक लेल समर्पित।',rights:'सभ अधिकार सुरक्षित।',made_with:'प्रेम सँ बनल',made_in:'बिहार मे',cat_scheme:'🎯 योजना',cat_rule:'📋 नियम',cat_news:'📢 समाचार',cat_announce:'📣 घोषणा',cat_notify:'🔔 सूचना',no_news:'कोनो खबर नहि भेटल',no_news_sub:'फ़िल्टर बदलू वा रीफ़्रेश करू',load_fail:'डेटा लोड नहि भेल',load_fail_sub:'1-2 मिनट बाद फेर प्रयास करू।',no_data_yet:'डेटा तैयार भऽ रहल अछि',no_data_yet_sub:'2-3 मिनट बाद refresh करू।',reading_time:'पढ़बाक समय',published:'प्रकाशित',min_read:'मिनट',save:'सहेजू',saved:'सहेजल',share:'शेयर',bookmark_added:'बुकमार्क सहेजल',bookmark_removed:'बुकमार्क हटाओल',link_copied:'लिंक कॉपी भेल',refreshing:'रीफ़्रेश भऽ रहल अछि...',syncing:'सिंक भऽ रहल अछि...',sync_fail:'सिंक फेल',live:'लाइव',new_articles:'नव खबर आयल!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबर',stat_today:'आइ',stat_saved:'सहेजल',stat_updated:'अंतिम अपडेट',ago_now:'आब',ago_min:'मिनट पहिने',ago_hr:'घंटा पहिने',ago_day:'दिन पहिने',saved_view:'सहेजल खबर',unread_view:'अपठित खबर',results:'परिणाम',search_label:'खोज',articles:'खबर',location:'स्थान',department:'विभाग',action:'कार्रवाई',people:'मुख्य व्यक्ति',key_facts:'मुख्य बातें',full_article:'पूरा खबर',article_empty:'एह खबरक विस्तृत पाठ आब नहि उपलब्ध अछि।',reader_note:'ई खबर Bihari News द्वारा संकलित कएल गेल अछि।',via:'via'}
+  hi:{tagline:'बिहार की ताज़ा खबर',search_ph:'खबर या योजना खोजें...',source:'स्रोत',sort:'क्रम',sort_newest:'नवीनतम पहले',sort_oldest:'पुराने पहले',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सभी',read_unread:'अपठित',read_saved:'सहेजे',trending_now:'ट्रेंडिंग अभी',trending_sub:'सबसे चर्चित खबरें',all_news:'सभी खबरें',all_sub:'नवीनतम पहले',load_more:'और खबरें लोड करें',reader:'लेख',share_via:'इसके ज़रिए शेयर करें',foot_desc:'बिहार की हर ज़रूरी खबर — योजनाएँ, नियम, नीतियाँ और ताज़ा अपडेट।',footer_explore:'खोजें',footer_founder:'संस्थापक',owner_role:'संस्थापक एवं संपादक',owner_bio:'बिहार के हर नागरिक तक सच्ची खबर पहुँचाने के लिए समर्पित।',rights:'सभी अधिकार सुरक्षित।',made_with:'प्यार से बनाया',made_in:'बिहार में',cat_scheme:'🎯 योजनाएँ',cat_rule:'📋 नियम व नीतियाँ',cat_news:'📢 ताज़ा समाचार',cat_announce:'📣 घोषणाएँ',cat_notify:'🔔 सूचनाएँ',no_news:'कोई खबर नहीं मिली',no_news_sub:'फ़िल्टर बदलें या रीफ़्रेश करें',load_fail:'डेटा लोड नहीं हो पाया',load_fail_sub:'कृपया 1-2 मिनट बाद फिर कोशिश करें।',no_data_yet:'डेटा तैयार हो रहा है',no_data_yet_sub:'कृपया 2-3 मिनट बाद page refresh करें।',reading_time:'पढ़ने का समय',published:'प्रकाशित',min_read:'मिनट',save:'सहेजें',saved:'सहेजा गया',share:'शेयर',bookmark_added:'बुकमार्क सहेजा',bookmark_removed:'बुकमार्क हटाया',link_copied:'लिंक कॉपी हो गया',refreshing:'डेटा रीफ़्रेश हो रहा है...',syncing:'सिंक हो रहा है...',sync_fail:'सिंक फेल — फिर कोशिश करें',live:'लाइव',new_articles:'नई खबर आई!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबरें',stat_today:'आज',stat_saved:'सहेजे',stat_updated:'अंतिम अपडेट',ago_now:'अभी',ago_min:'मिनट पहले',ago_hr:'घंटे पहले',ago_day:'दिन पहले',saved_view:'सहेजी खबरें',unread_view:'अपठित खबरें',results:'परिणाम',search_label:'खोज',articles:'खबरें',location:'स्थान',department:'विभाग',action:'कार्रवाई',people:'मुख्य व्यक्ति',key_facts:'मुख्य बातें',full_article:'पूरी खबर',article_empty:'इस खबर का विस्तृत पाठ अभी उपलब्ध नहीं है।',reader_note:'यह खबर Bihari News द्वारा संकलित की गई है।',via:'via',related:'संबंधित खबरें',listen:'सुनें',stop_listening:'रोकें',copy:'कॉपी',copied:'कॉपी हो गया',print:'प्रिंट',tts_not_supported:'आपका ब्राउज़र TTS सपोर्ट नहीं करता',notification_prompt_title:'नई खबर के नोटिफिकेशन',notification_prompt_desc:'जब भी बिहार की बड़ी खबर आएगी, हम आपको बताएँगे।',enable:'चालू करें',later:'बाद में',notif_granted:'नोटिफिकेशन चालू हो गया!',notif_denied:'नोटिफिकेशन बंद कर दिया गया',shortcuts:'कीबोर्ड शॉर्टकट'},
+  en:{tagline:'Bihar Ki Taaza Khabar',search_ph:'Search news or schemes...',source:'Source',sort:'Sort',sort_newest:'Newest first',sort_oldest:'Oldest first',sort_source:'Source A→Z',sort_trending:'Trending',read_all:'All',read_unread:'Unread',read_saved:'Saved',trending_now:'Trending Now',trending_sub:'Most talked about',all_news:'All News',all_sub:'Newest first',load_more:'Load more news',reader:'Article',share_via:'Share via',foot_desc:'Every important news from Bihar — schemes, rules, policies and updates.',footer_explore:'Explore',footer_founder:'Founder',owner_role:'Founder & Editor',owner_bio:'Dedicated to bringing authentic Bihar news to every citizen.',rights:'All rights reserved.',made_with:'Made with',made_in:'in Bihar',cat_scheme:'🎯 Schemes',cat_rule:'📋 Rules',cat_news:'📢 Latest News',cat_announce:'📣 Announcements',cat_notify:'🔔 Notifications',no_news:'No news found',no_news_sub:'Change filters or refresh',load_fail:'Could not load data',load_fail_sub:'Please try again in 1-2 minutes.',no_data_yet:'Data is being prepared',no_data_yet_sub:'Please refresh in 2-3 minutes.',reading_time:'Reading time',published:'Published',min_read:'min',save:'Save',saved:'Saved',share:'Share',bookmark_added:'Bookmarked',bookmark_removed:'Bookmark removed',link_copied:'Link copied',refreshing:'Refreshing...',syncing:'Syncing...',sync_fail:'Sync failed — retry',live:'Live',new_articles:'new articles!',quick_facts:'Quick Facts',stat_total:'Total',stat_today:'Today',stat_saved:'Saved',stat_updated:'Last update',ago_now:'now',ago_min:'m ago',ago_hr:'h ago',ago_day:'d ago',saved_view:'Saved',unread_view:'Unread',results:'results',search_label:'Search',articles:'articles',location:'Location',department:'Department',action:'Action',people:'Key People',key_facts:'Key Facts',full_article:'Full Article',article_empty:'Detailed text for this story is not yet available.',reader_note:'This story is compiled by Bihari News.',via:'via',related:'Related Articles',listen:'Listen',stop_listening:'Stop',copy:'Copy',copied:'Copied',print:'Print',tts_not_supported:'TTS not supported in your browser',notification_prompt_title:'News Notifications',notification_prompt_desc:'Get notified when big Bihar news breaks.',enable:'Enable',later:'Later',notif_granted:'Notifications enabled!',notif_denied:'Notifications disabled',shortcuts:'Keyboard Shortcuts'},
+  bho:{tagline:'बिहार के ताज़ा खबर',search_ph:'खबर या योजना खोजीं...',source:'स्रोत',sort:'क्रम',sort_newest:'नया पहिले',sort_oldest:'पुरान पहिले',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सब',read_unread:'नइ पढ़ल',read_saved:'सहेजल',trending_now:'ट्रेंडिंग अभी',trending_sub:'सबसे चर्चित खबर',all_news:'सब खबर',all_sub:'नया पहिले',load_more:'आउर खबर लोड करीं',reader:'लेख',share_via:'एकरा से शेयर करीं',foot_desc:'बिहार के हर जरूरी खबर — योजना, नियम, नीति आ ताज़ा अपडेट।',footer_explore:'खोजीं',footer_founder:'संस्थापक',owner_role:'संस्थापक आ संपादक',owner_bio:'बिहार के हर नागरिक तक सच्ची खबर पहुँचावे खातिर समर्पित।',rights:'सब अधिकार सुरक्षित।',made_with:'प्यार से बनल',made_in:'बिहार में',cat_scheme:'🎯 योजना',cat_rule:'📋 नियम',cat_news:'📢 समाचार',cat_announce:'📣 घोषणा',cat_notify:'🔔 सूचना',no_news:'कोई खबर नइ मिलल',no_news_sub:'फ़िल्टर बदलीं या रीफ़्रेश करीं',load_fail:'डेटा लोड नइ भइल',load_fail_sub:'1-2 मिनट बाद फेर कोशिश करीं।',no_data_yet:'डेटा तैयार होखत बा',no_data_yet_sub:'2-3 मिनट बाद refresh करीं।',reading_time:'पढ़े के समय',published:'छपल',min_read:'मिनट',save:'सहेजीं',saved:'सहेजल',share:'शेयर',bookmark_added:'बुकमार्क सहेजल',bookmark_removed:'बुकमार्क हटावल',link_copied:'लिंक कॉपी हो गइल',refreshing:'रीफ़्रेश होखत बा...',syncing:'सिंक होखत बा...',sync_fail:'सिंक फेल',live:'लाइव',new_articles:'नयका खबर आइल!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबर',stat_today:'आज',stat_saved:'सहेजल',stat_updated:'अंतिम अपडेट',ago_now:'अभी',ago_min:'मिनट पहिले',ago_hr:'घंटा पहिले',ago_day:'दिन पहिले',saved_view:'सहेजल खबर',unread_view:'नइ पढ़ल खबर',results:'परिणाम',search_label:'खोज',articles:'खबर',location:'जगह',department:'विभाग',action:'कार्रवाई',people:'मुख्य लोग',key_facts:'मुख्य बातें',full_article:'पूरा खबर',article_empty:'एह खबर के विस्तृत पाठ अभी नइ उपलब्ध बा।',reader_note:'ई खबर Bihari News द्वारा संकलित कइल गइल बा।',via:'via',related:'संबंधित खबर',listen:'सुनीं',stop_listening:'रोकीं',copy:'कॉपी',copied:'कॉपी हो गइल',print:'प्रिंट',tts_not_supported:'राउर ब्राउज़र TTS नइ सपोर्ट करे',notification_prompt_title:'नयका खबर के नोटिफिकेशन',notification_prompt_desc:'जब बिहार के बड़ी खबर आई, हम बताई।',enable:'चालू करीं',later:'बाद में',notif_granted:'नोटिफिकेशन चालू हो गइल!',notif_denied:'नोटिफिकेशन बंद कइल गइल',shortcuts:'कीबोर्ड शॉर्टकट'},
+  mai:{tagline:'बिहारक ताज़ा खबर',search_ph:'खबर वा योजना खोजू...',source:'स्रोत',sort:'क्रम',sort_newest:'नवीनतम पहिने',sort_oldest:'पुरान पहिने',sort_source:'स्रोत A→Z',sort_trending:'ट्रेंडिंग',read_all:'सभ',read_unread:'अपठित',read_saved:'सहेजल',trending_now:'ट्रेंडिंग आब',trending_sub:'सभसँ चर्चित खबर',all_news:'सभ खबर',all_sub:'नवीनतम पहिने',load_more:'आरो खबर लोड करू',reader:'लेख',share_via:'एहि सँ शेयर करू',foot_desc:'बिहारक हर जरूरी खबर — योजना, नियम, नीति आ ताज़ा अपडेट।',footer_explore:'खोजू',footer_founder:'संस्थापक',owner_role:'संस्थापक आ सम्पादक',owner_bio:'बिहारक हर नागरिक धरि सच्चा खबर पहुँचबाक लेल समर्पित।',rights:'सभ अधिकार सुरक्षित।',made_with:'प्रेम सँ बनल',made_in:'बिहार मे',cat_scheme:'🎯 योजना',cat_rule:'📋 नियम',cat_news:'📢 समाचार',cat_announce:'📣 घोषणा',cat_notify:'🔔 सूचना',no_news:'कोनो खबर नहि भेटल',no_news_sub:'फ़िल्टर बदलू वा रीफ़्रेश करू',load_fail:'डेटा लोड नहि भेल',load_fail_sub:'1-2 मिनट बाद फेर प्रयास करू।',no_data_yet:'डेटा तैयार भऽ रहल अछि',no_data_yet_sub:'2-3 मिनट बाद refresh करू।',reading_time:'पढ़बाक समय',published:'प्रकाशित',min_read:'मिनट',save:'सहेजू',saved:'सहेजल',share:'शेयर',bookmark_added:'बुकमार्क सहेजल',bookmark_removed:'बुकमार्क हटाओल',link_copied:'लिंक कॉपी भेल',refreshing:'रीफ़्रेश भऽ रहल अछि...',syncing:'सिंक भऽ रहल अछि...',sync_fail:'सिंक फेल',live:'लाइव',new_articles:'नव खबर आयल!',quick_facts:'मुख्य तथ्य',stat_total:'कुल खबर',stat_today:'आइ',stat_saved:'सहेजल',stat_updated:'अंतिम अपडेट',ago_now:'आब',ago_min:'मिनट पहिने',ago_hr:'घंटा पहिने',ago_day:'दिन पहिने',saved_view:'सहेजल खबर',unread_view:'अपठित खबर',results:'परिणाम',search_label:'खोज',articles:'खबर',location:'स्थान',department:'विभाग',action:'कार्रवाई',people:'मुख्य व्यक्ति',key_facts:'मुख्य बातें',full_article:'पूरा खबर',article_empty:'एह खबरक विस्तृत पाठ आब नहि उपलब्ध अछि।',reader_note:'ई खबर Bihari News द्वारा संकलित कएल गेल अछि।',via:'via',related:'संबंधित खबर',listen:'सुनू',stop_listening:'रोकू',copy:'कॉपी',copied:'कॉपी भेल',print:'प्रिंट',tts_not_supported:'अहाँक ब्राउज़र TTS नहि सपोर्ट करैत अछि',notification_prompt_title:'नव खबरक नोटिफिकेशन',notification_prompt_desc:'जखन बिहारक पैघ खबर आयत, हम अहाँक बताएब।',enable:'चालू करू',later:'बाद मे',notif_granted:'नोटिफिकेशन चालू भेल!',notif_denied:'नोटिफिकेशन बंद कएल गेल',shortcuts:'कीबोर्ड शॉर्टकट'}
 };
 
-const state = { items:[], filtered:[], category:'all', query:'', source:'all', sort:'newest', readFilter:'all', viewMode:'grid', page:1, bookmarks:new Set(), readItems:new Set(), seenIds:new Set(), firstLoad:true, isLoading:false, lastSync:null, theme:'light', lang:'hi', activeReaderId:null };
+const state = {
+  items:[], filtered:[], category:'all', query:'', source:'all', sort:'newest',
+  readFilter:'all', viewMode:'grid', page:1,
+  bookmarks:new Set(), readItems:new Set(), seenIds:new Set(),
+  firstLoad:true, isLoading:false, lastSync:null,
+  theme:'light', lang:'hi', activeReaderId:null,
+  readerFont:16, readerDensity:'comfortable',
+  tts: { speaking:false, paused:false, utterance:null },
+  notificationAsked:false
+};
 
 const $ = id => document.getElementById(id);
 const els = {
   topbar:$('topbar'),searchBox:$('searchBox'),searchInput:$('searchInput'),searchClear:$('searchClear'),
+  searchSuggest:$('searchSuggest'),
   refreshBtn:$('refreshBtn'),savedBtn:$('savedBtn'),themeBtn:$('themeBtn'),themeIcon:$('themeIcon'),
+  shortcutsBtn:$('shortcutsBtn'),
   langPicker:$('langPicker'),langBtn:$('langBtn'),langMenu:$('langMenu'),langName:$('langName'),
   tickerContent:$('tickerContent'),statsBar:$('statsBar'),statusChip:$('statusChip'),statusText:$('statusText'),
   countChip:$('countChip'),filterChip:$('filterChip'),filters:$('filters'),sourceSelect:$('sourceSelect'),
@@ -567,15 +766,24 @@ const els = {
   toastWrap:$('toastWrap'),year:$('year'),drawerBackdrop:$('drawerBackdrop'),
   reader:$('reader'),readerBody:$('readerBody'),readerBookmark:$('readerBookmark'),
   readerShare:$('readerShare'),readerClose:$('readerClose'),
-  readerProgress:$('readerProgress'),readerProgressBar:$('readerProgressBar'),
-  shareSheet:$('shareSheet'),shareGrid:$('shareGrid'),scrollTop:$('scrollTop'),ownerCard:$('ownerCard')
+  readerProgressBar:$('readerProgressBar'),
+  readerPrev:$('readerPrev'),readerNext:$('readerNext'),
+  readerFloatingBar:$('readerFloatingBar'),
+  rfbTTS:$('rfbTTS'),rfbCopy:$('rfbCopy'),rfbPrint:$('rfbPrint'),
+  rfbFontDec:$('rfbFontDec'),rfbFontInc:$('rfbFontInc'),rfbDensity:$('rfbDensity'),
+  shareSheet:$('shareSheet'),shareGrid:$('shareGrid'),scrollTop:$('scrollTop'),ownerCard:$('ownerCard'),
+  shortcutsModal:$('shortcutsModal'),shortcutsClose:$('shortcutsClose'),
+  notifPrompt:$('notifPrompt'),notifClose:$('notifClose'),notifYes:$('notifYes'),notifNo:$('notifNo'),
+  mainProgressBar:$('mainProgressBar')
 };
 
+/* ---------- STORAGE ---------- */
 const safeLS = {
   get(k,fb=null){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;} },
   set(k,v){ try{localStorage.setItem(k,JSON.stringify(v));return true;}catch{return false;} }
 };
 
+/* ---------- UTILS ---------- */
 const stripHtml = s => { if(!s) return ''; const d=document.createElement('div'); d.innerHTML=s; return (d.textContent||'').replace(/\s+/g,' ').trim(); };
 const escapeHtml = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const escapeRegex = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -605,7 +813,7 @@ const uid = s => { let h=0; for(let i=0;i<s.length;i++){ h=((h<<5)-h+s.charCodeA
 const readTime = text => { const words=(text||'').split(/\s+/).length; return {min:Math.max(1,Math.round(words/220)),words}; };
 const debounce = (fn,wait) => { let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),wait); }; };
 
-/* ============ DISTRICTS & PATTERNS ============ */
+/* ---------- EXTRACTORS ---------- */
 const BIHAR_DISTRICTS = {'patna':'पटना','gaya':'गया','bhagalpur':'भागलपुर','muzaffarpur':'मुजफ्फरपुर','darbhanga':'दरभंगा','purnia':'पूर्णिया','begusarai':'बेगूसराय','samastipur':'समस्तीपुर','saran':'सारण','chapra':'छपरा','siwan':'सिवान','gopalganj':'गोपालगंज','madhubani':'मधुबनी','saharsa':'सहरसा','sitamarhi':'सीतामढ़ी','vaishali':'वैशाली','nalanda':'नालंदा','bhojpur':'भोजपुर','rohtas':'रोहतास','kaimur':'कैमूर','buxar':'बक्सर','aurangabad':'औरंगाबाद','nawada':'नवादा','jamui':'जमुई','lakhisarai':'लखीसराय','sheikhpura':'शेखपुरा','araria':'अररिया','kishanganj':'किशनगंज','katihar':'कटिहार','madhepura':'मधेपुरा','supaul':'सुपौल','banka':'बांका','khagaria':'खगड़िया','sheohar':'शिवहर','arwal':'अरवल','jehanabad':'जहानाबाद','पटना':'पटना','गया':'गया','भागलपुर':'भागलपुर','मुजफ्फरपुर':'मुजफ्फरपुर','दरभंगा':'दरभंगा','पूर्णिया':'पूर्णिया','बेगूसराय':'बेगूसराय','समस्तीपुर':'समस्तीपुर','सारण':'सारण','छपरा':'छपरा','सिवान':'सिवान','गोपालगंज':'गोपालगंज','मधुबनी':'मधुबनी','सहरसा':'सहरसा','सीतामढ़ी':'सीतामढ़ी','वैशाली':'वैशाली','नालंदा':'नालंदा','भोजपुर':'भोजपुर','रोहतास':'रोहतास','कैमूर':'कैमूर','बक्सर':'बक्सर','औरंगाबाद':'औरंगाबाद','नवादा':'नवादा','जमुई':'जमुई','लखीसराय':'लखीसराय','शेखपुरा':'शेखपुरा','अररिया':'अररिया','किशनगंज':'किशनगंज','कटिहार':'कटिहार','मधेपुरा':'मधेपुरा','सुपौल':'सुपौल','बांका':'बांका','खगड़िया':'खगड़िया','शिवहर':'शिवहर','अरवल':'अरवल','जहानाबाद':'जहानाबाद'};
 
 const DEPT_PATTERNS = [
@@ -637,7 +845,7 @@ const ACTION_PATTERNS = [
   {re:/जांच|investigation|probe|जाँच/i, hi:'जांच', icon:'🔍', tone:'brand'},
   {re:/बढ़ोतरी|वृद्धि|increase|hike|बढ़ाया/i, hi:'बढ़ोतरी', icon:'📈', tone:'green'},
   {re:/मुआवजा|compensation|मुआवज़ा/i, hi:'मुआवजा', icon:'💵', tone:'gold'},
-  {re:/सत्यापन|verification|verify|जांच-पड़ताल/i, hi:'सत्यापन', icon:'✅', tone:'brand'},
+  {re:/सत्यापन|verification|verify/i, hi:'सत्यापन', icon:'✅', tone:'brand'},
   {re:/स्कैम|scam|फर्जी|fraud|घोटाला/i, hi:'फर्जीवाड़ा', icon:'⚠️', tone:'danger'}
 ];
 
@@ -706,7 +914,7 @@ const cleanDesc = (title, desc, source) => {
   return d;
 };
 
-const buildDetailedSummary = (item) => {
+const buildDetailedSummary = item => {
   const bullets = [];
   const facts = extractFacts(item);
   const cleaned = cleanDesc(item.title, item.desc||'', item.source);
@@ -735,7 +943,7 @@ const buildDetailedSummary = (item) => {
   return bullets;
 };
 
-const getCardSummaryHtml = (item) => {
+const getCardSummaryHtml = item => {
   const bullets = buildDetailedSummary(item);
   if(!bullets.length) return '';
   return bullets.slice(0, 2).map(b => `
@@ -746,19 +954,18 @@ const getCardSummaryHtml = (item) => {
   `).join('');
 };
 
-/* image helper — JSON se baked-in image use karo */
 const getImageUrl = item => {
   if(item.image) return item.image;
   if(item.images && item.images.length && item.images[0].src) return item.images[0].src;
   return null;
 };
-
 const hashHue = str => { let h=0; for(let i=0;i<str.length;i++) h=(h*31+str.charCodeAt(i))|0; return Math.abs(h)%360; };
 const getPlaceholderStyle = item => {
   const hue = hashHue(item.id||item.title), hue2 = (hue+40)%360;
   return `background:linear-gradient(135deg,hsl(${hue},62%,42%),hsl(${hue2},68%,52%))`;
 };
 
+/* ---------- TOAST ---------- */
 const toast = (msg,type='info',duration=3200) => {
   const el = document.createElement('div');
   el.className = 'toast '+type;
@@ -768,6 +975,7 @@ const toast = (msg,type='info',duration=3200) => {
   setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),400); },duration);
 };
 
+/* ---------- THEME ---------- */
 const applyTheme = t => {
   state.theme = t;
   document.documentElement.setAttribute('data-theme',t);
@@ -779,6 +987,7 @@ const applyTheme = t => {
 };
 els.themeBtn.addEventListener('click',()=>applyTheme(state.theme==='dark'?'light':'dark'));
 
+/* ---------- LANGUAGE ---------- */
 const renderLangMenu = () => {
   els.langMenu.innerHTML = LANGS.map(l=>`
     <button data-lang="${l.code}" class="${state.lang===l.code?'active':''}">
@@ -803,10 +1012,15 @@ const applyLang = lang => {
   const cur = LANGS.find(l=>l.code===lang);
   if(cur) els.langName.textContent = cur.name;
   renderLangMenu(); buildFilters(); buildSourceOptions(); render();
+  if(state.activeReaderId && els.reader.classList.contains('open')){
+    const item = state.items.find(x=>x.id===state.activeReaderId);
+    if(item) renderReaderShell(item);
+  }
 };
 els.langBtn.addEventListener('click',e=>{ e.stopPropagation(); els.langPicker.classList.toggle('open'); });
 document.addEventListener('click',e=>{ if(!els.langPicker.contains(e.target)) els.langPicker.classList.remove('open'); });
 
+/* ---------- BOOKMARKS & READ STATE ---------- */
 const loadBookmarks = () => { const a = safeLS.get('bn_bookmarks',[]); state.bookmarks = new Set(Array.isArray(a)?a:[]); };
 const saveBookmarks = () => safeLS.set('bn_bookmarks',[...state.bookmarks]);
 const loadReadItems = () => { const a = safeLS.get('bn_read',[]); state.readItems = new Set(Array.isArray(a)?a:[]); };
@@ -822,11 +1036,97 @@ const updateSavedBadge = () => els.savedBtn.classList.toggle('has-badge',state.b
 
 const loadCache = () => { const c = safeLS.get('bn_cache',null); if(c && c.ts && Array.isArray(c.items) && Date.now()-c.ts < CONFIG.CACHE_TTL) return c.items; return null; };
 const saveCache = items => {
-  // slim cache — only metadata, drop paragraphs (they're heavy)
   const slim = items.slice(0,80).map(({id,title,link,desc,source,ts,cat,image})=>({id,title,link,desc,source,ts,cat,image}));
   safeLS.set('bn_cache',{ts:Date.now(),items:slim});
 };
 
+/* ---------- READER PREFERENCES ---------- */
+const loadReaderPrefs = () => {
+  state.readerFont = safeLS.get('bn_font', CONFIG.READER_FONT_DEFAULT);
+  state.readerDensity = safeLS.get('bn_density','comfortable');
+  applyReaderPrefs();
+};
+const saveReaderPrefs = () => {
+  safeLS.set('bn_font', state.readerFont);
+  safeLS.set('bn_density', state.readerDensity);
+};
+const applyReaderPrefs = () => {
+  document.documentElement.style.setProperty('--reader-font', state.readerFont + 'px');
+  document.documentElement.style.setProperty('--reader-lh', state.readerDensity==='compact' ? '1.55' : '1.85');
+};
+const adjustFont = delta => {
+  state.readerFont = Math.max(CONFIG.READER_FONT_MIN, Math.min(CONFIG.READER_FONT_MAX, state.readerFont + delta));
+  applyReaderPrefs(); saveReaderPrefs();
+  toast(`Font: ${state.readerFont}px`, 'info', 1500);
+};
+const toggleDensity = () => {
+  state.readerDensity = state.readerDensity === 'comfortable' ? 'compact' : 'comfortable';
+  applyReaderPrefs(); saveReaderPrefs();
+  els.rfbDensity.classList.toggle('active', state.readerDensity === 'compact');
+  toast(state.readerDensity === 'compact' ? 'Compact' : 'Comfortable', 'info', 1500);
+};
+
+/* ---------- TTS ---------- */
+const stopTTS = () => {
+  if(window.speechSynthesis && state.tts.speaking){
+    window.speechSynthesis.cancel();
+  }
+  state.tts.speaking = false;
+  state.tts.paused = false;
+  state.tts.utterance = null;
+  els.rfbTTS.classList.remove('active');
+  els.rfbTTS.title = I18N[state.lang].listen;
+  els.rfbTTS.querySelector('svg').innerHTML = '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/>';
+};
+const startTTS = item => {
+  if(!('speechSynthesis' in window)){
+    toast(I18N[state.lang].tts_not_supported, 'err');
+    return;
+  }
+  if(state.tts.speaking){
+    stopTTS();
+    return;
+  }
+  const paras = item.paragraphs || [];
+  const text = [item.title, ...(paras.length ? paras : [item.desc||''])].filter(Boolean).join('. ');
+  if(!text.trim()){ toast('No text to read', 'err'); return; }
+
+  const utt = new SpeechSynthesisUtterance(text);
+  const langObj = LANGS.find(l=>l.code===state.lang) || LANGS[0];
+  utt.lang = langObj.tts;
+  utt.rate = 0.95; utt.pitch = 1;
+
+  const voices = window.speechSynthesis.getVoices();
+  const v = voices.find(x => x.lang.startsWith(langObj.tts.split('-')[0]));
+  if(v) utt.voice = v;
+
+  utt.onend = () => stopTTS();
+  utt.onerror = () => stopTTS();
+
+  state.tts.utterance = utt;
+  state.tts.speaking = true;
+  window.speechSynthesis.speak(utt);
+
+  els.rfbTTS.classList.add('active');
+  els.rfbTTS.title = I18N[state.lang].stop_listening;
+  els.rfbTTS.querySelector('svg').innerHTML = '<rect x="6" y="6" width="12" height="12" rx="1.5" fill="currentColor"/>';
+  toast('🔊 ' + I18N[state.lang].listen + '...', 'ok', 2000);
+};
+if(window.speechSynthesis){
+  window.speechSynthesis.onvoiceschanged = () => {};
+}
+
+/* ---------- COPY ---------- */
+const copyArticle = async item => {
+  const paras = item.paragraphs || [];
+  const text = `${item.title}\n\n${paras.length ? paras.join('\n\n') : (item.desc||'')}\n\n— Bihari News`;
+  try {
+    await navigator.clipboard.writeText(text);
+    toast(I18N[state.lang].copied, 'ok');
+  } catch { toast('Copy failed','err'); }
+};
+
+/* ---------- CATEGORIZE / TREND ---------- */
 const categorize = item => {
   const t = (item.title+' '+(item.desc||'')).toLowerCase();
   if(/योजना|scheme|yojana|benefit|लाभ|subsidy|सब्सिडी|आवास|pension|पेंशन|राशन|ration|kisan|किसान|awas|ujjwala|उज्ज्वला|scholarship|छात्रवृत्ति/i.test(t)) return 'scheme';
@@ -835,7 +1135,6 @@ const categorize = item => {
   if(/सूचना|notice|notification|alert|चेतावनी|warning|deadline|अंतिम तिथि/i.test(t)) return 'notify';
   return 'news';
 };
-
 const trendScore = item => {
   const ageHrs = (Date.now()-item.ts)/3600000;
   const recency = 1/(ageHrs+1);
@@ -848,6 +1147,31 @@ const trendScore = item => {
   return recency+boost;
 };
 
+/* ---------- RELATED ARTICLES ---------- */
+const findRelated = (item, count=4) => {
+  const facts = extractFacts(item);
+  const scored = state.items
+    .filter(x => x.id !== item.id)
+    .map(x => {
+      let score = 0;
+      if(x.cat === item.cat) score += 2;
+      const xf = extractFacts(x);
+      if(facts.locations.length && xf.locations.some(l => facts.locations.includes(l))) score += 3;
+      if(facts.departments.length && xf.departments.some(d => facts.departments.some(fd => fd.hi === d.hi))) score += 2;
+      if(facts.actions.length && xf.actions.some(a => facts.actions.some(fa => fa.hi === a.hi))) score += 1;
+      if(facts.people.length && xf.people.some(p => facts.people.some(fp => fp.hi === p.hi))) score += 2;
+      // recency boost
+      score += 1 / ((Date.now()-x.ts)/3600000 + 1);
+      return { item: x, score };
+    })
+    .filter(x => x.score > 1)
+    .sort((a,b) => b.score - a.score)
+    .slice(0, count)
+    .map(x => x.item);
+  return scored;
+};
+
+/* ---------- LOAD FEEDS ---------- */
 const loadFeeds = async (showToast=false) => {
   if(state.isLoading) return;
   state.isLoading = true;
@@ -874,7 +1198,10 @@ const loadFeeds = async (showToast=false) => {
     state.lastSync = Date.now();
     state.firstLoad = false;
     setStatus('ok',`${I18N[state.lang].live} · ${timeAgo(state.lastSync)}`);
-    if(newOnes.length>0) toast(`🔥 ${newOnes.length} ${I18N[state.lang].new_articles}`,'ok');
+    if(newOnes.length>0){
+      toast(`🔥 ${newOnes.length} ${I18N[state.lang].new_articles}`,'ok');
+      sendNotification(newOnes);
+    }
     if(showToast) toast(I18N[state.lang].refreshing,'info');
     saveCache(all); buildFilters(); buildSourceOptions(); render();
   } catch(err){
@@ -882,7 +1209,7 @@ const loadFeeds = async (showToast=false) => {
     if(state.items.length===0){
       const t = I18N[state.lang];
       const is404 = /404/.test(err.message);
-      els.newsGrid.innerHTML = `<div class="empty"><div class="emoji">${is404?'⏳':'⚠️'}</div><h3>${escapeHtml(is404?t.no_data_yet:t.load_fail)}</h3><p>${escapeHtml(is404?t.no_data_yet_sub:t.load_fail_sub)}</p></div>`;
+      els.newsGrid.innerHTML = `<div class="empty"><div class="emoji">${is404?'⏳':'⚠️'}</div><h3>${escapeHtml(is404?t.no_data_yet:t.load_fail)}</h3><p>${escapeHtml(is404?t.no_data_yet_sub:t.load_fail_sub)}</p><button class="empty-action" onclick="location.reload()">🔄 Retry</button></div>`;
     }
     setStatus('err',I18N[state.lang].sync_fail);
     if(showToast) toast(I18N[state.lang].sync_fail,'err');
@@ -890,6 +1217,43 @@ const loadFeeds = async (showToast=false) => {
 };
 const setStatus = (kind,text) => { els.statusChip.className = 'status-chip '+kind; els.statusText.textContent = text; };
 
+/* ---------- NOTIFICATIONS ---------- */
+const askNotification = () => {
+  if(!('Notification' in window) || state.notificationAsked) return;
+  if(localStorage.getItem('bn_notif') === '1' || localStorage.getItem('bn_notif') === '0') return;
+  setTimeout(()=>els.notifPrompt.classList.add('show'), 12000);
+};
+const sendNotification = newItems => {
+  if(!('Notification' in window) || Notification.permission !== 'granted') return;
+  if(document.visibilityState === 'visible') return;
+  const n = newItems[0];
+  try {
+    new Notification('Bihari News — ' + newItems.length + ' ' + I18N[state.lang].new_articles, {
+      body: n.title,
+      icon: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#c2410c"/><text x="50" y="68" font-size="60" font-weight="800" text-anchor="middle" fill="#fff" font-family="sans-serif">ब</text></svg>'),
+      tag: 'bihari-news',
+      badge: undefined
+    });
+  } catch{}
+};
+els.notifYes.addEventListener('click', async () => {
+  try {
+    const perm = await Notification.requestPermission();
+    localStorage.setItem('bn_notif', perm === 'granted' ? '1' : '0');
+    els.notifPrompt.classList.remove('show');
+    toast(perm === 'granted' ? I18N[state.lang].notif_granted : I18N[state.lang].notif_denied, perm === 'granted' ? 'ok' : 'info');
+  } catch{}
+});
+els.notifNo.addEventListener('click', () => {
+  localStorage.setItem('bn_notif','0');
+  els.notifPrompt.classList.remove('show');
+});
+els.notifClose.addEventListener('click', () => {
+  localStorage.setItem('bn_notif','0');
+  els.notifPrompt.classList.remove('show');
+});
+
+/* ---------- BUILD FILTERS ---------- */
 const buildFilters = () => {
   const counts = {};
   CONFIG.CATEGORIES.forEach(c=>{ counts[c.id] = c.id==='all'?state.items.length:state.items.filter(it=>it.cat===c.id).length; });
@@ -926,6 +1290,7 @@ const applyFilters = () => {
   return out;
 };
 
+/* ---------- RENDER ---------- */
 const render = () => {
   const filtered = applyFilters();
   state.filtered = filtered;
@@ -964,9 +1329,11 @@ const renderStats = () => {
   els.statsBar.innerHTML = `
     <div class="stat-card"><div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div class="s-val">${total}</div><div class="s-lab">${t.stat_total}</div></div>
     <div class="stat-card live"><div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="s-val">${today}</div><div class="s-lab">${t.stat_today}</div></div>
-    <div class="stat-card"><div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="s-val">${saved}</div><div class="s-lab">${t.stat_saved}</div></div>
+    <div class="stat-card clickable" id="statSaved"><div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div class="s-val">${saved}</div><div class="s-lab">${t.stat_saved}</div></div>
     <div class="stat-card time"><div class="s-val">${escapeHtml(updatedStr)}</div><div class="s-lab">${t.stat_updated}</div></div>
   `;
+  const s = $('statSaved');
+  if(s) s.addEventListener('click', ()=>{ state.readFilter = state.readFilter==='saved'?'all':'saved'; updateReadFilterUI(); state.page=1; render(); window.scrollTo({top:0,behavior:'smooth'}); });
 };
 
 const renderTicker = items => {
@@ -1076,7 +1443,7 @@ const renderTrending = items => {
 
 const renderGrid = items => {
   if(state.isLoading && !items.length && state.items.length===0){
-    els.newsGrid.className = 'grid'+(state.viewMode==='list'?' view-list':'');
+    els.newsGrid.className = 'grid';
     els.newsGrid.innerHTML = Array.from({length:6}).map(()=>`
       <div class="skeleton"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line short"></div><div class="sk-line tall"></div><div class="sk-line mid"></div><div class="sk-line mid"></div></div></div>
     `).join('');
@@ -1088,7 +1455,7 @@ const renderGrid = items => {
     els.newsGrid.innerHTML = `<div class="empty"><div class="emoji">📭</div><h3>${escapeHtml(t.no_news)}</h3><p>${escapeHtml(t.no_news_sub)}</p></div>`;
     return;
   }
-  els.newsGrid.className = 'grid'+(state.viewMode==='list'?' view-list':'');
+  els.newsGrid.className = 'grid'+(state.viewMode==='list'?' view-list':state.viewMode==='compact'?' view-compact':'');
 
   els.newsGrid.innerHTML = items.map((it,idx)=>{
     const cat = CONFIG.CATEGORIES.find(c=>c.id===it.cat)||CONFIG.CATEGORIES[3];
@@ -1108,6 +1475,9 @@ const renderGrid = items => {
           ${icon}
           <span class="th-cat cat-badge ${it.cat}">${cat.icon} ${catLabel}</span>
           <span class="th-wm">BN</span>
+          <button class="th-tts" data-act="tts" title="${I18N[state.lang].listen}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>
+          </button>
         </div>
         <div class="card-body">
           <div class="card-src">${escapeHtml(catLabel)}</div>
@@ -1142,17 +1512,16 @@ const renderGrid = items => {
         if(act==='bookmark') toggleBookmark(id);
         else if(act==='open') openReader(id);
         else if(act==='share') openShareSheet(item);
+        else if(act==='tts') { openReader(id); setTimeout(()=>startTTS(item), 400); }
       });
     });
   });
 };
 
-/* ================================================================
-   READER — uses pre-scraped paragraphs + images from JSON
-   ================================================================ */
+/* ---------- READER ---------- */
 let readerPushed = false;
 
-const renderReaderShell = (item) => {
+const renderReaderShell = item => {
   const cat = CONFIG.CATEGORIES.find(c=>c.id===item.cat)||CONFIG.CATEGORIES[3];
   const catLabel = cat.label[state.lang]||cat.label.hi;
   const t = I18N[state.lang];
@@ -1181,12 +1550,10 @@ const renderReaderShell = (item) => {
     </div>
   ` : '';
 
-  /* FULL ARTICLE */
   let fullArticleHtml = '';
   if(paras.length >= 1){
     const parasHtml = paras.map((p,i)=>{
       let block = `<p class="rfa-para">${escapeHtml(p)}</p>`;
-      // inject images after 2nd and 5th paragraph
       if(i === 1 && images[0] && images[0].src){
         const alt = images[0].alt ? escapeHtml(images[0].alt) : '';
         block += `<img class="rfa-img loading" loading="lazy" src="${escapeHtml(images[0].src)}" alt="${alt}" onload="this.classList.remove('loading')" onerror="this.style.display='none'">`;
@@ -1211,22 +1578,41 @@ const renderReaderShell = (item) => {
       ${galleryHtml}
     `;
   } else if(item.desc && item.desc.length > 60){
-    // fallback: show desc as single paragraph
     fullArticleHtml = `
       <div class="reader-section-title">${t.full_article}</div>
-      <div class="reader-full-article">
-        <p class="rfa-para">${escapeHtml(item.desc)}</p>
-      </div>
+      <div class="reader-full-article"><p class="rfa-para">${escapeHtml(item.desc)}</p></div>
     `;
   } else {
     fullArticleHtml = `
       <div class="reader-section-title">${t.full_article}</div>
-      <div class="reader-empty-note">
-        <div class="re-icon">📰</div>
-        <div>${escapeHtml(t.article_empty)}</div>
-      </div>
+      <div class="reader-empty-note"><div class="re-icon">📰</div><div>${escapeHtml(t.article_empty)}</div></div>
     `;
   }
+
+  // Related articles
+  const related = findRelated(item, 4);
+  const relatedHtml = related.length ? `
+    <div class="related-section">
+      <div class="related-title">🔗 ${escapeHtml(t.related)}</div>
+      <div class="related-grid">
+        ${related.map(r=>{
+          const rc = CONFIG.CATEGORIES.find(x=>x.id===r.cat)||CONFIG.CATEGORIES[3];
+          const rimg = getImageUrl(r);
+          const rthumb = rimg ? `background-image:url('${rimg.replace(/'/g,"%27")}')` : getPlaceholderStyle(r);
+          const ricon = rimg ? '' : `<span class="rt-ico">${rc.icon}</span>`;
+          return `
+            <div class="rel-card" data-id="${r.id}">
+              <div class="rel-thumb" style="${rthumb}">${ricon}</div>
+              <div class="rel-body">
+                <div class="rel-title">${escapeHtml(r.title)}</div>
+                <div class="rel-meta"><span>${escapeHtml(r.source)}</span><span>·</span><span>${timeAgo(r.ts)}</span></div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  ` : '';
 
   els.readerBody.innerHTML = `
     <div class="reader-hero" style="${heroStyle}">
@@ -1236,21 +1622,17 @@ const renderReaderShell = (item) => {
     </div>
     <div class="reader-content">
       <h1 class="reader-title">${escapeHtml(item.title)}</h1>
-
       ${qfBlocks.length?`<div class="reader-section-title">${t.quick_facts}</div><div class="quick-facts">${qfBlocks.join('')}</div>`:''}
       ${summaryListHtml}
       ${fullArticleHtml}
-
       <div class="reader-meta">
         <div class="rm-item"><div class="rm-label">${t.published}</div><div class="rm-value">${fullDateTime(item.ts)}</div></div>
         <div class="rm-item"><div class="rm-label">${t.reading_time}</div><div class="rm-value">${rt.min} ${t.min_read}</div></div>
       </div>
-
       <div class="reader-note">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
         <span>${escapeHtml(t.reader_note)}</span>
       </div>
-
       <div class="reader-actions">
         <div class="btn-row">
           <button class="btn-secondary ${bookmarked?'active':''}" id="readerSaveBtn">
@@ -1263,6 +1645,7 @@ const renderReaderShell = (item) => {
           </button>
         </div>
       </div>
+      ${relatedHtml}
     </div>
   `;
 
@@ -1274,11 +1657,40 @@ const renderReaderShell = (item) => {
   els.readerBody.querySelectorAll('.rfa-gal-item').forEach(el=>{
     el.addEventListener('click',()=>window.open(el.dataset.open,'_blank','noopener'));
   });
+  els.readerBody.querySelectorAll('.rel-card').forEach(el=>{
+    el.addEventListener('click',()=>openReader(el.dataset.id));
+  });
+
+  // Show prev/next availability
+  updatePrevNextButtons();
 };
 
+const updatePrevNextButtons = () => {
+  const id = state.activeReaderId;
+  const list = state.filtered.length ? state.filtered : state.items;
+  const idx = list.findIndex(x => x.id === id);
+  els.readerPrev.disabled = idx <= 0;
+  els.readerNext.disabled = idx < 0 || idx >= list.length - 1;
+  els.readerPrev.style.opacity = idx <= 0 ? '0.4' : '1';
+  els.readerNext.style.opacity = (idx < 0 || idx >= list.length - 1) ? '0.4' : '1';
+};
+
+const gotoNext = () => {
+  const list = state.filtered.length ? state.filtered : state.items;
+  const idx = list.findIndex(x => x.id === state.activeReaderId);
+  if(idx >= 0 && idx < list.length - 1) openReader(list[idx+1].id);
+};
+const gotoPrev = () => {
+  const list = state.filtered.length ? state.filtered : state.items;
+  const idx = list.findIndex(x => x.id === state.activeReaderId);
+  if(idx > 0) openReader(list[idx-1].id);
+};
+
+/* ---------- OPEN/CLOSE READER ---------- */
 const openReader = id => {
   const item = state.items.find(x=>x.id===id);
   if(!item) return;
+  stopTTS(); // stop any running TTS
   state.activeReaderId = id;
   markRead(id);
 
@@ -1295,10 +1707,12 @@ const openReader = id => {
   document.body.classList.add('no-scroll');
   els.readerBody.scrollTop = 0;
   els.readerProgressBar.style.width = '0%';
+  els.readerFloatingBar.classList.remove('show');
   setTimeout(()=>els.readerClose.focus(),250);
 };
 
 const closeReader = (goBack=true) => {
+  stopTTS();
   els.reader.classList.remove('open');
   els.reader.setAttribute('aria-hidden','true');
   els.drawerBackdrop.classList.remove('open');
@@ -1313,6 +1727,7 @@ const closeReader = (goBack=true) => {
 window.addEventListener('popstate',()=>{
   if(readerPushed){
     readerPushed = false;
+    stopTTS();
     els.reader.classList.remove('open');
     els.reader.setAttribute('aria-hidden','true');
     els.drawerBackdrop.classList.remove('open');
@@ -1335,15 +1750,62 @@ els.readerShare.addEventListener('click',()=>{
   const item = state.items.find(x=>x.id===state.activeReaderId);
   if(item) openShareSheet(item);
 });
+els.readerPrev.addEventListener('click', gotoPrev);
+els.readerNext.addEventListener('click', gotoNext);
+els.rfbTTS.addEventListener('click',()=>{
+  const item = state.items.find(x=>x.id===state.activeReaderId);
+  if(item) startTTS(item);
+});
+els.rfbCopy.addEventListener('click',()=>{
+  const item = state.items.find(x=>x.id===state.activeReaderId);
+  if(item) copyArticle(item);
+});
+els.rfbPrint.addEventListener('click',()=>window.print());
+els.rfbFontDec.addEventListener('click',()=>adjustFont(-1));
+els.rfbFontInc.addEventListener('click',()=>adjustFont(1));
+els.rfbDensity.addEventListener('click', toggleDensity);
 
 els.readerBody.addEventListener('scroll',()=>{
   const el = els.readerBody;
   const max = el.scrollHeight - el.clientHeight;
   const pct = max > 0 ? (el.scrollTop / max) * 100 : 0;
   els.readerProgressBar.style.width = pct + '%';
+  // Show floating bar after scroll
+  if(el.scrollTop > 100) els.readerFloatingBar.classList.add('show');
+  else els.readerFloatingBar.classList.remove('show');
 },{passive:true});
 
-/* SHARE */
+/* ---------- SWIPE TO CLOSE (mobile) ---------- */
+let swipeStart = null;
+els.reader.addEventListener('touchstart', e => {
+  if(e.touches.length !== 1) return;
+  swipeStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, time: Date.now() };
+}, { passive: true });
+els.reader.addEventListener('touchmove', e => {
+  if(!swipeStart || e.touches.length !== 1) return;
+  const dx = e.touches[0].clientX - swipeStart.x;
+  const dy = e.touches[0].clientY - swipeStart.y;
+  // Only trigger on horizontal-right swipe
+  if(dx > 30 && Math.abs(dx) > Math.abs(dy) * 1.5){
+    els.reader.classList.add('dragging');
+    els.reader.style.transform = `translateX(${dx}px)`;
+    els.drawerBackdrop.style.opacity = String(Math.max(0, 1 - dx/400));
+  }
+}, { passive: true });
+els.reader.addEventListener('touchend', e => {
+  if(!swipeStart) return;
+  const dx = (e.changedTouches[0] ? e.changedTouches[0].clientX : swipeStart.x) - swipeStart.x;
+  const dt = Date.now() - swipeStart.time;
+  els.reader.classList.remove('dragging');
+  els.reader.style.transform = '';
+  els.drawerBackdrop.style.opacity = '';
+  if(dx > 100 || (dx > 60 && dt < 300)){
+    closeReader(true);
+  }
+  swipeStart = null;
+});
+
+/* ---------- SHARE ---------- */
 const SHARE_TARGETS = [
   {id:'whatsapp',name:'WhatsApp',color:'#25D366',icon:'<path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2z" fill="none" stroke="currentColor" stroke-width="2"/>',url:i=>`https://wa.me/?text=${encodeURIComponent(i.title+'\n\n'+i.link)}`},
   {id:'telegram',name:'Telegram',color:'#0088cc',icon:'<path d="m21.5 3.5-19 7.3c-1.1.4-1.1 1.1-.2 1.4l4.8 1.5 1.8 5.6c.2.6.4.8 1 .8.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.3-1.5z" fill="currentColor"/>',url:i=>`https://t.me/share/url?url=${encodeURIComponent(i.link)}&text=${encodeURIComponent(i.title)}`},
@@ -1381,16 +1843,44 @@ const openShareSheet = item => {
 };
 const closeShareSheet = () => els.shareSheet.classList.remove('open');
 
-/* EVENTS */
-const onSearch = debounce(val=>{ state.query = val; state.page = 1; render(); },180);
+/* ---------- SEARCH SUGGESTIONS ---------- */
+const buildSuggestions = query => {
+  if(!query || query.length < 2){ els.searchBox.classList.remove('suggesting'); return; }
+  const q = query.toLowerCase();
+  const matches = state.items.filter(it=>(it.title+' '+(it.desc||'')).toLowerCase().includes(q)).slice(0,6);
+  if(!matches.length){ els.searchBox.classList.remove('suggesting'); return; }
+  els.searchSuggest.innerHTML = matches.map(it=>`
+    <div class="sug-item" data-id="${it.id}">
+      <div class="si-icon">${(CONFIG.CATEGORIES.find(c=>c.id===it.cat)||CONFIG.CATEGORIES[0]).icon}</div>
+      <div class="si-text">${escapeHtml(it.title.slice(0,80))}${it.title.length>80?'…':''}</div>
+    </div>
+  `).join('');
+  els.searchSuggest.querySelectorAll('.sug-item').forEach(el=>{
+    el.addEventListener('click',()=>{
+      els.searchBox.classList.remove('suggesting');
+      openReader(el.dataset.id);
+    });
+  });
+  els.searchBox.classList.add('suggesting');
+};
+
+/* ---------- EVENT WIRING ---------- */
+const onSearch = debounce(val => { state.query = val; state.page = 1; render(); }, 180);
 els.searchInput.addEventListener('input',e=>{
   const v = e.target.value;
   els.searchBox.classList.toggle('has-value',v.length>0);
   onSearch(v);
+  buildSuggestions(v);
+});
+els.searchInput.addEventListener('blur',()=>{
+  setTimeout(()=>els.searchBox.classList.remove('suggesting'), 200);
+});
+els.searchInput.addEventListener('focus',()=>{
+  if(els.searchInput.value.length >= 2) buildSuggestions(els.searchInput.value);
 });
 els.searchClear.addEventListener('click',()=>{
   els.searchInput.value = '';
-  els.searchBox.classList.remove('has-value');
+  els.searchBox.classList.remove('has-value','suggesting');
   state.query = ''; state.page = 1; render();
   els.searchInput.focus();
 });
@@ -1422,6 +1912,7 @@ els.viewToggle.querySelectorAll('button').forEach(btn=>{
   });
 });
 
+/* Scroll handler + main progress bar */
 window.addEventListener('scroll',()=>{
   const y = window.scrollY;
   els.scrollTop.classList.toggle('show',y>600);
@@ -1431,23 +1922,80 @@ window.addEventListener('scroll',()=>{
     else if(y<lastY-5) els.topbar.classList.remove('hide');
     els.scrollTop._lastY = y;
   } else els.topbar.classList.remove('hide');
+  // Main progress
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  els.mainProgressBar.style.width = docH>0 ? (y/docH*100) + '%' : '0%';
 },{passive:true});
 
 els.scrollTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 
-document.addEventListener('keydown',e=>{
+/* Shortcuts modal */
+const openShortcuts = () => els.shortcutsModal.classList.add('open');
+const closeShortcuts = () => els.shortcutsModal.classList.remove('open');
+els.shortcutsBtn.addEventListener('click', openShortcuts);
+els.shortcutsClose.addEventListener('click', closeShortcuts);
+els.shortcutsModal.addEventListener('click', e => { if(e.target === els.shortcutsModal) closeShortcuts(); });
+
+/* Global keyboard shortcuts */
+let lastG = 0;
+document.addEventListener('keydown', e => {
   const inInput = e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.isContentEditable;
-  if(e.key==='Escape'){
+  const readerOpen = els.reader.classList.contains('open');
+
+  if(e.key === '?' && !inInput){ e.preventDefault(); openShortcuts(); return; }
+
+  if(e.key === 'Escape'){
+    if(els.shortcutsModal.classList.contains('open')){ closeShortcuts(); return; }
     if(els.shareSheet.classList.contains('open')){ closeShareSheet(); return; }
-    if(els.reader.classList.contains('open')){ closeReader(true); return; }
+    if(readerOpen){ closeReader(true); return; }
     if(els.langPicker.classList.contains('open')){ els.langPicker.classList.remove('open'); return; }
     if(inInput){ e.target.blur(); return; }
+    return;
   }
-  if(e.key==='/' && !inInput){ e.preventDefault(); els.searchInput.focus(); els.searchInput.select(); return; }
-  if(e.key==='r' && !inInput && !e.metaKey && !e.ctrlKey){ els.refreshBtn.click(); return; }
-  if(e.key==='t' && !inInput && !e.metaKey && !e.ctrlKey){ els.themeBtn.click(); return; }
+
+  if(e.key === '/' && !inInput){ e.preventDefault(); els.searchInput.focus(); els.searchInput.select(); return; }
+
+  if(readerOpen){
+    if(e.key === 'ArrowRight' && !inInput){ e.preventDefault(); gotoNext(); return; }
+    if(e.key === 'ArrowLeft' && !inInput){ e.preventDefault(); gotoPrev(); return; }
+    if((e.key === 's' || e.key === 'S') && !inInput && !e.metaKey && !e.ctrlKey){
+      e.preventDefault();
+      if(state.activeReaderId) toggleBookmark(state.activeReaderId);
+      return;
+    }
+    if((e.key === 'l' || e.key === 'L') && !inInput && !e.metaKey && !e.ctrlKey){
+      e.preventDefault();
+      const item = state.items.find(x=>x.id===state.activeReaderId);
+      if(item) startTTS(item);
+      return;
+    }
+  }
+
+  if(!inInput){
+    if(e.key === 'j' || e.key === 'J'){ window.scrollBy({top:220, behavior:'smooth'}); return; }
+    if(e.key === 'k' || e.key === 'K'){ window.scrollBy({top:-220, behavior:'smooth'}); return; }
+    if((e.key === 'r' || e.key === 'R') && !e.metaKey && !e.ctrlKey){ els.refreshBtn.click(); return; }
+    if((e.key === 't' || e.key === 'T') && !e.metaKey && !e.ctrlKey){ els.themeBtn.click(); return; }
+    if((e.key === 'v' || e.key === 'V') && !e.metaKey && !e.ctrlKey){
+      const order = ['grid','compact','list'];
+      const idx = order.indexOf(state.viewMode);
+      state.viewMode = order[(idx+1) % order.length];
+      safeLS.set('bn_view', state.viewMode);
+      els.viewToggle.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.view===state.viewMode));
+      render();
+      toast(`View: ${state.viewMode}`, 'info', 1200);
+      return;
+    }
+    if((e.key === 'g' || e.key === 'G') && !e.metaKey && !e.ctrlKey){
+      const now = Date.now();
+      if(now - lastG < 600){ window.scrollTo({top:0,behavior:'smooth'}); lastG = 0; }
+      else lastG = now;
+      return;
+    }
+  }
 });
 
+/* Footer categories */
 document.querySelectorAll('[data-foot-cat]').forEach(li=>{
   li.addEventListener('click',()=>{
     state.category = li.dataset.footCat;
@@ -1458,14 +2006,26 @@ document.querySelectorAll('[data-foot-cat]').forEach(li=>{
 });
 els.ownerCard?.addEventListener('click',()=>location.reload());
 
+/* Auto-refresh */
 setInterval(()=>{ if(document.visibilityState==='visible') loadFeeds(); },CONFIG.REFRESH_MS);
 document.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='visible' && state.lastSync && Date.now()-state.lastSync > CONFIG.REFRESH_MS) loadFeeds();
 });
 
+/* Prevent body scroll when modal open */
+const observer = new MutationObserver(()=>{
+  const anyOpen = els.reader.classList.contains('open') || els.shortcutsModal.classList.contains('open');
+  if(anyOpen) document.body.classList.add('no-scroll');
+  else document.body.classList.remove('no-scroll');
+});
+observer.observe(els.reader,{attributes:true,attributeFilter:['class']});
+observer.observe(els.shortcutsModal,{attributes:true,attributeFilter:['class']});
+
+/* ---------- INIT ---------- */
 const init = async () => {
   els.year.textContent = new Date().getFullYear();
   loadBookmarks(); loadReadItems(); updateSavedBadge();
+  loadReaderPrefs();
 
   const savedTheme = safeLS.get('bn_theme',null) || (window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
   applyTheme(savedTheme);
@@ -1491,6 +2051,9 @@ const init = async () => {
     buildFilters(); buildSourceOptions(); render();
   }
   await loadFeeds();
+
+  // Ask for notification permission after load (with delay)
+  askNotification();
 };
 
 init();

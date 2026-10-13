@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#d97706" />
+<meta name="description" content="Bihar government schemes, niyam aur taaza khabar — ek jagah. by Tony Jamer Stark." />
+<title>Bihari News — Bihar Ki Taaza Khabar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     DESIGN TOKENS
+     ============================================================ */
+  :root {
+    --bg: #f6f7f9;
+    --bg-elev: #ffffff;
+    --bg-soft: #eef0f4;
+    --bg-glass: rgba(255,255,255,.75);
+    --text: #0d1117;
+    --text-soft: #545a66;
+    --text-mute: #8b92a0;
+    --border: #e3e6ec;
+    --border-strong: #d0d5de;
+    --accent: #d97706;
+    --accent-2: #15803d;
+    --accent-3: #b45309;
+    --gold: #eab308;
+    --danger: #dc2626;
+    --info: #3b82f6;
+    --purple: #a855f7;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(13,17,23,.06);
+    --shadow-lg: 0 12px 40px rgba(13,17,23,.14);
+    --shadow-xl: 0 24px 60px rgba(13,17,23,.20);
+    --radius: 14px;
+    --radius-sm: 10px;
+    --radius-lg: 20px;
+    --pill: 999px;
+    --tr: 220ms cubic-bezier(.4,0,.2,1);
+    --tr-fast: 140ms cubic-bezier(.4,0,.2,1);
+    --tr-slow: 420ms cubic-bezier(.4,0,.2,1);
+    --header-h: 68px;
+    --max-w: 1280px;
+  }
+  [data-theme="dark"] {
+    --bg: #08090c;
+    --bg-elev: #12151b;
+    --bg-soft: #1a1f27;
+    --bg-glass: rgba(18,21,27,.78);
+    --text: #f0f3f8;
+    --text-soft: #b6bcc8;
+    --text-mute: #6e7684;
+    --border: #232936;
+    --border-strong: #2e3543;
+    --accent: #f59e0b;
+    --accent-2: #22c55e;
+    --accent-3: #fbbf24;
+    --gold: #fbbf24;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.5);
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.4);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,.55);
+    --shadow-xl: 0 24px 60px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background var(--tr), color var(--tr);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body.no-scroll { overflow: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; font-size: inherit; }
+  img { max-width: 100%; display: block; }
+  ::selection { background: color-mix(in srgb, var(--accent) 35%, transparent); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 6px; border: 2px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-mute); }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ============================================================
+     LAYOUT
+     ============================================================ */
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+  @media (max-width: 640px) { .wrap { padding: 0 14px; } }
+
+  /* ============================================================
+     HEADER
+     ============================================================ */
+  header.topbar {
+    position: sticky; top: 0; z-index: 60;
+    background: var(--bg-glass);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: transform var(--tr), background var(--tr);
+  }
+  header.topbar.hide { transform: translateY(-100%); }
+  .topbar-inner {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 0;
+    min-height: var(--header-h);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; user-select: none; }
+  .brand-mark {
+    width: 42px; height: 42px; border-radius: 13px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: grid; place-items: center;
+    color: #fff; font-weight: 800; font-size: 19px;
+    box-shadow: 0 6px 18px rgba(217,119,6,.35), inset 0 1px 0 rgba(255,255,255,.25);
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  .brand-mark::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.25));
+  }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-text .name {
+    font-weight: 800; font-size: 18px; letter-spacing: -.02em;
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand-text .tag { font-size: 10.5px; color: var(--text-mute); font-weight: 600; letter-spacing: .01em; }
+
+  .search-box { flex: 1; position: relative; max-width: 560px; }
+  .search-box input {
+    width: 100%; padding: 11px 42px 11px 42px;
+    background: var(--bg-soft); border: 1px solid transparent;
+    border-radius: var(--pill);
+    font-family: inherit; font-size: 14px; color: var(--text);
+    transition: all var(--tr);
+  }
+  .search-box input::placeholder { color: var(--text-mute); }
+  .search-box input:focus {
+    outline: none; border-color: var(--accent);
+    background: var(--bg-elev);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  .search-box .ico {
+    position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+    color: var(--text-mute); pointer-events: none;
+    display: grid; place-items: center;
+  }
+  .search-clear {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; border-radius: 50%;
+    display: none; place-items: center;
+    color: var(--text-mute); background: transparent;
+    transition: all var(--tr-fast);
+  }
+  .search-clear:hover { background: var(--border); color: var(--text); }
+  .search-box.has-value .search-clear { display: grid; }
+  .search-kbd {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 11px; padding: 2px 7px; border-radius: 6px;
+    background: var(--bg-elev); border: 1px solid var(--border);
+    color: var(--text-mute); font-weight: 600; pointer-events: none;
+  }
+  .search-box.has-value .search-kbd { display: none; }
+  @media (max-width: 900px) { .search-kbd { display: none; } }
+
+  .topbar-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .icon-btn {
+    width: 40px; height: 40px; border-radius: 12px;
+    display: grid; place-items: center;
+    background: var(--bg-soft); color: var(--text-soft);
+    transition: all var(--tr);
+    position: relative;
+  }
+  .icon-btn:hover { background: var(--border); color: var(--text); transform: translateY(-1px); }
+  .icon-btn:active { transform: translateY(0) scale(.96); }
+  .icon-btn svg { width: 18px; height: 18px; }
+  .icon-btn.spin svg { animation: spin 700ms ease; }
+  @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+  .icon-btn .badge-dot {
+    position: absolute; top: 8px; right: 8px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--danger); border: 2px solid var(--bg);
+    display: none;
+  }
+  .icon-btn.has-badge .badge-dot { display: block; }
+
+  /* Language toggle */
+  .lang-toggle {
+    display: flex; align-items: center;
+    background: var(--bg-soft); border-radius: var(--pill);
+    padding: 3px; gap: 2px;
+  }
+  .lang-toggle button {
+    padding: 7px 12px; border-radius: var(--pill);
+    font-size: 12px; font-weight: 700; color: var(--text-mute);
+    transition: all var(--tr-fast);
+    letter-spacing: .02em;
+  }
+  .lang-toggle button.active {
+    background: var(--bg-elev); color: var(--text);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ============================================================
+     TICKER
+     ============================================================ */
+  .ticker {
+    background: linear-gradient(90deg, var(--accent), var(--accent-3));
+    color: #fff; overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .ticker-inner { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+  .ticker-label {
+    flex-shrink: 0; display: flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: 4px 10px; background: rgba(0,0,0,.25); border-radius: var(--pill);
+    backdrop-filter: blur(4px);
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+    animation: pulse 1.4s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .35; transform: scale(1.5); }
+  }
+  .ticker-track { flex: 1; overflow: hidden; position: relative; }
+  .ticker-content {
+    display: inline-flex; gap: 48px; white-space: nowrap;
+    animation: scrollTicker 80s linear infinite;
+    font-size: 13px; font-weight: 600;
+    will-change: transform;
+  }
+  .ticker-content:hover { animation-play-state: paused; }
+  .ticker-item { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+  .ticker-item:hover { text-decoration: underline; }
+  .ticker-item::before {
+    content: ''; width: 4px; height: 4px; border-radius: 50%;
+    background: rgba(255,255,255,.75); flex-shrink: 0;
+  }
+  @keyframes scrollTicker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============================================================
+     STATS BAR
+     ============================================================ */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin: 18px 0 8px;
+  }
+  .stat-card {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 2px;
+    transition: all var(--tr);
+  }
+  .stat-card:hover { border-color: var(--border-strong); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+  .stat-card .s-val {
+    font-size: 22px; font-weight: 800; letter-spacing: -.03em;
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+  }
+  .stat-card .s-lab {
+    font-size: 11px; color: var(--text-mute); font-weight: 600;
+    letter-spacing: .02em; text-transform: uppercase;
+  }
+  .stat-card.live .s-val { background: linear-gradient(135deg, var(--accent-2), #4ade80); -webkit-background-clip: text; background-clip: text; }
+
+  .status-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 8px 0 14px;
+    font-size: 12px; color: var(--text-mute); flex-wrap: wrap;
+  }
+  .status-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .status-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 10px; border-radius: var(--pill);
+    background: var(--bg-soft); font-weight: 600;
+    font-size: 11.5px;
+  }
+  .status-chip.ok { color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent); }
+  .status-chip.syncing { color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  .status-chip.err { color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, transparent); }
+  .owner-credit { font-weight: 600; }
+  .owner-credit b {
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+  }
+
+  /* ============================================================
+     FILTERS / TOOLBAR
+     ============================================================ */
+  .filters {
+    display: flex; gap: 8px; overflow-x: auto; padding: 6px 0 14px;
+    scrollbar-width: none; -ms-overflow-style: none;
+    scroll-snap-type: x proximity;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .pill {
+    padding: 8px 15px; border-radius: var(--pill);
+    background: var(--bg-elev); border: 1px solid var(--border);
+    font-size: 13px; font-weight: 600; color: var(--text-soft);
+    white-space: nowrap; transition: all var(--tr);
+    display: inline-flex; align-items: center; gap: 6px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--text); transform: translateY(-1px); }
+  .pill.active {
+    background: var(--text); color: var(--bg);
+    border-color: var(--text);
+  }
+  .pill .count {
+    font-size: 11px; padding: 1px 7px; border-radius: var(--pill);
+    background: color-mix(in srgb, var(--text) 10%, transparent);
+    font-weight: 700;
+  }
+  .pill.active .count {
+    background: color-mix(in srgb, var(--bg) 25%, transparent);
+  }
+
+  /* Toolbar (source, sort, view) */
+  .toolbar {
+    display: flex; align-items: center; gap: 10px;
+    margin: 4px 0 8px; flex-wrap: wrap;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .toolbar-group { display: flex; align-items: center; gap: 6px; }
+  .toolbar-label { font-size: 11px; font-weight: 700; color: var(--text-mute); text-transform: uppercase; letter-spacing: .08em; }
+  .select-wrap { position: relative; }
+  .select-wrap select {
+    appearance: none; -webkit-appearance: none;
+    padding: 7px 30px 7px 12px;
+    border-radius: var(--pill);
+    background: var(--bg-elev); border: 1px solid var(--border);
+    color: var(--text); font-family: inherit; font-size: 12.5px; font-weight: 600;
+    cursor: pointer; transition: all var(--tr);
+  }
+  .select-wrap select:hover { border-color: var(--accent); }
+  .select-wrap select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent); }
+  .select-wrap::after {
+    content: ''; position: absolute; right: 12px; top: 50%;
+    width: 6px; height: 6px; border-right: 2px solid var(--text-mute); border-bottom: 2px solid var(--text-mute);
+    transform: translateY(-70%) rotate(45deg); pointer-events: none;
+  }
+
+  .view-toggle {
+    display: flex; background: var(--bg-elev);
+    border: 1px solid var(--border); border-radius: var(--pill);
+    padding: 3px; gap: 2px;
+  }
+  .view-toggle button {
+    width: 30px; height: 28px; border-radius: var(--pill);
+    display: grid; place-items: center;
+    color: var(--text-mute); transition: all var(--tr-fast);
+  }
+  .view-toggle button.active { background: var(--text); color: var(--bg); }
+  .view-toggle svg { width: 14px; height: 14px; }
+
+  .read-filter { display: flex; gap: 4px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--pill); padding: 3px; }
+  .read-filter button {
+    padding: 5px 11px; border-radius: var(--pill);
+    font-size: 11.5px; font-weight: 700; color: var(--text-mute);
+    transition: all var(--tr-fast);
+  }
+  .read-filter button.active { background: var(--text); color: var(--bg); }
+
+  /* ============================================================
+     SECTION HEADERS
+     ============================================================ */
+  .section-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin: 22px 0 14px; gap: 12px;
+  }
+  .section-title {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 17px; font-weight: 800; letter-spacing: -.02em;
+  }
+  .section-title .bar {
+    width: 4px; height: 20px; border-radius: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  }
+  .section-sub { font-size: 12px; color: var(--text-mute); font-weight: 500; }
+
+  /* ============================================================
+     FEATURED
+     ============================================================ */
+  .featured {
+    display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 860px) { .featured { grid-template-columns: 1fr; } }
+  .card-feature {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #1a1f27, #0a0c10);
+    border-radius: var(--radius-lg);
+    padding: 28px; min-height: 260px;
+    color: #fff; display: flex; flex-direction: column; justify-content: flex-end;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform var(--tr);
+  }
+  .card-feature:hover { transform: translateY(-2px); }
+  .card-feature::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(217,119,6,.40), transparent 55%),
+      radial-gradient(circle at 0% 100%, rgba(21,128,61,.35), transparent 55%);
+    pointer-events: none;
+  }
+  .card-feature::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+  }
+  .card-feature > * { position: relative; z-index: 1; }
+  .feat-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 11px; border-radius: var(--pill);
+    background: rgba(255,255,255,.14); backdrop-filter: blur(8px);
+    font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: auto; align-self: flex-start;
+    border: 1px solid rgba(255,255,255,.1);
+  }
+  .feat-tag.hot { background: linear-gradient(90deg, #dc2626, #f59e0b); border-color: transparent; }
+  .feat-title {
+    font-size: 26px; font-weight: 800; line-height: 1.2; letter-spacing: -.025em;
+    margin-bottom: 10px;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
+  }
+  .feat-desc {
+    font-size: 14px; color: rgba(255,255,255,.78); line-height: 1.55;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden; margin-bottom: 14px;
+  }
+  .feat-meta { display: flex; align-items: center; gap: 12px; font-size: 12px; color: rgba(255,255,255,.65); flex-wrap: wrap; }
+  .feat-meta .src {
+    padding: 3px 9px; border-radius: var(--pill);
+    background: rgba(255,255,255,.14); font-weight: 600;
+    border: 1px solid rgba(255,255,255,.1);
+  }
+
+  .feature-side { display: flex; flex-direction: column; gap: 12px; }
+  .mini-card {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 6px;
+    transition: all var(--tr); cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .mini-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    opacity: 0; transition: opacity var(--tr);
+  }
+  .mini-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .mini-card:hover::before { opacity: 1; }
+  .mini-card .m-tag {
+    font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .mini-card .m-title {
+    font-size: 14px; font-weight: 700; line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .mini-card .m-meta { font-size: 11px; color: var(--text-mute); }
+
+  /* ============================================================
+     TRENDING STRIP
+     ============================================================ */
+  .trending-strip {
+    display: flex; gap: 12px; overflow-x: auto; padding: 4px 0 12px;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+  .trending-strip::-webkit-scrollbar { display: none; }
+  .trend-card {
+    flex: 0 0 290px;
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: all var(--tr); cursor: pointer;
+    position: relative;
+    scroll-snap-align: start;
+    overflow: hidden;
+  }
+  .trend-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow); }
+  .trend-rank {
+    position: absolute; top: 10px; right: 14px;
+    font-size: 26px; font-weight: 800; color: var(--text-mute); opacity: .22;
+    letter-spacing: -.05em;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .trend-card .t-new {
+    position: absolute; top: 12px; left: 12px;
+    padding: 3px 8px; border-radius: var(--pill);
+    background: linear-gradient(90deg, #dc2626, #f59e0b);
+    color: #fff; font-size: 9.5px; font-weight: 800; letter-spacing: .1em;
+    animation: pulseNew 1.6s infinite;
+    z-index: 1;
+  }
+  @keyframes pulseNew {
+    0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,.5); }
+    50% { box-shadow: 0 0 0 8px rgba(220,38,38,0); }
+  }
+  .trend-card .t-title {
+    font-size: 14px; font-weight: 700; line-height: 1.4; padding-right: 30px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden; margin-top: 8px;
+  }
+  .trend-card .t-meta {
+    font-size: 11px; color: var(--text-mute); margin-top: auto;
+    display: flex; align-items: center; gap: 6px;
+    padding-top: 6px;
+  }
+  .trend-card .t-meta .dot-sep { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: .5; }
+
+  /* ============================================================
+     NEWS GRID / LIST
+     ============================================================ */
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .grid.view-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .card {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: all var(--tr); cursor: pointer;
+    position: relative;
+    animation: fadeInUp 320ms cubic-bezier(.4,0,.2,1) backwards;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  }
+  .card.read { opacity: .68; }
+  .card.read .card-title { color: var(--text-soft); }
+
+  .card-top {
+    padding: 16px 16px 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .src-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 9px; border-radius: var(--pill);
+    background: var(--bg-soft); font-size: 10px; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase; color: var(--text-soft);
+    max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .cat-badge {
+    font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: var(--pill);
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .cat-badge.scheme   { background: color-mix(in srgb, var(--accent-2) 18%, transparent); color: var(--accent-2); }
+  .cat-badge.rule     { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent-3); }
+  .cat-badge.news     { background: color-mix(in srgb, var(--info) 18%, transparent); color: var(--info); }
+  .cat-badge.announce { background: color-mix(in srgb, var(--purple) 18%, transparent); color: var(--purple); }
+  .cat-badge.notify   { background: color-mix(in srgb, #ef4444 18%, transparent); color: #ef4444; }
+
+  .card-body { padding: 12px 16px 16px; display: flex; flex-direction: column; flex: 1; gap: 10px; }
+  .card-title {
+    font-size: 15.5px; font-weight: 700; line-height: 1.4; letter-spacing: -.015em;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color var(--tr);
+  }
+  .card:hover .card-title { color: var(--accent-3); }
+  [data-theme="dark"] .card:hover .card-title { color: var(--accent); }
+  .card-desc {
+    font-size: 13px; color: var(--text-soft); line-height: 1.55;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  mark.hl {
+    background: color-mix(in srgb, var(--gold) 45%, transparent);
+    color: inherit; padding: 0 2px; border-radius: 3px;
+  }
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px 14px; gap: 8px;
+    font-size: 11px; color: var(--text-mute);
+  }
+  .card-footer .actions { display: flex; gap: 4px; }
+  .card-footer .actions button {
+    width: 30px; height: 30px; border-radius: 9px;
+    display: grid; place-items: center;
+    background: var(--bg-soft); color: var(--text-soft);
+    transition: all var(--tr-fast);
+  }
+  .card-footer .actions button:hover { background: var(--border); color: var(--text); transform: translateY(-1px); }
+  .card-footer .actions button:active { transform: scale(.94); }
+  .card-footer .actions button.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 15%, transparent); }
+  .card-footer .actions svg { width: 14px; height: 14px; }
+  .new-dot {
+    position: absolute; top: 8px; right: 8px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--danger); box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 25%, transparent);
+    animation: pulse 1.6s infinite;
+    z-index: 2;
+  }
+
+  /* List view overrides */
+  .grid.view-list .card { flex-direction: row; align-items: stretch; }
+  .grid.view-list .card-top {
+    flex-direction: column; align-items: flex-start;
+    padding: 14px 0 14px 16px;
+    width: 130px; flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    gap: 6px;
+  }
+  .grid.view-list .card-body { padding: 14px 16px; flex: 1; }
+  .grid.view-list .card-title { font-size: 16px; -webkit-line-clamp: 2; }
+  .grid.view-list .card-desc { -webkit-line-clamp: 2; }
+  .grid.view-list .card-footer {
+    padding: 14px 16px 14px 0;
+    flex-direction: column; align-items: flex-end;
+    justify-content: space-between; gap: 8px;
+    width: 110px; flex-shrink: 0;
+  }
+  @media (max-width: 640px) {
+    .grid.view-list .card { flex-direction: column; }
+    .grid.view-list .card-top {
+      flex-direction: row; align-items: center; justify-content: space-between;
+      padding: 14px 16px 0; width: auto; border-right: none; border-bottom: none;
+    }
+    .grid.view-list .card-body { padding: 10px 16px; }
+    .grid.view-list .card-footer {
+      flex-direction: row; align-items: center; justify-content: space-between;
+      padding: 0 16px 14px; width: auto;
+    }
+  }
+
+  /* ============================================================
+     SKELETON
+     ============================================================ */
+  .skeleton {
+    background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    overflow: hidden; min-height: 220px;
+  }
+  .sk-line {
+    height: 12px; border-radius: 6px;
+    background: linear-gradient(90deg, var(--bg-soft) 25%, var(--border) 50%, var(--bg-soft) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  .sk-line.short { width: 40%; }
+  .sk-line.mid { width: 70%; }
+  .sk-line.tall { height: 18px; }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ============================================================
+     EMPTY
+     ============================================================ */
+  .empty {
+    grid-column: 1 / -1; text-align: center; padding: 70px 20px;
+    color: var(--text-mute);
+  }
+  .empty .emoji { font-size: 48px; margin-bottom: 12px; opacity: .5; }
+  .empty h3 { font-size: 17px; font-weight: 800; color: var(--text-soft); margin-bottom: 6px; }
+  .empty p { font-size: 13px; max-width: 380px; margin: 0 auto; line-height: 1.6; }
+
+  /* ============================================================
+     LOAD MORE
+     ============================================================ */
+  .load-more { display: flex; justify-content: center; margin: 26px 0 8px; }
+  .load-more button {
+    padding: 12px 26px; border-radius: var(--pill);
+    background: var(--bg-elev); border: 1px solid var(--border);
+    font-size: 13px; font-weight: 700; color: var(--text);
+    transition: all var(--tr);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .load-more button:hover {
+    background: var(--text); color: var(--bg); border-color: var(--text);
+    transform: translateY(-1px); box-shadow: var(--shadow);
+  }
+  .load-more button svg { width: 14px; height: 14px; }
+
+  /* ============================================================
+     READER DRAWER
+     ============================================================ */
+  .drawer-backdrop {
+    position: fixed; inset: 0; z-index: 90;
+    background: rgba(0,0,0,.5);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    opacity: 0; pointer-events: none;
+    transition: opacity var(--tr);
+  }
+  .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+
+  .reader {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 95;
+    width: min(520px, 100%);
+    background: var(--bg-elev);
+    border-left: 1px solid var(--border);
+    box-shadow: var(--shadow-xl);
+    transform: translateX(100%);
+    transition: transform var(--tr-slow);
+    display: flex; flex-direction: column;
+    will-change: transform;
+  }
+  .reader.open { transform: translateX(0); }
+  @media (max-width: 640px) {
+    .reader { width: 100%; border-left: none; border-top: 1px solid var(--border); }
+  }
+
+  .reader-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; gap: 10px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    background: var(--bg-elev);
+  }
+  .reader-header .rh-left { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-mute); font-weight: 600; }
+  .reader-header .rh-actions { display: flex; gap: 6px; }
+  .reader-header .rh-actions button {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: grid; place-items: center;
+    background: var(--bg-soft); color: var(--text-soft);
+    transition: all var(--tr-fast);
+  }
+  .reader-header .rh-actions button:hover { background: var(--border); color: var(--text); }
+  .reader-header .rh-actions button.active { color: var(--accent); background: color-mix(in srgb, var(--accent) 15%, transparent); }
+  .reader-header svg { width: 17px; height: 17px; }
+
+  .reader-body {
+    flex: 1; overflow-y: auto; padding: 24px 22px 32px;
+    overscroll-behavior: contain;
+  }
+  .reader-cat {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 11px; border-radius: var(--pill);
+    font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .reader-title {
+    font-size: 24px; font-weight: 800; line-height: 1.28;
+    letter-spacing: -.025em; margin-bottom: 14px;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
+  }
+  .reader-meta {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    font-size: 12px; color: var(--text-mute);
+    padding-bottom: 18px; margin-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .reader-meta .src-chip {
+    padding: 4px 10px; border-radius: var(--pill);
+    background: var(--bg-soft); font-weight: 700; color: var(--text-soft);
+    font-size: 11px;
+  }
+  .reader-summary {
+    font-size: 15px; line-height: 1.75; color: var(--text-soft);
+    margin-bottom: 24px;
+    white-space: pre-wrap; word-wrap: break-word;
+  }
+  .reader-note {
+    padding: 14px 16px; border-radius: var(--radius-sm);
+    background: var(--bg-soft); border: 1px solid var(--border);
+    font-size: 12.5px; color: var(--text-mute); line-height: 1.6;
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .reader-note svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; color: var(--accent); }
+  .reader-actions {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .btn-primary {
+    padding: 13px 18px; border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    color: #fff; font-weight: 800; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 4px 14px rgba(217,119,6,.35);
+    transition: all var(--tr);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(217,119,6,.45); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary svg { width: 16px; height: 16px; }
+  .btn-row { display: flex; gap: 10px; }
+  .btn-row .btn-secondary { flex: 1; }
+  .btn-secondary {
+    padding: 11px 16px; border-radius: var(--radius-sm);
+    background: var(--bg-soft); border: 1px solid var(--border);
+    color: var(--text); font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    transition: all var(--tr);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent-3); background: var(--bg-elev); }
+  .btn-secondary svg { width: 15px; height: 15px; }
+
+  /* Share sheet */
+  .share-sheet {
+    position: fixed; left: 50%; bottom: 0; z-index: 100;
+    transform: translate(-50%, 100%);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 20px 20px 0 0;
+    box-shadow: var(--shadow-xl);
+    padding: 20px;
+    width: min(480px, 100%);
+    transition: transform var(--tr-slow);
+  }
+  .share-sheet.open { transform: translate(-50%, 0); }
+  .share-sheet h4 {
+    font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--text-mute); margin-bottom: 14px; text-align: center;
+  }
+  .share-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+  }
+  .share-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 12px 6px; border-radius: var(--radius-sm);
+    background: var(--bg-soft); border: 1px solid var(--border);
+    transition: all var(--tr);
+    font-size: 10.5px; font-weight: 700; color: var(--text-soft);
+  }
+  .share-btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .share-btn .sh-ico {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: grid; place-items: center; color: #fff;
+  }
+  .share-btn svg { width: 16px; height: 16px; }
+
+  /* ============================================================
+     SCROLL TO TOP
+     ============================================================ */
+  .scroll-top {
+    position: fixed; bottom: 22px; right: 22px; z-index: 55;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--text); color: var(--bg);
+    display: grid; place-items: center;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(80px); opacity: 0;
+    transition: all var(--tr);
+    pointer-events: none;
+  }
+  .scroll-top.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .scroll-top:hover { transform: translateY(-3px) scale(1.05); }
+  .scroll-top svg { width: 18px; height: 18px; }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer {
+    margin-top: 56px; padding: 40px 0 44px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-elev);
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 720px) { .foot-grid { grid-template-columns: 1fr; gap: 24px; } }
+  .foot-brand h3 {
+    font-size: 20px; font-weight: 800; margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .foot-brand p { font-size: 13px; color: var(--text-soft); line-height: 1.65; max-width: 440px; }
+  .foot-col h4 {
+    font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-mute); margin-bottom: 12px;
+  }
+  .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .foot-col li { font-size: 13px; color: var(--text-soft); transition: color var(--tr-fast); }
+  .foot-col li:hover { color: var(--accent); }
+  .foot-bottom {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding-top: 22px; border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-mute); flex-wrap: wrap;
+  }
+  .foot-bottom b {
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+  }
+
+  /* ============================================================
+     TOASTS
+     ============================================================ */
+  .toast-wrap {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    z-index: 120;
+    display: flex; flex-direction: column; gap: 8px;
+    pointer-events: none;
+    align-items: center;
+    width: min(420px, calc(100% - 32px));
+  }
+  .toast {
+    padding: 12px 18px; border-radius: 12px;
+    background: var(--bg-elev); border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    font-size: 13px; font-weight: 600; color: var(--text);
+    display: flex; align-items: center; gap: 10px;
+    transform: translateY(24px); opacity: 0;
+    transition: all 320ms cubic-bezier(.4,0,.2,1);
+    pointer-events: auto;
+    max-width: 100%;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .toast.ok   .dot { background: var(--accent-2); }
+  .toast.info .dot { background: var(--accent); }
+  .toast.err  .dot { background: var(--danger); }
+
+  /* ============================================================
+     HIDDEN
+     ============================================================ */
+  .hidden { display: none !important; }
+
+  /* ============================================================
+     MOBILE
+     ============================================================ */
+  @media (max-width: 720px) {
+    .topbar-inner { flex-wrap: wrap; padding: 10px 0; }
+    .search-box { order: 3; flex-basis: 100%; max-width: none; margin-top: 4px; }
+    .brand-text .name { font-size: 16px; }
+    .brand-text .tag { font-size: 10px; }
+    .brand-mark { width: 38px; height: 38px; font-size: 17px; }
+    .feat-title { font-size: 20px; }
+    .card-feature { padding: 22px; min-height: 220px; }
+    .reader-title { font-size: 20px; }
+    .reader-body { padding: 20px 18px 28px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .toolbar { gap: 8px; }
+    .lang-toggle button { padding: 6px 9px; font-size: 11px; }
+    .icon-btn { width: 36px; height: 36px; }
+    .scroll-top { bottom: 16px; right: 16px; width: 42px; height: 42px; }
+  }
+  @media (max-width: 400px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .stat-card { padding: 10px 12px; }
+    .stat-card .s-val { font-size: 18px; }
+  }
+
+  /* Print */
+  @media print {
+    header, .ticker, .toolbar, .filters, .scroll-top, footer, .drawer-backdrop, .reader, .share-sheet, .toast-wrap, .load-more, .status-bar { display: none !important; }
+    .card { break-inside: avoid; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="topbar" id="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#" aria-label="Bihari News Home">
+      <div class="brand-mark">ब</div>
+      <div class="brand-text">
+        <span class="name">Bihari News</span>
+        <span class="tag" data-i18n="tagline">बिहार की ताज़ा खबर</span>
+      </div>
+    </a>
+
+    <div class="search-box" id="searchBox">
+      <span class="ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+        </svg>
+      </span>
+      <input id="searchInput" type="text" placeholder="खबर या योजना खोजें..." autocomplete="off" aria-label="Search" />
+      <kbd class="search-kbd">/</kbd>
+      <button class="search-clear" id="searchClear" aria-label="Clear search" title="Clear">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="lang-toggle" id="langToggle" role="group" aria-label="Language">
+        <button data-lang="hi" class="active">हिं</button>
+        <button data-lang="en">EN</button>
+      </div>
+
+      <button class="icon-btn" id="refreshBtn" title="Refresh" aria-label="Refresh">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/>
+        </svg>
+      </button>
+
+      <button class="icon-btn" id="savedBtn" title="Saved articles" aria-label="Saved">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span class="badge-dot" id="savedBadge"></span>
+      </button>
+
+      <button class="icon-btn" id="themeBtn" title="Theme" aria-label="Toggle theme">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     TICKER
+     ============================================================ -->
+<div class="ticker">
+  <div class="wrap ticker-inner">
+    <div class="ticker-label"><span class="live-dot"></span> LIVE</div>
+    <div class="ticker-track">
+      <div class="ticker-content" id="tickerContent">
+        <span class="ticker-item">Bihari News — बिहार की ताज़ा खबर लोड हो रही है...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
+<main class="wrap">
+
+  <!-- STATS -->
+  <section class="stats-bar" id="statsBar" aria-label="Statistics"></section>
+
+  <!-- STATUS -->
+  <div class="status-bar">
+    <div class="status-left">
+      <span class="status-chip" id="statusChip">
+        <span class="live-dot" style="background:currentColor"></span>
+        <span id="statusText">लोड हो रहा है...</span>
+      </span>
+      <span class="status-chip" id="countChip">0 खबरें</span>
+      <span class="status-chip hidden" id="filterChip"></span>
+    </div>
+    <div class="owner-credit">by <b>Tony Jamer Stark</b></div>
+  </div>
+
+  <!-- CATEGORY FILTERS -->
+  <div class="filters" id="filters" role="tablist" aria-label="Categories"></div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="toolbar-group">
+      <span class="toolbar-label" data-i18n="source">स्रोत</span>
+      <div class="select-wrap">
+        <select id="sourceSelect" aria-label="Filter by source"></select>
+      </div>
+    </div>
+
+    <div class="toolbar-group">
+      <span class="toolbar-label" data-i18n="sort">क्रम</span>
+      <div class="select-wrap">
+        <select id="sortSelect" aria-label="Sort by">
+          <option value="newest" data-i18n="sort_newest">नवीनतम पहले</option>
+          <option value="oldest" data-i18n="sort_oldest">पुराने पहले</option>
+          <option value="source" data-i18n="sort_source">स्रोत A→Z</option>
+          <option value="trending" data-i18n="sort_trending">ट्रेंडिंग</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="read-filter" id="readFilter" role="group" aria-label="Read state">
+      <button data-read="all" class="active" data-i18n="read_all">सभी</button>
+      <button data-read="unread" data-i18n="read_unread">अपठित</button>
+      <button data-read="saved" data-i18n="read_saved">सहेजे</button>
+    </div>
+
+    <div style="flex:1"></div>
+
+    <div class="view-toggle" id="viewToggle" role="group" aria-label="View mode">
+      <button data-view="grid" class="active" title="Grid view" aria-label="Grid view">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </button>
+      <button data-view="list" title="List view" aria-label="List view">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- FEATURED -->
+  <section class="featured" id="featuredSection" aria-label="Featured"></section>
+
+  <!-- TRENDING -->
+  <div class="section-head" id="trendingHead" style="display:none">
+    <div class="section-title">
+      <span class="bar"></span>
+      <span>🔥 <span data-i18n="trending_now">ट्रेंडिंग अभी</span></span>
+    </div>
+    <div class="section-sub" id="trendingSub" data-i18n="trending_sub">सबसे चर्चित खबरें</div>
+  </div>
+  <div class="trending-strip" id="trendingStrip"></div>
+
+  <!-- ALL NEWS -->
+  <div class="section-head">
+    <div class="section-title">
+      <span class="bar"></span>
+      <span id="allTitle" data-i18n="all_news">सभी खबरें</span>
+    </div>
+    <div class="section-sub" id="allSub" data-i18n="all_sub">नवीनतम पहले</div>
+  </div>
+
+  <div class="grid" id="newsGrid"></div>
+
+  <div class="load-more hidden" id="loadMoreWrap">
+    <button id="loadMoreBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12h14"/>
+      </svg>
+      <span data-i18n="load_more">और खबरें लोड करें</span>
+    </button>
+  </div>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <h3>Bihari News</h3>
+        <p data-i18n="foot_desc">बिहार सरकार की योजनाएँ, नियम, और ताज़ा खबरें — एक ही जगह, साफ़-सुथरे अंदाज़ में। सारा डेटा official sources से aggregate किया जाता है। कोई fake news नहीं।</p>
+      </div>
+      <div class="foot-col">
+        <h4 data-i18n="sources">Sources</h4>
+        <ul>
+          <li>PIB Bihar</li>
+          <li>Google News (Bihar)</li>
+          <li>DIPR Bihar</li>
+          <li>MyGov Bihar</li>
+          <li>State Portal</li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4 data-i18n="categories">Categories</h4>
+        <ul>
+          <li data-i18n="cat_scheme">योजना / Scheme</li>
+          <li data-i18n="cat_rule">नियम / Rules</li>
+          <li data-i18n="cat_news">समाचार / News</li>
+          <li data-i18n="cat_announce">घोषणा / Announcement</li>
+          <li data-i18n="cat_notify">सूचना / Notification</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Bihari News. <span data-i18n="rights">सभी अधिकार सुरक्षित.</span></span>
+      <span>Owner: <b>Tony Jamer Stark</b></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     READER DRAWER
+     ============================================================ -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="reader" id="reader" aria-hidden="true" role="dialog" aria-label="Article reader">
+  <div class="reader-header">
+    <div class="rh-left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      <span data-i18n="reader">Reader</span>
+    </div>
+    <div class="rh-actions">
+      <button id="readerBookmark" title="Bookmark" aria-label="Bookmark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+      </button>
+      <button id="readerShare" title="Share" aria-label="Share">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>
+        </svg>
+      </button>
+      <button id="readerClose" title="Close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="reader-body" id="readerBody"></div>
+</aside>
+
+<!-- ============================================================
+     SHARE SHEET
+     ============================================================ -->
+<div class="share-sheet" id="shareSheet" role="dialog" aria-label="Share">
+  <h4 data-i18n="share_via">इसके ज़रिए शेयर करें</h4>
+  <div class="share-grid" id="shareGrid"></div>
+</div>
+
+<!-- ============================================================
+     SCROLL TO TOP
+     ============================================================ -->
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top" title="Top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <path d="m18 15-6-6-6 6"/>
+  </svg>
+</button>
+
+<!-- TOASTS -->
+<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   BIHARI NEWS — v2.0
+   Single-file Bihar news aggregator
+   Owner: Tony Jamer Stark
+   ============================================================ */
+(() => {
+'use strict';
+
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const CONFIG = {
+  REFRESH_MS: 8 * 60 * 1000,       // 8 min auto-refresh
+  PAGE_SIZE: 12,
+  MAX_ITEMS: 150,
+  NEW_WINDOW_MS: 90 * 60 * 1000,   // < 90 min = NEW
+  CACHE_TTL: 30 * 60 * 1000,       // cache for 30 min
+  FETCH_TIMEOUT: 9000,
+  WHITELIST_SOURCES: [
+    'pib.gov.in', 'state.bihar.gov.in', 'dipr.bihar.gov.in',
+    'mygov.in', 'bihar.gov.in', 'gov.in',
+    'thehindu.com', 'hindustantimes.com', 'indianexpress.com',
+    'timesofindia.indiatimes.com', 'ndtv.com', 'news18.com',
+    'aajtak.in', 'abplive.com', 'livehindustan.com',
+    'jagran.com', 'bhaskar.com', 'patrika.com', 'prabhatkhabar.com',
+    'navbharattimes.indiatimes.com', 'theprint.in', 'scroll.in',
+    'thewire.in', 'livemint.com', 'business-standard.com'
+  ],
+  CATEGORIES: [
+    { id: 'all',      label_hi: 'सब',      label_en: 'All',      icon: '📰' },
+    { id: 'scheme',   label_hi: 'योजना',   label_en: 'Schemes',  icon: '🎯' },
+    { id: 'rule',     label_hi: 'नियम',    label_en: 'Rules',    icon: '📋' },
+    { id: 'news',     label_hi: 'समाचार',  label_en: 'News',     icon: '📢' },
+    { id: 'announce', label_hi: 'घोषणा',   label_en: 'Announce', icon: '📣' },
+    { id: 'notify',   label_hi: 'सूचना',   label_en: 'Notice',   icon: '🔔' }
+  ],
+  FEEDS: [
+    { url: 'https://news.google.com/rss/search?q=%22Bihar%20government%22%20yojana%20OR%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
+    { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%B8%E0%A4%B0%E0%A4%95%E0%A4%BE%E0%A4%B0%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'scheme' },
+    { url: 'https://news.google.com/rss/search?q=Bihar%20government%20scheme&hl=en-IN&gl=IN&ceid=IN:en', tag: 'scheme' },
+    { url: 'https://news.google.com/rss/search?q=Bihar%20%E0%A4%A8%E0%A4%BF%E0%A4%AF%E0%A4%AE%20OR%20%E0%A4%A8%E0%A5%80%E0%A4%A4%E0%A4%BF%20OR%20%E0%A4%85%E0%A4%A7%E0%A4%BF%E0%A4%B8%E0%A5%82%E0%A4%9A%E0%A4%A8%E0%A4%BE&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'rule' },
+    { url: 'https://news.google.com/rss/search?q=Bihar%20government%20new%20rule%20OR%20policy&hl=en-IN&gl=IN&ceid=IN:en', tag: 'rule' },
+    { url: 'https://news.google.com/rss/search?q=Bihar%20news&hl=hi-IN&gl=IN&ceid=IN:hi', tag: 'news' },
+    { url: 'https://news.google.com/rss/search?q=Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'news' },
+    { url: 'https://news.google.com/rss/search?q=PIB%20Bihar&hl=en-IN&gl=IN&ceid=IN:en', tag: 'announce' }
+  ],
+  PROXIES: [
+    (u) => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+    (u) => 'https://corsproxy.io/?' + encodeURIComponent(u),
+    (u) => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u),
+    (u) => 'https://thingproxy.freeboard.io/fetch/' + u
+  ]
+};
+
+/* ============================================================
+   I18N
+   ============================================================ */
+const I18N = {
+  hi: {
+    tagline: 'बिहार की ताज़ा खबर',
+    search_ph: 'खबर या योजना खोजें...',
+    source: 'स्रोत', sort: 'क्रम',
+    sort_newest: 'नवीनतम पहले', sort_oldest: 'पुराने पहले',
+    sort_source: 'स्रोत A→Z', sort_trending: 'ट्रेंडिंग',
+    read_all: 'सभी', read_unread: 'अपठित', read_saved: 'सहेजे',
+    trending_now: 'ट्रेंडिंग अभी', trending_sub: 'सबसे चर्चित खबरें',
+    all_news: 'सभी खबरें', all_sub: 'नवीनतम पहले',
+    load_more: 'और खबरें लोड करें',
+    reader: 'रीडर',
+    share_via: 'इसके ज़रिए शेयर करें',
+    foot_desc: 'बिहार सरकार की योजनाएँ, नियम, और ताज़ा खबरें — एक ही जगह, साफ़-सुथरे अंदाज़ में। सारा डेटा official sources से aggregate किया जाता है। कोई fake news नहीं।',
+    sources: 'Sources', categories: 'Categories',
+    cat_scheme: 'योजना / Scheme', cat_rule: 'नियम / Rules',
+    cat_news: 'समाचार / News', cat_announce: 'घोषणा / Announcement',
+    cat_notify: 'सूचना / Notification',
+    rights: 'सभी अधिकार सुरक्षित.',
+    no_news: 'कोई खबर नहीं मिली',
+    no_news_sub: 'फ़िल्टर बदलें या रीफ़्रेश करें',
+    load_fail: 'डेटा लोड नहीं हो पाया',
+    load_fail_sub: 'इंटरनेट या proxy की समस्या हो सकती है। ऊपर refresh बटन दबाएँ।',
+    reading_time: 'पढ़ने का समय',
+    min_read: 'मिनट',
+    open_original: 'मूल खबर पढ़ें',
+    open_short: 'खोलें',
+    save: 'सहेजें', saved: 'सहेजा गया',
+    share: 'शेयर',
+    bookmark_added: 'बुकमार्क सहेजा',
+    bookmark_removed: 'बुकमार्क हटाया',
+    link_copied: 'लिंक कॉपी हो गया',
+    refreshing: 'डेटा रीफ़्रेश हो रहा है...',
+    syncing: 'सिंक हो रहा है...',
+    sync_fail: 'सिंक फेल — फिर कोशिश करें',
+    live: 'लाइव',
+    new_articles: 'नई खबर आई!',
+    reader_note: 'RSS सारांश उपलब्ध है। पूरी खबर मूल स्रोत पर पढ़ें।',
+    stat_total: 'कुल खबरें', stat_today: 'आज', stat_saved: 'सहेजे', stat_sources: 'स्रोत',
+    ago_now: 'अभी', ago_min: 'मिनट पहले', ago_hr: 'घंटे पहले', ago_day: 'दिन पहले',
+    saved_view: 'सहेजी खबरें', unread_view: 'अपठित खबरें',
+    results: 'परिणाम', search_label: 'खोज',
+    whatsapp: 'WhatsApp', telegram: 'Telegram', twitter: 'X', facebook: 'Facebook', copy: 'कॉपी'
+  },
+  en: {
+    tagline: 'Bihar Ki Taaza Khabar',
+    search_ph: 'Search news or schemes...',
+    source: 'Source', sort: 'Sort',
+    sort_newest: 'Newest first', sort_oldest: 'Oldest first',
+    sort_source: 'Source A→Z', sort_trending: 'Trending',
+    read_all: 'All', read_unread: 'Unread', read_saved: 'Saved',
+    trending_now: 'Trending Now', trending_sub: 'Most talked about',
+    all_news: 'All News', all_sub: 'Newest first',
+    load_more: 'Load more news',
+    reader: 'Reader',
+    share_via: 'Share via',
+    foot_desc: 'Bihar government schemes, rules, and latest news — all in one place, cleanly presented. Data aggregated from official sources. No fake news.',
+    sources: 'Sources', categories: 'Categories',
+    cat_scheme: 'Schemes', cat_rule: 'Rules',
+    cat_news: 'News', cat_announce: 'Announcements',
+    cat_notify: 'Notifications',
+    rights: 'All rights reserved.',
+    no_news: 'No news found',
+    no_news_sub: 'Change filters or refresh',
+    load_fail: 'Could not load data',
+    load_fail_sub: 'Network or proxy issue. Tap refresh above.',
+    reading_time: 'Reading time',
+    min_read: 'min',
+    open_original: 'Read original',
+    open_short: 'Open',
+    save: 'Save', saved: 'Saved',
+    share: 'Share',
+    bookmark_added: 'Bookmarked',
+    bookmark_removed: 'Bookmark removed',
+    link_copied: 'Link copied',
+    refreshing: 'Refreshing data...',
+    syncing: 'Syncing...',
+    sync_fail: 'Sync failed — retry',
+    live: 'Live',
+    new_articles: 'new articles!',
+    reader_note: 'RSS summary available. Read the full story at the original source.',
+    stat_total: 'Total', stat_today: 'Today', stat_saved: 'Saved', stat_sources: 'Sources',
+    ago_now: 'now', ago_min: 'm ago', ago_hr: 'h ago', ago_day: 'd ago',
+    saved_view: 'Saved articles', unread_view: 'Unread articles',
+    results: 'results', search_label: 'Search',
+    whatsapp: 'WhatsApp', telegram: 'Telegram', twitter: 'X', facebook: 'Facebook', copy: 'Copy'
+  }
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  items: [],
+  filtered: [],
+  category: 'all',
+  query: '',
+  source: 'all',
+  sort: 'newest',
+  readFilter: 'all',
+  viewMode: 'grid',
+  page: 1,
+  bookmarks: new Set(),
+  readItems: new Set(),
+  seenIds: new Set(),
+  firstLoad: true,
+  isLoading: false,
+  lastSync: null,
+  theme: 'light',
+  lang: 'hi',
+  activeReaderId: null
+};
+
+/* ============================================================
+   DOM HELPERS
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+const els = {
+  topbar: $('topbar'),
+  searchBox: $('searchBox'),
+  searchInput: $('searchInput'),
+  searchClear: $('searchClear'),
+  refreshBtn: $('refreshBtn'),
+  savedBtn: $('savedBtn'),
+  savedBadge: $('savedBadge'),
+  themeBtn: $('themeBtn'),
+  themeIcon: $('themeIcon'),
+  langToggle: $('langToggle'),
+  tickerContent: $('tickerContent'),
+  statsBar: $('statsBar'),
+  statusChip: $('statusChip'),
+  statusText: $('statusText'),
+  countChip: $('countChip'),
+  filterChip: $('filterChip'),
+  filters: $('filters'),
+  sourceSelect: $('sourceSelect'),
+  sortSelect: $('sortSelect'),
+  readFilter: $('readFilter'),
+  viewToggle: $('viewToggle'),
+  featuredSection: $('featuredSection'),
+  trendingHead: $('trendingHead'),
+  trendingStrip: $('trendingStrip'),
+  newsGrid: $('newsGrid'),
+  allTitle: $('allTitle'),
+  allSub: $('allSub'),
+  loadMoreWrap: $('loadMoreWrap'),
+  loadMoreBtn: $('loadMoreBtn'),
+  toastWrap: $('toastWrap'),
+  year: $('year'),
+  drawerBackdrop: $('drawerBackdrop'),
+  reader: $('reader'),
+  readerBody: $('readerBody'),
+  readerBookmark: $('readerBookmark'),
+  readerShare: $('readerShare'),
+  readerClose: $('readerClose'),
+  shareSheet: $('shareSheet'),
+  shareGrid: $('shareGrid'),
+  scrollTop: $('scrollTop')
+};
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+const safeLS = {
+  get(k, fb = null) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch { return fb; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } },
+  del(k) { try { localStorage.removeItem(k); } catch {} }
+};
+
+const stripHtml = (s) => {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.innerHTML = s;
+  return (d.textContent || '').replace(/\s+/g, ' ').trim();
+};
+
+const escapeHtml = (s) => String(s || '')
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
+const highlight = (text, query) => {
+  const esc = escapeHtml(text);
+  if (!query) return esc;
+  const q = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  try {
+    return esc.replace(new RegExp('(' + q + ')', 'gi'), '<mark class="hl">$1</mark>');
+  } catch { return esc; }
+};
+
+const timeAgo = (ts) => {
+  const t = I18N[state.lang];
+  const diff = Date.now() - ts;
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return t.ago_now;
+  if (m < 60) return `${m} ${t.ago_min}`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h} ${t.ago_hr}`;
+  const d = Math.floor(h / 24);
+  if (d < 7) return `${d} ${t.ago_day}`;
+  return new Date(ts).toLocaleDateString(state.lang === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short' });
+};
+
+const hostOf = (url) => {
+  try { return new URL(url).hostname.replace(/^www\./, ''); }
+  catch { return ''; }
+};
+
+const uid = (s) => {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+  return 'u' + Math.abs(h).toString(36);
+};
+
+const readTime = (text) => {
+  const words = (text || '').split(/\s+/).length;
+  return Math.max(1, Math.round(words / 220));
+};
+
+const debounce = (fn, wait) => {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+};
+
+/* ============================================================
+   TOASTS
+   ============================================================ */
+const toast = (msg, type = 'info', duration = 3200) => {
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = `<span class="dot"></span><span>${escapeHtml(msg)}</span>`;
+  els.toastWrap.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => {
+    el.classList.remove('show');
+    setTimeout(() => el.remove(), 400);
+  }, duration);
+};
+
+/* ============================================================
+   THEME
+   ============================================================ */
+const applyTheme = (t) => {
+  state.theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  safeLS.set('bn_theme', t);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = t === 'dark' ? '#08090c' : '#d97706';
+  if (t === 'dark') {
+    els.themeIcon.innerHTML = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+  } else {
+    els.themeIcon.innerHTML = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+  }
+};
+els.themeBtn.addEventListener('click', () => applyTheme(state.theme === 'dark' ? 'light' : 'dark'));
+
+/* ============================================================
+   I18N APPLY
+   ============================================================ */
+const applyLang = (lang) => {
+  state.lang = lang;
+  safeLS.set('bn_lang', lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.dataset.i18n;
+    if (I18N[lang][key]) el.textContent = I18N[lang][key];
+  });
+  els.searchInput.placeholder = I18N[lang].search_ph;
+  els.langToggle.querySelectorAll('button').forEach((b) => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  // Re-render dynamic bits
+  buildFilters();
+  render();
+};
+
+/* ============================================================
+   PERSISTENCE
+   ============================================================ */
+const loadBookmarks = () => {
+  const arr = safeLS.get('bn_bookmarks', []);
+  state.bookmarks = new Set(Array.isArray(arr) ? arr : []);
+};
+const saveBookmarks = () => safeLS.set('bn_bookmarks', [...state.bookmarks]);
+
+const loadReadItems = () => {
+  const arr = safeLS.get('bn_read', []);
+  state.readItems = new Set(Array.isArray(arr) ? arr : []);
+};
+const saveReadItems = () => safeLS.set('bn_read', [...state.readItems]);
+
+const markRead = (id) => {
+  if (!state.readItems.has(id)) {
+    state.readItems.add(id);
+    saveReadItems();
+    updateSavedBadge();
+  }
+};
+
+const toggleBookmark = (id) => {
+  if (state.bookmarks.has(id)) {
+    state.bookmarks.delete(id);
+    toast(I18N[state.lang].bookmark_removed, 'info');
+  } else {
+    state.bookmarks.add(id);
+    toast(I18N[state.lang].bookmark_added, 'ok');
+  }
+  saveBookmarks();
+  updateSavedBadge();
+  render();
+  if (state.activeReaderId === id) updateReaderBookmarkBtn();
+};
+
+const updateSavedBadge = () => {
+  const count = state.bookmarks.size;
+  if (count > 0) {
+    els.savedBtn.classList.add('has-badge');
+  } else {
+    els.savedBtn.classList.remove('has-badge');
+  }
+};
+
+/* ============================================================
+   CACHE
+   ============================================================ */
+const loadCache = () => {
+  const cached = safeLS.get('bn_cache', null);
+  if (cached && cached.ts && Array.isArray(cached.items) && Date.now() - cached.ts < CONFIG.CACHE_TTL) {
+    return cached.items;
+  }
+  return null;
+};
+const saveCache = (items) => {
+  // store minimal data
+  const slim = items.slice(0, 80).map(({ id, title, link, desc, source, ts, cat }) => ({ id, title, link, desc, source, ts, cat }));
+  safeLS.set('bn_cache', { ts: Date.now(), items: slim });
+};
+
+/* ============================================================
+   FETCH WITH PROXY (parallel with Promise.any)
+   ============================================================ */
+const fetchWithProxy = async (url) => {
+  const attempts = CONFIG.PROXIES.map(async (wrap) => {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), CONFIG.FETCH_TIMEOUT);
+    try {
+      const res = await fetch(wrap(url), { signal: ctrl.signal, cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      if (!text || text.length < 80) throw new Error('Empty');
+      return text;
+    } finally {
+      clearTimeout(timer);
+    }
+  });
+  return Promise.any(attempts);
+};
+
+/* ============================================================
+   RSS PARSER
+   ============================================================ */
+const parseRSS = (xmlText, feedTag) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlText, 'text/xml');
+  if (doc.querySelector('parsererror')) return [];
+  const items = doc.querySelectorAll('item');
+  const out = [];
+
+  items.forEach((node) => {
+    const title = stripHtml(node.querySelector('title')?.textContent || '');
+    const link = (node.querySelector('link')?.textContent || '').trim();
+    const pubDate = node.querySelector('pubDate')?.textContent || '';
+    const descRaw = node.querySelector('description')?.textContent || '';
+    const source = stripHtml(node.querySelector('source')?.textContent || '');
+
+    if (!title || !link) return;
+    let desc = stripHtml(descRaw);
+    // Google News desc often repeats title; trim
+    if (desc.startsWith(title)) desc = desc.slice(title.length).replace(/^[\s\-–—|:]+/, '').trim();
+    if (desc.length > 280) desc = desc.slice(0, 280).trim() + '…';
+
+    const ts = pubDate ? Date.parse(pubDate) : Date.now();
+    const id = uid(title + link);
+
+    out.push({
+      id, title, link, desc,
+      source: source || hostOf(link),
+      ts: isNaN(ts) ? Date.now() : ts,
+      feedTag
+    });
+  });
+  return out;
+};
+
+/* ============================================================
+   CATEGORIZE
+   ============================================================ */
+const categorize = (item) => {
+  const t = (item.title + ' ' + item.desc).toLowerCase();
+  if (/योजना|scheme|yojana|benefit|लाभ|subsidy|सब्सिडी|आवास|pension|पेंशन|राशन|ration|kisan|किसान|awas|उज्ज्वला|ujjwala|scholarship|छात्रवृत्ति/i.test(t)) return 'scheme';
+  if (/नियम|rule|regulation|अधिसूचना|advisory|order|आदेश|कानून|law|act\b|policy|नीति/i.test(t)) return 'rule';
+  if (/घोषणा|announce|declared|launch|शुरू|शुभारंभ|inaugurat/i.test(t)) return 'announce';
+  if (/सूचना|notice|notification|alert|चेतावनी|warning|deadline|अंतिम तिथि/i.test(t)) return 'notify';
+  if (/समाचार|news|update|अपडेट|रिपोर्ट|report/i.test(t)) return 'news';
+  return 'news';
+};
+
+/* ============================================================
+   RELEVANCE
+   ============================================================ */
+const isBiharRelevant = (item) => {
+  const text = (item.title + ' ' + item.desc + ' ' + (item.source || '')).toLowerCase();
+  return /bihar|बिहार|patna|पटना|nitish|tejashwi|samrat|sushil|gopalganj|muzaffarpur|gaya|bhagalpur|darbhanga|purnia|chapra|saran|siwan|araria|madhubani|सरकार|योजना|government|scheme|मुख्यमंत्री/.test(text);
+};
+
+const isWhitelisted = (item) => {
+  const h = hostOf(item.link || '').toLowerCase();
+  const src = (item.source || '').toLowerCase();
+  return CONFIG.WHITELIST_SOURCES.some((w) => h.includes(w) || src.includes(w.toLowerCase()));
+};
+
+/* ============================================================
+   TRENDING SCORE
+   ============================================================ */
+const trendScore = (item) => {
+  const ageHrs = (Date.now() - item.ts) / 3600000;
+  const recency = 1 / (ageHrs + 1);
+  let boost = 0;
+  const t = (item.title + ' ' + item.desc).toLowerCase();
+  if (/breaking|urgent|बड़ी खबर|ताज़ा|ब्रेकिंग|exclusive|alert/.test(t)) boost += 0.6;
+  if (/cm\b|मुख्यमंत्री|nitish|tejashwi|cabinet|कैबिनेट/.test(t)) boost += 0.35;
+  if (/yojana|योजना|scheme|सब्सिडी|subsidy/.test(t)) boost += 0.25;
+  if (item.cat === 'announce' || item.cat === 'notify') boost += 0.15;
+  return recency + boost;
+};
+
+/* ============================================================
+   LOAD FEEDS
+   ============================================================ */
+const loadFeeds = async (showToast = false) => {
+  if (state.isLoading) return;
+  state.isLoading = true;
+  setStatus('syncing', I18N[state.lang].syncing);
+
+  const results = await Promise.allSettled(
+    CONFIG.FEEDS.map(async (f) => {
+      const xml = await fetchWithProxy(f.url);
+      return parseRSS(xml, f.tag);
+    })
+  );
+
+  let all = [];
+  let failCount = 0;
+  results.forEach((r) => {
+    if (r.status === 'fulfilled' && Array.isArray(r.value)) all.push(...r.value);
+    else failCount++;
+  });
+
+  // Dedupe
+  const seen = new Set();
+  all = all.filter((it) => {
+    if (seen.has(it.id)) return false;
+    seen.add(it.id);
+    return true;
+  });
+
+  // Filter relevance
+  all = all.filter(isBiharRelevant);
+  const wl = all.filter(isWhitelisted);
+  if (wl.length >= 3) all = wl;
+
+  // Sort + cap
+  all.sort((a, b) => b.ts - a.ts);
+  all = all.slice(0, CONFIG.MAX_ITEMS);
+  all.forEach((it) => { it.cat = categorize(it); });
+
+  // Detect NEW
+  const newOnes = [];
+  if (!state.firstLoad) {
+    all.forEach((it) => {
+      if (!state.seenIds.has(it.id) && (Date.now() - it.ts) < CONFIG.NEW_WINDOW_MS) newOnes.push(it);
+    });
+  }
+  all.forEach((it) => state.seenIds.add(it.id));
+
+  state.items = all;
+  state.lastSync = Date.now();
+  state.firstLoad = false;
+
+  if (failCount === CONFIG.FEEDS.length && all.length === 0) {
+    setStatus('err', I18N[state.lang].sync_fail);
+  } else {
+    setStatus('ok', `${I18N[state.lang].live} · ${timeAgo(state.lastSync)}`);
+  }
+
+  if (newOnes.length > 0) {
+    toast(`🔥 ${newOnes.length} ${I18N[state.lang].new_articles}`, 'ok');
+  }
+  if (showToast) toast(I18N[state.lang].refreshing, 'info');
+
+  saveCache(all);
+  buildFilters();
+  buildSourceOptions();
+  render();
+  state.isLoading = false;
+};
+
+const setStatus = (kind, text) => {
+  els.statusChip.className = 'status-chip ' + kind;
+  els.statusText.textContent = text;
+};
+
+/* ============================================================
+   BUILD FILTERS
+   ============================================================ */
+const buildFilters = () => {
+  const counts = {};
+  CONFIG.CATEGORIES.forEach((c) => {
+    counts[c.id] = c.id === 'all' ? state.items.length : state.items.filter((it) => it.cat === c.id).length;
+  });
+
+  els.filters.innerHTML = CONFIG.CATEGORIES.map((c) => `
+    <button class="pill ${state.category === c.id ? 'active' : ''}" data-cat="${c.id}" role="tab" aria-selected="${state.category === c.id}">
+      <span>${c.icon} ${state.lang === 'hi' ? c.label_hi : c.label_en}</span>
+      <span class="count">${counts[c.id]}</span>
+    </button>
+  `).join('');
+
+  els.filters.querySelectorAll('.pill').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      state.category = btn.dataset.cat;
+      state.page = 1;
+      buildFilters();
+      render();
+    });
+  });
+};
+
+const buildSourceOptions = () => {
+  const sources = [...new Set(state.items.map((it) => it.source).filter(Boolean))].sort();
+  const current = state.source;
+  els.sourceSelect.innerHTML = `<option value="all">${state.lang === 'hi' ? 'सभी स्रोत' : 'All sources'}</option>` +
+    sources.map((s) => `<option value="${escapeHtml(s)}"${s === current ? ' selected' : ''}>${escapeHtml(s)}</option>`).join('');
+};
+
+/* ============================================================
+   APPLY FILTERS + SORT
+   ============================================================ */
+const applyFilters = () => {
+  const q = state.query.trim().toLowerCase();
+  let out = state.items;
+
+  if (state.category !== 'all') out = out.filter((it) => it.cat === state.category);
+
+  if (state.source !== 'all') out = out.filter((it) => it.source === state.source);
+
+  if (state.readFilter === 'saved') {
+    out = out.filter((it) => state.bookmarks.has(it.id));
+  } else if (state.readFilter === 'unread') {
+    out = out.filter((it) => !state.readItems.has(it.id));
+  }
+
+  if (q) {
+    out = out.filter((it) =>
+      (it.title + ' ' + it.desc + ' ' + it.source).toLowerCase().includes(q)
+    );
+  }
+
+  switch (state.sort) {
+    case 'oldest': out = [...out].sort((a, b) => a.ts - b.ts); break;
+    case 'source': out = [...out].sort((a, b) => (a.source || '').localeCompare(b.source || '')); break;
+    case 'trending': out = [...out].sort((a, b) => trendScore(b) - trendScore(a)); break;
+    default: out = [...out].sort((a, b) => b.ts - a.ts);
+  }
+  return out;
+};
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+const render = () => {
+  const filtered = applyFilters();
+  state.filtered = filtered;
+
+  els.countChip.textContent = `${filtered.length} ${state.lang === 'hi' ? 'खबरें' : 'articles'}`;
+
+  // Filter chip
+  const activeChips = [];
+  if (state.category !== 'all') {
+    const c = CONFIG.CATEGORIES.find((x) => x.id === state.category);
+    if (c) activeChips.push(state.lang === 'hi' ? c.label_hi : c.label_en);
+  }
+  if (state.source !== 'all') activeChips.push(state.source);
+  if (state.readFilter !== 'all') {
+    const t = I18N[state.lang];
+    activeChips.push(state.readFilter === 'saved' ? t.saved_view : t.unread_view);
+  }
+  if (activeChips.length) {
+    els.filterChip.classList.remove('hidden');
+    els.filterChip.textContent = '⚙ ' + activeChips.join(' · ');
+  } else {
+    els.filterChip.classList.add('hidden');
+  }
+
+  // Stats
+  renderStats();
+
+  // Ticker
+  renderTicker(state.items.slice(0, 10));
+
+  // Featured
+  renderFeatured(filtered.slice(0, 4));
+
+  // Trending (top 10 by trend score, only if >= 3)
+  const trending = [...filtered].sort((a, b) => trendScore(b) - trendScore(a)).slice(0, 10);
+  renderTrending(trending);
+
+  // Grid
+  const visible = filtered.slice(0, state.page * CONFIG.PAGE_SIZE);
+  renderGrid(visible);
+
+  // Load more
+  if (visible.length < filtered.length) {
+    els.loadMoreWrap.classList.remove('hidden');
+  } else {
+    els.loadMoreWrap.classList.add('hidden');
+  }
+
+  // Section titles
+  const t = I18N[state.lang];
+  const cat = CONFIG.CATEGORIES.find((c) => c.id === state.category);
+  if (state.query) {
+    els.allTitle.textContent = `${t.search_label}: "${state.query}"`;
+  } else if (state.readFilter === 'saved') {
+    els.allTitle.textContent = t.saved_view;
+  } else if (state.readFilter === 'unread') {
+    els.allTitle.textContent = t.unread_view;
+  } else if (cat && cat.id !== 'all') {
+    els.allTitle.textContent = state.lang === 'hi' ? cat.label_hi : cat.label_en;
+  } else {
+    els.allTitle.textContent = t.all_news;
+  }
+  els.allSub.textContent = `${filtered.length} ${t.results} · ${t.all_sub}`;
+};
+
+const renderStats = () => {
+  const t = I18N[state.lang];
+  const total = state.items.length;
+  const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+  const today = state.items.filter((it) => it.ts >= todayStart.getTime()).length;
+  const sources = new Set(state.items.map((it) => it.source).filter(Boolean)).size;
+  const saved = state.bookmarks.size;
+
+  els.statsBar.innerHTML = `
+    <div class="stat-card">
+      <div class="s-val">${total}</div>
+      <div class="s-lab">${t.stat_total}</div>
+    </div>
+    <div class="stat-card live">
+      <div class="s-val">${today}</div>
+      <div class="s-lab">${t.stat_today}</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-val">${saved}</div>
+      <div class="s-lab">${t.stat_saved}</div>
+    </div>
+    <div class="stat-card">
+      <div class="s-val">${sources}</div>
+      <div class="s-lab">${t.stat_sources}</div>
+    </div>
+  `;
+};
+
+const renderTicker = (items) => {
+  if (!items.length) return;
+  const html = items.map((it) =>
+    `<span class="ticker-item" data-link="${escapeHtml(it.link)}" title="${escapeHtml(it.title)}">${escapeHtml(it.title)}</span>`
+  ).join('');
+  els.tickerContent.innerHTML = html + html;
+  els.tickerContent.querySelectorAll('.ticker-item').forEach((el) => {
+    el.addEventListener('click', () => window.open(el.dataset.link, '_blank', 'noopener'));
+  });
+};
+
+const renderFeatured = (items) => {
+  if (!items.length) {
+    els.featuredSection.innerHTML = '';
+    return;
+  }
+  const [big, ...rest] = items;
+  const isNew = (Date.now() - big.ts) < CONFIG.NEW_WINDOW_MS;
+  const t = I18N[state.lang];
+
+  els.featuredSection.innerHTML = `
+    <article class="card-feature" data-id="${big.id}" tabindex="0" role="button" aria-label="${escapeHtml(big.title)}">
+      <span class="feat-tag ${isNew ? 'hot' : ''}">${isNew ? '🔥 BREAKING' : '⭐ FEATURED'}</span>
+      <h2 class="feat-title">${highlight(big.title, state.query)}</h2>
+      <p class="feat-desc">${escapeHtml(big.desc || (state.lang === 'hi' ? 'पूरी खबर पढ़ने के लिए क्लिक करें' : 'Click to read more'))}</p>
+      <div class="feat-meta">
+        <span class="src">${escapeHtml(big.source)}</span>
+        <span>${timeAgo(big.ts)}</span>
+        <span>· ${readTime(big.desc || big.title)} ${t.min_read} ${t.reading_time.toLowerCase()}</span>
+      </div>
+    </article>
+    <div class="feature-side">
+      ${rest.slice(0, 3).map((it) => `
+        <article class="mini-card" data-id="${it.id}" tabindex="0" role="button">
+          <div class="m-tag">${escapeHtml(it.source)}</div>
+          <div class="m-title">${highlight(it.title, state.query)}</div>
+          <div class="m-meta">${timeAgo(it.ts)}</div>
+        </article>
+      `).join('')}
+    </div>
+  `;
+
+  els.featuredSection.querySelectorAll('[data-id]').forEach((el) => {
+    el.addEventListener('click', () => openReader(el.dataset.id));
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openReader(el.dataset.id); }
+    });
+  });
+};
+
+const renderTrending = (items) => {
+  if (items.length < 3) {
+    els.trendingHead.style.display = 'none';
+    els.trendingStrip.innerHTML = '';
+    return;
+  }
+  els.trendingHead.style.display = '';
+  els.trendingStrip.innerHTML = items.slice(0, 10).map((it, i) => {
+    const isNew = (Date.now() - it.ts) < CONFIG.NEW_WINDOW_MS;
+    return `
+      <article class="trend-card" data-id="${it.id}" tabindex="0" role="button">
+        ${isNew ? '<span class="t-new">NEW</span>' : ''}
+        <span class="trend-rank">#${i + 1}</span>
+        <div class="t-title">${highlight(it.title, state.query)}</div>
+        <div class="t-meta">
+          <span>${escapeHtml(it.source)}</span>
+          <span class="dot-sep"></span>
+          <span>${timeAgo(it.ts)}</span>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  els.trendingStrip.querySelectorAll('.trend-card').forEach((el) => {
+    el.addEventListener('click', () => openReader(el.dataset.id));
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openReader(el.dataset.id); }
+    });
+  });
+};
+
+const renderGrid = (items) => {
+  if (state.isLoading && !items.length) {
+    els.newsGrid.className = 'grid' + (state.viewMode === 'list' ? ' view-list' : '');
+    els.newsGrid.innerHTML = Array.from({ length: 6 }).map(() => `
+      <div class="skeleton">
+        <div class="sk-line short"></div>
+        <div class="sk-line tall"></div>
+        <div class="sk-line tall"></div>
+        <div class="sk-line mid"></div>
+        <div class="sk-line mid"></div>
+      </div>
+    `).join('');
+    return;
+  }
+
+  if (!items.length) {
+    els.newsGrid.className = 'grid';
+    const t = I18N[state.lang];
+    els.newsGrid.innerHTML = `
+      <div class="empty">
+        <div class="emoji">📭</div>
+        <h3>${escapeHtml(t.no_news)}</h3>
+        <p>${escapeHtml(t.no_news_sub)}</p>
+      </div>
+    `;
+    return;
+  }
+
+  els.newsGrid.className = 'grid' + (state.viewMode === 'list' ? ' view-list' : '');
+
+  els.newsGrid.innerHTML = items.map((it, idx) => {
+    const cat = CONFIG.CATEGORIES.find((c) => c.id === it.cat) || CONFIG.CATEGORIES[3];
+    const isNew = (Date.now() - it.ts) < CONFIG.NEW_WINDOW_MS;
+    const bookmarked = state.bookmarks.has(it.id);
+    const isRead = state.readItems.has(it.id);
+    const catLabel = state.lang === 'hi' ? cat.label_hi : cat.label_en;
+
+    return `
+      <article class="card${isRead ? ' read' : ''}" data-id="${it.id}" tabindex="0" style="animation-delay:${Math.min(idx * 25, 300)}ms" role="button">
+        ${isNew ? '<span class="new-dot" title="New"></span>' : ''}
+        <div class="card-top">
+          <span class="src-badge" title="${escapeHtml(it.source)}">${escapeHtml(it.source)}</span>
+          <span class="cat-badge ${it.cat}">${cat.icon} ${catLabel}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">${highlight(it.title, state.query)}</h3>
+          ${it.desc ? `<p class="card-desc">${highlight(it.desc, state.query)}</p>` : ''}
+        </div>
+        <div class="card-footer">
+          <span>${timeAgo(it.ts)}</span>
+          <div class="actions">
+            <button data-act="bookmark" class="${bookmarked ? 'active' : ''}" title="${bookmarked ? I18N[state.lang].saved : I18N[state.lang].save}" aria-label="Bookmark">
+              <svg viewBox="0 0 24 24" fill="${bookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </button>
+            <button data-act="share" title="${I18N[state.lang].share}" aria-label="Share">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>
+              </svg>
+            </button>
+            <button data-act="open" title="${I18N[state.lang].open_short}" aria-label="Open">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  els.newsGrid.querySelectorAll('.card').forEach((card) => {
+    const id = card.dataset.id;
+    const item = items.find((x) => x.id === id);
+    if (!item) return;
+
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('[data-act]')) return;
+      openReader(id);
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.target.closest('[data-act]')) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openReader(id);
+      }
+    });
+
+    card.querySelectorAll('[data-act]').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const act = btn.dataset.act;
+        if (act === 'bookmark') toggleBookmark(id);
+        else if (act === 'open') { markRead(id); window.open(item.link, '_blank', 'noopener'); }
+        else if (act === 'share') openShareSheet(item);
+      });
+    });
+  });
+};
+
+/* ============================================================
+   READER DRAWER
+   ============================================================ */
+const openReader = (id) => {
+  const item = state.items.find((x) => x.id === id);
+  if (!item) return;
+  state.activeReaderId = id;
+  markRead(id);
+
+  const cat = CONFIG.CATEGORIES.find((c) => c.id === item.cat) || CONFIG.CATEGORIES[3];
+  const catLabel = state.lang === 'hi' ? cat.label_hi : cat.label_en;
+  const t = I18N[state.lang];
+  const bookmarked = state.bookmarks.has(item.id);
+  const rt = readTime(item.desc || item.title);
+
+  els.readerBody.innerHTML = `
+    <span class="reader-cat cat-badge ${item.cat}">${cat.icon} ${catLabel}</span>
+    <h1 class="reader-title">${escapeHtml(item.title)}</h1>
+    <div class="reader-meta">
+      <span class="src-chip">${escapeHtml(item.source)}</span>
+      <span>${timeAgo(item.ts)}</span>
+      <span>· ${rt} ${t.min_read} ${t.reading_time.toLowerCase()}</span>
+    </div>
+    ${item.desc ? `<div class="reader-summary">${escapeHtml(item.desc)}</div>` : ''}
+    <div class="reader-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+      </svg>
+      <span>${escapeHtml(t.reader_note)}</span>
+    </div>
+    <div class="reader-actions">
+      <a class="btn-primary" href="${escapeHtml(item.link)}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>
+        </svg>
+        <span>${escapeHtml(t.open_original)}</span>
+      </a>
+      <div class="btn-row">
+        <button class="btn-secondary" id="readerSaveBtn">
+          <svg viewBox="0 0 24 24" fill="${bookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>${bookmarked ? escapeHtml(t.saved) : escapeHtml(t.save)}</span>
+        </button>
+        <button class="btn-secondary" id="readerShareBtn2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>
+          </svg>
+          <span>${escapeHtml(t.share)}</span>
+        </button>
+      </div>
+    </div>
+  `;
+
+  // Wire inner buttons
+  const saveBtn = $('readerSaveBtn');
+  const shareBtn = $('readerShareBtn2');
+  if (saveBtn) saveBtn.addEventListener('click', () => toggleBookmark(item.id));
+  if (shareBtn) shareBtn.addEventListener('click', () => openShareSheet(item));
+
+  updateReaderBookmarkBtn();
+
+  els.reader.classList.add('open');
+  els.reader.setAttribute('aria-hidden', 'false');
+  els.drawerBackdrop.classList.add('open');
+  document.body.classList.add('no-scroll');
+
+  // Focus trap
+  setTimeout(() => els.readerClose.focus(), 250);
+};
+
+const closeReader = () => {
+  els.reader.classList.remove('open');
+  els.reader.setAttribute('aria-hidden', 'true');
+  els.drawerBackdrop.classList.remove('open');
+  document.body.classList.remove('no-scroll');
+  state.activeReaderId = null;
+};
+
+const updateReaderBookmarkBtn = () => {
+  if (!state.activeReaderId) return;
+  const bm = state.bookmarks.has(state.activeReaderId);
+  els.readerBookmark.classList.toggle('active', bm);
+  els.readerBookmark.querySelector('svg').setAttribute('fill', bm ? 'currentColor' : 'none');
+};
+
+els.readerClose.addEventListener('click', closeReader);
+els.drawerBackdrop.addEventListener('click', () => { closeReader(); closeShareSheet(); });
+els.readerBookmark.addEventListener('click', () => {
+  if (state.activeReaderId) toggleBookmark(state.activeReaderId);
+});
+els.readerShare.addEventListener('click', () => {
+  const item = state.items.find((x) => x.id === state.activeReaderId);
+  if (item) openShareSheet(item);
+});
+
+/* ============================================================
+   SHARE SHEET
+   ============================================================ */
+const SHARE_TARGETS = [
+  { id: 'whatsapp', name: 'WhatsApp', color: '#25D366', icon: '<path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2z" fill="none" stroke="currentColor" stroke-width="2"/>', url: (i) => `https://wa.me/?text=${encodeURIComponent(i.title + '\n' + i.link)}` },
+  { id: 'telegram', name: 'Telegram', color: '#0088cc', icon: '<path d="m21.5 3.5-19 7.3c-1.1.4-1.1 1.1-.2 1.4l4.8 1.5 1.8 5.6c.2.6.4.8 1 .8.5 0 .7-.2 1-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.2-.5-1.8-1.3-1.5z" fill="currentColor"/>', url: (i) => `https://t.me/share/url?url=${encodeURIComponent(i.link)}&text=${encodeURIComponent(i.title)}` },
+  { id: 'twitter', name: 'X', color: '#000000', icon: '<path d="M18.9 3H22l-7.5 8.6L23 21h-6.8l-5.3-6.9L4.8 21H1.7l8-9.2L1 3h6.9l4.8 6.3L18.9 3zm-2.4 16h1.9L7.6 4.9H5.6l10.9 14.1z" fill="currentColor"/>', url: (i) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(i.title)}&url=${encodeURIComponent(i.link)}` },
+  { id: 'facebook', name: 'Facebook', color: '#1877F2', icon: '<path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z" fill="currentColor"/>', url: (i) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(i.link)}` },
+  { id: 'copy', name: 'Copy', color: '#6b7280', icon: '<rect x="9" y="9" width="13" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" fill="none" stroke="currentColor" stroke-width="2"/>', url: null }
+];
+
+const openShareSheet = (item) => {
+  const t = I18N[state.lang];
+  els.shareGrid.innerHTML = SHARE_TARGETS.map((s) => `
+    <button class="share-btn" data-share="${s.id}">
+      <span class="sh-ico" style="background:${s.color}">
+        <svg viewBox="0 0 24 24">${s.icon}</svg>
+      </span>
+      <span>${escapeHtml(s.name)}</span>
+    </button>
+  `).join('');
+
+  els.shareGrid.querySelectorAll('.share-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const target = SHARE_TARGETS.find((x) => x.id === btn.dataset.share);
+      if (!target) return;
+      if (target.id === 'copy') {
+        try {
+          await navigator.clipboard.writeText(item.link);
+          toast(t.link_copied, 'ok');
+        } catch {
+          toast('Copy failed', 'err');
+        }
+      } else if (navigator.share && target.id !== 'copy') {
+        try {
+          await navigator.share({ title: item.title, text: item.title, url: item.link });
+        } catch {}
+      } else {
+        window.open(target.url(item), '_blank', 'noopener');
+      }
+      closeShareSheet();
+    });
+  });
+
+  els.shareSheet.classList.add('open');
+};
+
+const closeShareSheet = () => {
+  els.shareSheet.classList.remove('open');
+};
+
+/* ============================================================
+   EVENT WIRING
+   ============================================================ */
+const onSearch = debounce((val) => {
+  state.query = val;
+  state.page = 1;
+  render();
+}, 180);
+
+els.searchInput.addEventListener('input', (e) => {
+  const v = e.target.value;
+  els.searchBox.classList.toggle('has-value', v.length > 0);
+  onSearch(v);
+});
+
+els.searchClear.addEventListener('click', () => {
+  els.searchInput.value = '';
+  els.searchBox.classList.remove('has-value');
+  state.query = '';
+  state.page = 1;
+  render();
+  els.searchInput.focus();
+});
+
+els.refreshBtn.addEventListener('click', async () => {
+  els.refreshBtn.classList.add('spin');
+  setTimeout(() => els.refreshBtn.classList.remove('spin'), 720);
+  await loadFeeds(true);
+});
+
+els.savedBtn.addEventListener('click', () => {
+  state.readFilter = state.readFilter === 'saved' ? 'all' : 'saved';
+  updateReadFilterUI();
+  state.page = 1;
+  render();
+});
+
+els.loadMoreBtn.addEventListener('click', () => {
+  state.page += 1;
+  render();
+});
+
+els.sourceSelect.addEventListener('change', (e) => {
+  state.source = e.target.value;
+  state.page = 1;
+  render();
+});
+
+els.sortSelect.addEventListener('change', (e) => {
+  state.sort = e.target.value;
+  state.page = 1;
+  render();
+});
+
+const updateReadFilterUI = () => {
+  els.readFilter.querySelectorAll('button').forEach((b) => {
+    b.classList.toggle('active', b.dataset.read === state.readFilter);
+  });
+};
+
+els.readFilter.querySelectorAll('button').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    state.readFilter = btn.dataset.read;
+    updateReadFilterUI();
+    state.page = 1;
+    render();
+  });
+});
+
+els.viewToggle.querySelectorAll('button').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    state.viewMode = btn.dataset.view;
+    safeLS.set('bn_view', state.viewMode);
+    els.viewToggle.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b.dataset.view === state.viewMode));
+    render();
+  });
+});
+
+els.langToggle.querySelectorAll('button').forEach((btn) => {
+  btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+});
+
+/* Scroll to top */
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  els.scrollTop.classList.toggle('show', y > 600);
+  // Hide header on scroll down, show on up
+  if (y > 200) {
+    const lastY = els.scrollTop._lastY || 0;
+    if (y > lastY + 5) els.topbar.classList.add('hide');
+    else if (y < lastY - 5) els.topbar.classList.remove('hide');
+    els.scrollTop._lastY = y;
+  } else {
+    els.topbar.classList.remove('hide');
+  }
+}, { passive: true });
+
+els.scrollTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* Keyboard shortcuts */
+document.addEventListener('keydown', (e) => {
+  // Don't trigger when typing in input
+  const inInput = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable;
+
+  if (e.key === 'Escape') {
+    if (els.shareSheet.classList.contains('open')) { closeShareSheet(); return; }
+    if (els.reader.classList.contains('open')) { closeReader(); return; }
+    if (inInput) { e.target.blur(); return; }
+  }
+
+  if (e.key === '/' && !inInput) {
+    e.preventDefault();
+    els.searchInput.focus();
+    els.searchInput.select();
+    return;
+  }
+
+  if (e.key === 'r' && !inInput && !e.metaKey && !e.ctrlKey) {
+    els.refreshBtn.click();
+    return;
+  }
+
+  if (e.key === 't' && !inInput && !e.metaKey && !e.ctrlKey) {
+    els.themeBtn.click();
+    return;
+  }
+
+  if (e.key === 'g' && !inInput && !e.metaKey && !e.ctrlKey) {
+    state.viewMode = state.viewMode === 'grid' ? 'list' : 'grid';
+    safeLS.set('bn_view', state.viewMode);
+    els.viewToggle.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b.dataset.view === state.viewMode));
+    render();
+  }
+});
+
+/* Auto refresh */
+setInterval(() => {
+  if (document.visibilityState === 'visible') loadFeeds();
+}, CONFIG.REFRESH_MS);
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && state.lastSync && Date.now() - state.lastSync > CONFIG.REFRESH_MS) {
+    loadFeeds();
+  }
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+const init = async () => {
+  els.year.textContent = new Date().getFullYear();
+  loadBookmarks();
+  loadReadItems();
+  updateSavedBadge();
+
+  // Theme
+  const savedTheme = safeLS.get('bn_theme', null) ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(savedTheme);
+
+  // View mode
+  const savedView = safeLS.get('bn_view', 'grid');
+  state.viewMode = savedView;
+  els.viewToggle.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b.dataset.view === savedView));
+
+  // Lang
+  const savedLang = safeLS.get('bn_lang', 'hi');
+  applyLang(savedLang);
+
+  // Initial skeleton
+  renderGrid([]);
+
+  // Try cache first for instant paint
+  const cached = loadCache();
+  if (cached && cached.length) {
+    state.items = cached;
+    state.items.forEach((it) => { if (!it.cat) it.cat = categorize(it); });
+    state.firstLoad = false;
+    buildFilters();
+    buildSourceOptions();
+    render();
+  }
+
+  // Load fresh
+  await loadFeeds();
+
+  if (!state.items.length) {
+    const t = I18N[state.lang];
+    els.newsGrid.innerHTML = `
+      <div class="empty">
+        <div class="emoji">⚠️</div>
+        <h3>${escapeHtml(t.load_fail)}</h3>
+        <p>${escapeHtml(t.load_fail_sub)}</p>
+      </div>
+    `;
+    setStatus('err', t.sync_fail);
+  }
+};
+
+init();
+
+})();
+</script>
+</body>
+</html>
